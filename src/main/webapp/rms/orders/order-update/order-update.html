@@ -1,0 +1,213 @@
+<!-- Main content -->
+<section class="content">
+    <!-- Info boxes -->
+    <div class="row">
+
+        <!-- Info boxes -->
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-red"><i class="fa fa-file-text"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Pending KOT</span>
+                    <span class="info-box-number">{{ vm.pendingOrderCount }}</span>
+                </div>
+
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+            <div class="info-box">
+                <span class="info-box-icon bg-green"><i class="fa fa-shopping-cart"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Served KOT</span>
+                    <span class="info-box-number">{{ vm.servedOrderCount }}</span>
+                </div>
+
+                <!-- /.info-box-content -->
+            </div>
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <!-- Main row -->
+    <div class="row">
+        <!-- Right col-->
+        <div class="col-md-4">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Menu</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="input-group" style="margin-bottom: 10px">
+                        <input type="text" class="form-control" placeholder="Enter SKU Code" ng-model="newitemid"
+                               id="newitemid">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-info btn-flat" id="newItemIdButton"
+                                    data-ng-click="vm.addItemByCode(this.newitemid)">Add</button>
+                            </span>
+                    </div>
+                    <div class="box-group" id="accordion">
+                        <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+
+                        <div ng-repeat="category in vm.categoriesList" class="box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       data-target="{{ '#collapse' + category.categoryId }}"
+                                       href="" style="color:{{category.colorCode}}">
+                                        {{category.name}}
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="{{ 'collapse' + category.categoryId }}" class="panel-collapse collapse">
+                                <div class="box-body">
+                                    <ul class="products-list product-list-in-box">
+                                        <li class="item"
+                                            ng-repeat="item in category.itemResourceList | orderBy:'priority'"
+                                            ng-click='vm.addToTable(item)' ng-if="item.active!=0"><a
+                                                style="color:{{category.colorCode}}" href="">{{item.skuCode + ' - ' +
+                                            item.name +'('+item.portion+')'}}</a>
+                                        </li>
+                                    </ul>
+                                    <!--<div >  <a  >{{item.name}}</a><br/></div>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- Left col -->
+        <div class="col-md-8">
+            <!-- TABLE: LATEST ORDERS -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Kitchen Order Ticket - {{vm.kotNumber}}</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Item</th>
+                                <th>Unit Price</th>
+                                <th>Quantity</th>
+                                <th>Amount</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="menuItem in vm.menu">
+                                <td>{{menuItem.skuCode}}</td>
+                                <td>{{menuItem.name}}</td>
+                                <td>{{menuItem.price}}</td>
+                                <td><input type="text" ng-model="menuItem.quantity" ng-change="vm.changeQuantity()">
+                                </td>
+                                <td>{{menuItem.amount}}</td>
+                                <td>
+                                    <span class="input-group-btn">
+                                            <button type="button" class="btn btn-flat bg-red"
+                                                    data-ng-click="vm.removeItem(menuItem)"><i
+                                                    class="fa fa-close"></i></button>
+                                            </span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+
+                    <div style="margin-top: 20px">
+                        <!--<p class="lead">Total</p>-->
+
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tr>
+                                    <th style="width:70%">Subtotal:</th>
+                                    <td>{{ vm.subTotal }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer clearfix">
+                    <a data-ng-click="vm.removeAllItems()" class="btn btn-sm btn-danger btn-flat pull-right">Clear
+                        KOT</a>
+                </div>
+                <!-- /.box-footer -->
+            </div>
+            <!-- /.box -->
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Order Information</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div role="form">
+                        <div class="form-group">
+                            <label for="customername">Customer Name</label>
+                            <input type="text" class="form-control" id="customername" placeholder="Customer Name"
+                                   ng-model="vm.customerName">
+                        </div>
+                        <div class="form-group">
+                            <label for="table">Table</label>
+                            <input type="text" class="form-control" id="table"
+                                   placeholder="Table" ng-model="vm.tableId">
+                        </div>
+                        <div class="form-group">
+                            <label for="table">Order Type</label>
+                            <div class="form-group">
+                                <label>
+                                    <input type="radio" name="r3" class="flat-red" ng-checked="vm.type==0"
+                                           ng-click="vm.changeType(0)">
+                                    Dine In
+                                </label>
+                                <label>
+                                    <input type="radio" name="r3" class="flat-red" ng-checked="vm.type==1"
+                                           ng-click="vm.changeType(1)">
+                                    Take away
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="table">Comment</label>
+                            <input type="text" class="form-control" id="comment" placeholder="Comment"
+                                   ng-model="vm.comment">
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer clearfix">
+                            <a data-ng-click="vm.updateOrder()" class="btn btn-sm btn-info btn-flat pull-right">Update
+                                KOT</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.col -->
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<script>
+    $("#newitemid").keyup(function (event) {
+        if (event.keyCode == 13) {
+            $("#newItemIdButton").click();
+        }
+    });
+</script>

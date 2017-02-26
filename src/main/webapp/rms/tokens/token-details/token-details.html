@@ -1,0 +1,125 @@
+<!-- Main content -->
+<section class="content">
+    <!-- Info boxes -->
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-red"><i class="fa fa-file-text"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Kitchen Tokens</span>
+                    <span class="info-box-number">{{ vm.pendingOrderCount }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+            <div class="info-box">
+                <span class="info-box-icon bg-green"><i class="fa fa-shopping-cart"></i></span>
+
+                <div class="info-box-content" data-ng-click="vm.serveOrder()" style="cursor: pointer">
+                    <!--<a  class="btn btn-sm btn-info btn-flat pull-right">-->
+                        <span class="info-box-text">Order</span>
+                        <span class="info-box-number">SERVE</span>
+                    <!--</a>-->
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+    </div>
+    <!-- /.row -->
+
+    <!-- Main row -->
+    <div class="row">
+        <!-- Left col -->
+        <div class="col-md-12">
+            <!-- TABLE: LATEST ORDERS -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Order Details</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Item</th>
+                                <th>Quantity</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="menuItem in vm.menu">
+                                <td>{{menuItem.skuCode}}</td>
+                                <td>{{menuItem.name}}</td>
+                                <td>{{menuItem.quantity}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Order Information</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="box-body no-padding">
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>KOT Number</td>
+                                <td>
+                                    <storage>{{vm.kotNumber}}</storage>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Customer Name</td>
+                                <td>
+                                    <storage>{{vm.customerName}}</storage>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Table</td>
+                                <td>
+                                    <storage>{{vm.tableId}}</storage>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Type</td>
+                                <td ng-if="vm.type==0">
+                                    <storage>Dine in</storage>
+                                </td>
+                                <td ng-if="vm.type==1">
+                                    <storage>Take Away</storage>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Comments</td>
+                                <td>
+                                    <storage>{{vm.comment}}</storage>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.col -->
+
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->

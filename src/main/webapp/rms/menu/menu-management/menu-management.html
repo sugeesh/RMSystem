@@ -1,0 +1,318 @@
+<!-- Main content -->
+<section class="content">
+    <!-- Info boxes -->
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-file-text"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Menu Categories</span>
+                    <span class="info-box-number">{{ vm.categoryList.length }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-list-ul"></i></span>
+
+                <div class="info-box-content" data-toggle="modal" data-target="#addCategoryModal">
+                    <span class="info-box-text">Add</span>
+                    <span class="info-box-number">CATEGORY</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-list-alt"></i></span>
+
+                <div class="info-box-content" data-toggle="modal" data-target="#addItemModal">
+                    <span class="info-box-text">Add</span>
+                    <span class="info-box-number">Item</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <!-- Main row -->
+    <div class="row">
+        <!-- Right col-->
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Menu Categories</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+
+                    <div class="box box-default">
+                        <div class="box-body">
+                            <form role="form">
+                                <div ng-repeat="category in vm.categoryList" class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-flat" ng-if="$index!=0"
+                                                    data-ng-click="vm.moveCategoryUp($index)"><i
+                                                    class="fa fa-angle-up"></i></button>
+                                            <button type="button" class="btn btn-flat" ng-if="$index==0"
+                                                    disabled> <i class="fa fa-angle-up"></i></button>
+                                            </span>
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-flat"
+                                                    ng-if="$index!=vm.categoryList.length-1"
+                                                    data-ng-click="vm.moveCategoryDown($index)"><i
+                                                    class="fa fa-angle-down"></i></button>
+                                            <button type="button" class="btn btn-flat"
+                                                    ng-if="$index==vm.categoryList.length-1"
+                                                    disabled> <i class="fa fa-angle-down"></i></button>
+                                        </span>
+                                        <input type="text" class="form-control" value="{{ category.name }}" disabled/>
+                                        <input type="hidden" value="{{ category.categoryId }}" ng-model="categoryid"
+                                               id="categoryid"/>
+
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-flat"
+                                                    style="background-color:{{category.colorCode}}"></button>
+                                        </span>
+                                        <span class="input-group-btn bg-green">
+                                            <button type="button" class="btn btn-flat bg-green"
+                                                    data-ng-click="vm.getItemsForCategory(this.category.categoryId)"
+                                                    data-toggle="modal" data-target="#myModal"><i
+                                                    class="fa fa-angle-right"></i></button>
+                                        </span>
+                                        <span class="input-group-btn bg-yellow">
+                                            <button type="button" class="btn btn-flat bg-yellow"
+                                                    data-ng-click="vm.loadUpdateForm(this.category)" data-toggle="modal"
+                                                    data-target="#updateCategoryModal"><i
+                                                    class="fa fa-edit"></i></button>
+                                        </span>
+                                        <span class="input-group-btn bg-red">
+                                            <button type="button" class="btn btn-flat bg-red"
+                                                    data-ng-click="vm.removeCategoryFromList(this.category)"><i
+                                                    class="fa fa-close"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="input-group" style="margin-bottom: 10px">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-info btn-flat"
+                                    data-ng-click="vm.updateCategoryOrder()">Update Category Order</button>
+                                </span>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- Left col -->
+
+        <!-- /.col -->
+
+    </div>
+    <!-- /.row -->
+
+
+</section>
+<!-- /.content -->
+
+
+<!-- Items Modal -->
+<div class="modal fade bs-example-modal-md" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-md" role="document" style="width: 80%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Menu Items</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div ng-repeat="item in vm.itemList | orderBy:'priority'" class="form-group">
+                        <div class="input-group">
+                                                <span class="input-group-btn">
+                                                     <button type="button" class="btn btn-flat" ng-if="$index!=0"
+                                                             data-ng-click="vm.moveItemUp($index)"><i
+                                                             class="fa fa-angle-up"></i></button>
+                                                    <button type="button" class="btn btn-flat" ng-if="$index==0"
+                                                            disabled> <i class="fa fa-angle-up"></i></button>
+                                                </span>
+                            <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-flat"
+                                                            ng-if="$index!=vm.itemList.length-1"
+                                                            data-ng-click="vm.moveItemDown($index)"><i
+                                                            class="fa fa-angle-down"></i></button>
+                                                    <button type="button" class="btn btn-flat"
+                                                            ng-if="$index==vm.itemList.length-1"
+                                                            disabled> <i class="fa fa-angle-down"></i></button>
+                                                </span>
+                            <input ng-if="item.portion != null" type="text" class="form-control"
+                                   value="{{ item.name + ' ' + item.portion}}"/>
+                            <input type="hidden" class="form-control"
+                                   ng-model="item.itemId" id="itemid"/>
+
+                            <span class=" input-group-btn bg-red" style="padding-left: 10px; padding-right: 10px">
+                                                   <input type="checkbox" class="" ng-model="item.active"/></span>
+                            <span class=" input-group-btn bg-red">
+                                                     <button type="button" class="btn btn-flat bg-red"
+                                                             data-ng-click="vm.removeItemFromList(this.item)"
+                                                             data-dismiss="modal"><i
+                                                             class="fa fa-close">  </i></button></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        data-ng-click="vm.updateItemOrder()">
+                    Update Item Order
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Add Category Modal -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addCategoryModalLabel">Add Category</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="newitemname" class="control-label">Category Name</label>
+                        <input type="text" class="form-control" placeholder="Enter New Category"
+                               ng-model="newcategoryname" id="newcategoryname">
+                    </div>
+                    <div class="form-group">
+                        <label for="categorySelect" class="control-label">Category Color</label>
+                        <input type="color" name="favcolor" ng-model="newcategorycolor">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        data-ng-click="vm.addCategoryToList(this.newcategoryname,this.newcategorycolor)">Add
+                    Category
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add Item Modal -->
+<div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addItemModalLabel">Add Item</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="newitemname" class="control-label">Item Name</label>
+                        <input type="text" class="form-control" placeholder="Enter New Item"
+                               ng-model="newItemName" id="newItemName">
+                    </div>
+                    <div class="form-group">
+                        <label for="categorySelect" class="control-label">Category</label>
+                        <select class="form-control select2" id="categorySelect" ng-model="newItemCategory">
+                            <option ng-repeat="category in vm.categoryList" ng-value="category.categoryId">
+                                {{category.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="newItemPortion" class="control-label">Portion</label>
+                        <input type="text" class="form-control" placeholder="Enter Portion"
+                               ng-model="newItemPortion" id="newItemPortion">
+                    </div>
+                    <div class="form-group">
+                        <label for="newItemPrice" class="control-label">Price</label>
+                        <input type="text" class="form-control" placeholder="Enter Price"
+                               ng-model="newItemPrice" id="newItemPrice" pattern="[\\d]*">
+                    </div>
+                    <div class="form-group">
+                        <label for="newItemSKUCode" class="control-label">SKU Code</label>
+                        <input type="text" class="form-control" placeholder="Enter SKU Code"
+                               ng-model="newItemSKUCode" id="newItemSKUCode">
+                    </div>
+                    <div class="form-group">
+                        <label for="newItemTAXCode" class="control-label">TAX Code</label>
+                        <input type="text" class="form-control" placeholder="Enter TAX Code"
+                               ng-model="newItemTAXCode" id="newItemTAXCode">
+                    </div>
+                    <div class="form-group">
+                        <label for="newItemComment" class="control-label">Comment</label>
+                        <input type="textarea" class="form-control" placeholder="Enter Comment"
+                               ng-model="newItemComment" id="newItemComment">
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="vm.addItemToList(this.newItemName,this.newItemCategory,
+                this.newItemPortion,this.newItemPrice,this.newItemSKUCode,this.newItemTAXCode,this.newItemComment)">Add
+                    Item
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Update Category Modal -->
+<div class="modal fade" id="updateCategoryModal" tabindex="-1" role="dialog" aria-labelledby="updateCategoryModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="updateCategoryModalLabel">Update Category</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="newitemname" class="control-label">Category Name</label>
+                        <input type="text" class="form-control"
+                               ng-model="vm.catUpdateName" id="updatecategoryname">
+                    </div>
+                    <div class="form-group">
+                        <label for="categorySelect" class="control-label">Category Color</label>
+                        <input type="color" name="favcolor" ng-model="vm.catUpdateColor">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        data-ng-click="vm.updateCategory()">Update
+                    Category
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

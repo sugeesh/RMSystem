@@ -1,0 +1,59 @@
+<section class="content">
+    <div class="row">
+        <div class="login-box">
+            <!-- /.login-logo -->
+            <div class="login-box-body">
+                <p class="login-box-msg">Register to create an account at RestaurantMS.</p>
+
+                <form>
+                    <p style="color: darkred">{{ vm.error }}</p>
+                    <div class="form-group has-feedback">
+                        <input type="text" class="form-control" placeholder="Name" ng-model="name"
+                               id="name">
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="text" class="form-control" placeholder="Username" ng-model="username"
+                               id="username">
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" class="form-control" placeholder="Password" ng-model="password"
+                               id="password">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" class="form-control" placeholder="Retype Password" ng-model="retypepassword"
+                               id="retypepassword">
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <select class="form-control" ng-model="type" id="type">
+                            <option value="1">Admin User</option>
+                            <option value="2">Cahier User</option>
+                            <option value="3">Waiter User</option>
+                            <option value="4">Kitchen User</option>
+                        </select>
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <button data-ng-click="vm.signInUser(this.username, this.password, this.retypepassword, this.name, this.type)"
+                                    class="btn btn-primary btn-block btn-flat">Register
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="social-auth-links text-center">
+                    <p>- OR -</p>
+                    <a ui-sref="login" class="text-center">Already have an account?</a>
+                </div>
+                <!-- /.social-auth-links -->
+
+            </div>
+            <!-- /.login-box-body -->
+        </div>
+    </div>
+</section>

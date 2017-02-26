@@ -1,0 +1,42 @@
+<section class="content">
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-file-text"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Current Tokens</span>
+                    <span class="info-box-number">{{vm.pendingTokens.length}}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Current Tokens List</h3>
+                </div>
+                <div class="box-body">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li ng-repeat="token in vm.pendingTokens" data-ng-click="vm.routeToToken(token)">
+                            <a ng-if="token.remainingTime < 10" href="">
+                                KOT Number No: {{token.kotNumber}}
+                                <div class="pull-right">{{ token.remainingTime }} minutes</div>
+                            </a>
+                            <a ng-if="token.remainingTime < 20 && token.remainingTime >= 10" href="" class="bg-yellow">
+                                KOT Number No: {{token.kotNumber}}
+                                <div class="pull-right">{{ token.remainingTime }} minutes</div>
+                            </a>
+                            <a ng-if="token.remainingTime >= 20" href="" class="bg-red">
+                                KOT Number No: {{token.kotNumber}}
+                                <div class="pull-right">{{ token.remainingTime }} minutes</div>
+                            </a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
