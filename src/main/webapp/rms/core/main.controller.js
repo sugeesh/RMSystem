@@ -8,9 +8,9 @@
     angular.module('myApp')
         .controller('MainController', MainController);
 
-    MainController.$inject = ['$sessionStorage', '$state', '$location'];
+    MainController.$inject = ['$state', '$location'];
 
-    function MainController($sessionStorage, $state, $location) {
+    function MainController($state, $location) {
         var vm = this;
 
         console.log($location);

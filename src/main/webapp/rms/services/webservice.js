@@ -19,13 +19,12 @@
         function call(url, method, data) {
             console.log(url);
 
-            var target = url.substring(26, url.length);
-            console.log(target);
+            // var target = url.substring(26, url.length);
+            // console.log(target);
+            // // http://ec2-54-91-165-213.compute-1.amazonaws.com:8080/restaurantApp-1.0-SNAPSHOT/rest/category
+            // // url = "http://ec2-54-91-165-213.compute-1.amazonaws.com:8080/restaurantApp-1.0-SNAPSHOT/rest"+target;
+            // console.log(url);
 
-            // http://ec2-54-91-165-213.compute-1.amazonaws.com:8080/restaurantApp-1.0-SNAPSHOT/rest/category
-
-            // url = "http://ec2-54-91-165-213.compute-1.amazonaws.com:8080/restaurantApp-1.0-SNAPSHOT/rest"+target;
-            console.log(url);
             var obj = {};
 
             var promises = [];
