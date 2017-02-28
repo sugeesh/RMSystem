@@ -8,9 +8,9 @@
     angular.module('myApp')
         .controller('RegisterController', RegisterController);
 
-    RegisterController.$inject = ['$sessionStorage', '$state', '$rootScope', 'webservice'];
+    RegisterController.$inject = ['$state', '$rootScope', 'webservice'];
 
-    function RegisterController($sessionStorage, $state, $rootScope, webservice) {
+    function RegisterController($state, $rootScope, webservice) {
         var vm = this;
         $rootScope.baseURL = "http://localhost:8080/rest";
 

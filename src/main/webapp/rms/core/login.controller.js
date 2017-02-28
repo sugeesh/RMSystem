@@ -8,9 +8,9 @@
     angular.module('myApp')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$state', '$rootScope', 'webservice', 'localStorageService', '$sessionStorage'];
+    LoginController.$inject = ['$state', '$rootScope', 'webservice'];
 
-    function LoginController($state, $rootScope, webservice, localStorageService, $sessionStorage) {
+    function LoginController($state, $rootScope, webservice) {
         var vm = this;
         $rootScope.baseURL = "http://localhost:8080/rest";
 
@@ -29,7 +29,6 @@
                 if (response.data != "") {
                     // localStorageService.set("user", response.data, "sessionStorage");
 
-                    $sessionStorage.putObject('user', response.data);
                     $state.go('dashboard');
                 }else{
                     vm.error = "Username and password mismatch";

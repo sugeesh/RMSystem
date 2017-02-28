@@ -8,17 +8,10 @@
     angular.module('myApp')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['webservice', '$rootScope', '$state', 'localStorageService', '$sessionStorage', '$interval'];
+    DashboardController.$inject = ['webservice', '$rootScope', '$state', '$interval'];
 
-    function DashboardController(webservice, $rootScope, $state, localStorageService, $sessionStorage, $interval) {
+    function DashboardController(webservice, $rootScope, $state, $interval) {
         var vm = this;
-
-        // var user = localStorageService.get("user");
-        var user = $sessionStorage.getObject('user');
-        console.log(user);
-        if(user == ""){
-            $state.go('login');
-        }
 
         setDateTime();
 

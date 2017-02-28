@@ -35,169 +35,8 @@
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-<!--<ul class="menu">-->
-<!--<li><a href="#!/view1">view1</a></li>-->
-<!--<li><a href="#!/view2">view2</a></li>-->
-<!--<li><a href="#!/order_management">order</a></li>-->
-<!--</ul>-->
 
-<div class="wrapper">
-    <header class="main-header">
-
-        <!-- Logo -->
-        <a href="" class="logo">
-            <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini">RMS</span>
-            <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Restaurant</b>MS</span>
-        </a>
-
-        <!-- Header Navbar: style can be found in header.less -->
-        <nav class="navbar navbar-static-top">
-            <!-- Sidebar toggle button-->
-            <a class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                <span class="sr-only">Toggle navigation</span>
-            </a>
-            <!-- Navbar Right Menu -->
-            <!--<div class="navbar-custom-menu">-->
-                <!--<ul class="nav navbar-nav">-->
-                    <!--&lt;!&ndash; User Account: style can be found in dropdown.less &ndash;&gt;-->
-                    <!--<li class="dropdown user user-menu">-->
-                        <!--<a href="" class="dropdown-toggle" data-toggle="dropdown">-->
-                            <!--<img src="rms/Template/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">-->
-                            <!--<span class="hidden-xs">Alexander Pierce</span>-->
-                        <!--</a>-->
-                        <!--<ul class="dropdown-menu">-->
-                            <!--&lt;!&ndash; User image &ndash;&gt;-->
-                            <!--<li class="user-header">-->
-                                <!--<img src="rms/Template/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">-->
-
-                                <!--<p>-->
-                                    <!--Alexander Pierce - System Admin-->
-                                    <!--<small>Aurora Restaurant</small>-->
-                                <!--</p>-->
-                            <!--</li>-->
-                            <!--&lt;!&ndash; Menu Footer&ndash;&gt;-->
-                            <!--<li class="user-footer">-->
-                                <!--<div class="pull-left">-->
-                                    <!--<a href="#" class="btn btn-default btn-flat">Profile</a>-->
-                                <!--</div>-->
-                                <!--<div class="pull-right">-->
-                                    <!--<a href="#" class="btn btn-default btn-flat">Sign out</a>-->
-                                <!--</div>-->
-                            <!--</li>-->
-                        <!--</ul>-->
-                    <!--</li>-->
-                <!--</ul>-->
-            <!--</div>-->
-        </nav>
-    </header>
-
-    <!-- Left side column. contains the logo and sidebar -->
-    <aside class="main-sidebar">
-        <!-- sidebar: style can be found in sidebar.less -->
-        <section class="sidebar">
-            <!-- Sidebar user panel -->
-            <!--<div class="user-panel">-->
-                <!--<div class="pull-left image">-->
-                    <!--<img src="rms/Template/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">-->
-                <!--</div>-->
-                <!--<div class="pull-left info">-->
-                    <!--<p>Alexander Pierce</p>-->
-                    <!--<a>System Admin</a>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!-- sidebar menu: : style can be found in sidebar.less -->
-            <ul class="sidebar-menu">
-                <li class="header">MAIN NAVIGATION</li>
-
-                <li class="active">
-                    <a ui-sref="dashboard" id="dashboard">
-                        <i class="fa fa-book"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li class="treeview active">
-                    <a href="" id="orders">
-                        <i class="fa fa-laptop"></i>
-                        <span>Orders</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a ui-sref="order_management"><i class="fa fa-circle-o"></i> Order Management</a></li>
-                        <li><a ui-sref="pending_orders"><i class="fa fa-circle-o"></i> Pending Orders</a></li>
-                        <li><a ui-sref="served_orders"><i class="fa fa-circle-o"></i> Served Orders</a></li>
-                        <li><a ui-sref="orders_history"><i class="fa fa-circle-o"></i> Orders History</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="" id="tokens">
-                        <i class="fa fa-paper-plane-o"></i>
-                        <span>Tokens</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a ui-sref="token_management"><i class="fa fa-circle-o"></i> Token Management</a></li>
-                        <!--<li><a ui-sref="tokens_history"><i class="fa fa-circle-o"></i> Tokens History</a></li>-->
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="" id="reports">
-                        <i class="fa fa-calendar-check-o"></i>
-                        <span>Reports</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a ui-sref="income_reports"><i class="fa fa-circle-o"></i> Income Reports</a></li>
-                        <!--<li><a ui-sref="orders_summary"><i class="fa fa-circle-o"></i> Orders Summary</a></li>-->
-                        <!--<li><a ui-sref="tokens_summary"><i class="fa fa-circle-o"></i> Tokens Summary</a></li>-->
-                    </ul>
-                </li>
-                <li>
-                    <a ui-sref="menu" id="menu">
-                        <i class="fa fa-book"></i>
-                        <span>Menu</span>
-                    </a>
-                </li>
-                <li>
-                    <a ui-sref="settings" id="settings">
-                        <i class="fa fa-book"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-            </ul>
-        </section>
-        <!-- /.sidebar -->
-    </aside>
-
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper" style="min-height: 100%">
-        <!-- Main content -->
-        <div ui-view="content"></div>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 0.1
-        </div>
-        <strong>Copyright &copy; 2017 RestaurantMS.</strong> All rights
-        reserved.
-    </footer>
-
-    <!-- Add the sidebar's background. This div must be placed
-         immediately after the control sidebar -->
-    <div class="control-sidebar-bg"></div>
-
-</div>
-<!-- ./wrapper -->
+<div ui-view="body"></div>
 
 <!-- jQuery 2.2.3 -->
 <script src="rms/Template/plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -227,8 +66,6 @@
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-<script src="bower_components/angular-sessionstorage/angular-sessionstorage.js"></script>
-<script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
 <script src="bower_components/q/q.js"></script>
 
 <script src="app.js"></script>
@@ -240,6 +77,7 @@
 <script src="rms/core/login.controller.js"></script>
 <script src="rms/core/settings.controller.js"></script>
 <script src="rms/core/main.controller.js"></script>
+<script src="rms/core/body.controller.js"></script>
 
 <script src="rms/orders/order-management/order-management.controller.js"></script>
 <script src="rms/orders/orders-history/orders-history.controller.js"></script>
