@@ -27,8 +27,6 @@
             webservice.call($rootScope.baseURL + '/user/login_user', "post", user).then(function (response) {
                 console.log(response.data);
                 if (response.data != "") {
-                    // localStorageService.set("user", response.data, "sessionStorage");
-
                     $state.go('dashboard');
                 }else{
                     vm.error = "Username and password mismatch";

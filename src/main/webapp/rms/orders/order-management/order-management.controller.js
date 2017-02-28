@@ -18,9 +18,9 @@
 
     angular.module('myApp').controller('OrderManagementController', OrderManagementController);
 
-    OrderManagementController.$inject = ['webservice', '$rootScope', '$state', '$sessionStorage'];
+    OrderManagementController.$inject = ['webservice', '$rootScope', '$state'];
 
-    function OrderManagementController(webservice, $rootScope, $state, $sessionStorage) {
+    function OrderManagementController(webservice, $rootScope, $state) {
         var vm = this;
         $rootScope.appURL = "http://localhost:8080";
         $rootScope.baseURL = "http://localhost:8080/rest";
@@ -45,12 +45,6 @@
         vm.comment = "";
         vm.pendingOrderCount = 0;
         vm.servedOrderCount = 0;
-
-        var user = $sessionStorage.getObject('user');
-        console.log(user);
-        if(user == ""){
-            $state.go('login');
-        }
 
         initCategoriesList();
         setPendingOrderCount();

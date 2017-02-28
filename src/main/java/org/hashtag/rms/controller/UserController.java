@@ -39,4 +39,17 @@ public class UserController extends AbstractController {
         }
     }
 
+    @POST
+    @Path("/login_user")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response loginUser(UserResource userResource) {
+        try {
+            return sendSuccessResponse(userService.loginUser(userResource));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return handleServiceException(e);
+        }
+    }
+
 }
