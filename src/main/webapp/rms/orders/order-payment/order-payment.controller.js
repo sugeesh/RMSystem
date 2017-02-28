@@ -8,9 +8,9 @@
     angular.module('myApp')
         .controller('OrderPaymentController', OrderPaymentController);
 
-    OrderPaymentController.$inject = ['webservice', '$stateParams', '$rootScope', '$state', '$sessionStorage'];
+    OrderPaymentController.$inject = ['webservice', '$stateParams', '$rootScope', '$state'];
 
-    function OrderPaymentController(webservice, $stateParams, $rootScope, $state, $sessionStorage) {
+    function OrderPaymentController(webservice, $stateParams, $rootScope, $state) {
         var vm = this;
 
         $rootScope.baseURL = "http://localhost:8080/rest";
@@ -32,11 +32,6 @@
         vm.payment = 0
         vm.discount = 0;
 
-        var user = $sessionStorage.getObject('user');
-        console.log(user);
-        if(user == ""){
-            $state.go('login');
-        }
 
         initOrderTable($stateParams.orderId);
 

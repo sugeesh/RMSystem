@@ -8,9 +8,9 @@
     angular.module('myApp')
         .controller('MenuManagementController', MenuManagementController);
 
-    MenuManagementController.$inject = ['webservice', '$rootScope', '$q', '$state', '$sessionStorage'];
+    MenuManagementController.$inject = ['webservice', '$rootScope', '$q', '$state'];
 
-    function MenuManagementController(webservice, $rootScope, $q, $state, $sessionStorage) {
+    function MenuManagementController(webservice, $rootScope, $q, $state) {
         var vm = this;
         $rootScope.baseURL = "http://localhost:8080/rest";
 
@@ -30,12 +30,6 @@
 
         vm.newCategoryName = '';
         vm.itemList = [];
-
-        var user = $sessionStorage.getObject('user');
-        console.log(user);
-        if(user == ""){
-            $state.go('login');
-        }
 
         loadCategories();
 

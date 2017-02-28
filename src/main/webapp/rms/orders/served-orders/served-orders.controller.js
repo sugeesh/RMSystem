@@ -8,9 +8,9 @@
     angular.module('myApp')
         .controller('ServedOrdersController', ServedOrdersController);
 
-    ServedOrdersController.$inject = ['webservice','$rootScope','$state', '$sessionStorage'];
+    ServedOrdersController.$inject = ['webservice','$rootScope','$state'];
 
-    function ServedOrdersController(webservice,$rootScope,$state, $sessionStorage) {
+    function ServedOrdersController(webservice,$rootScope,$state) {
         var vm = this;
         vm.initOrderList = initOrderList;
         vm.routeToOrder = routeToOrder;
@@ -19,12 +19,6 @@
         $rootScope.baseURL = "http://localhost:8080/rest";
 
         vm.orderList = [];
-
-        var user = $sessionStorage.getObject('user');
-        console.log(user);
-        if(user == ""){
-            $state.go('login');
-        }
 
         initOrderList();
 

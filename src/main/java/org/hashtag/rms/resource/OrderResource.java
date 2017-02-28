@@ -1,6 +1,8 @@
 package org.hashtag.rms.resource;
 
 import javax.persistence.Column;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -15,6 +17,8 @@ public class OrderResource {
     private String state;
     private List<ItemResource> itemResourceList;
     private Object itemResourceList1[];
+    private Object paymentDetails1;
+    private PaymentResource paymentDetails;
     private String kotNumber;
     private int type;
     private String comment;
@@ -46,7 +50,7 @@ public class OrderResource {
     }
 
 
-    public void autoCorrectModel(){
+    public void autoCorrectModel() throws ParseException {
         ArrayList<ItemResource> itemResourceList = new ArrayList<>();
         Arrays.stream(itemResourceList1).forEach(item -> {
             LinkedHashMap item1 = (LinkedHashMap) item;
@@ -65,6 +69,39 @@ public class OrderResource {
             }
             itemResourceList.add(itemResource);
         });
+        PaymentResource paymentResource = new PaymentResource();
+        LinkedHashMap paymentDetailsHash = (LinkedHashMap) this.paymentDetails1;
+
+        paymentResource.setDate(new java.util.Date(Long.parseLong(paymentDetailsHash.get("date").toString())*1000));
+        try{
+            paymentResource.setAmount((Double) paymentDetailsHash.get("amount"));
+        }catch (java.lang.ClassCastException e){
+            paymentResource.setAmount((Integer) paymentDetailsHash.get("amount"));
+        }
+        try{
+            paymentResource.setTax((Double) paymentDetailsHash.get("tax"));
+        }catch (java.lang.ClassCastException e){
+            paymentResource.setTax((Integer) paymentDetailsHash.get("tax"));
+        }
+        try{
+            paymentResource.setDiscount((Double) paymentDetailsHash.get("discount"));
+        }catch (java.lang.ClassCastException e){
+            paymentResource.setDiscount((Integer) paymentDetailsHash.get("discount"));
+        }
+        try{
+            paymentResource.setServiceCharge((Double) paymentDetailsHash.get("serviceCharge"));
+        }catch (java.lang.ClassCastException e){
+            paymentResource.setServiceCharge((Integer) paymentDetailsHash.get("serviceCharge"));
+        }
+        try{
+            paymentResource.setTotalAmount((Double) paymentDetailsHash.get("totalAmount"));
+        }catch (java.lang.ClassCastException e){
+            paymentResource.setTotalAmount((Integer) paymentDetailsHash.get("totalAmount"));
+        }
+
+        paymentResource.setType((Integer) paymentDetailsHash.get("type"));
+        this.paymentDetails = paymentResource;
+        //paymentResource.setDate();
         this.itemResourceList = itemResourceList;
     }
 
@@ -155,5 +192,21 @@ public class OrderResource {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public Object getPaymentDetails1() {
+        return paymentDetails1;
+    }
+
+    public void setPaymentDetails1(Object paymentDetails1) {
+        this.paymentDetails1 = paymentDetails1;
+    }
+
+    public PaymentResource getPaymentDetails() {
+        return paymentDetails;
+    }
+
+    public void setPaymentDetails(PaymentResource paymentDetails) {
+        this.paymentDetails = paymentDetails;
     }
 }

@@ -8,21 +8,15 @@
     angular.module('myApp')
         .controller('TokenManagementController', TokenManagementController);
 
-    TokenManagementController.$inject = ['webservice', '$rootScope', '$state', '$sessionStorage', '$interval'];
+    TokenManagementController.$inject = ['webservice', '$rootScope', '$state', '$interval'];
 
-    function TokenManagementController(webservice, $rootScope, $state, $sessionStorage, $interval) {
+    function TokenManagementController(webservice, $rootScope, $state, $interval) {
         var vm = this;
 
         $rootScope.appURL = "http://localhost:8080";
         $rootScope.baseURL = "http://localhost:8080/rest";
 
         vm.routeToToken = routeToToken;
-
-        var user = $sessionStorage.getObject('user');
-        console.log(user);
-        if (user == "") {
-            $state.go('login');
-        }
 
         var tick = function () {
             initOrderList();

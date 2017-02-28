@@ -18,9 +18,9 @@
 
     angular.module('myApp').controller('OrderManagementController', OrderManagementController);
 
-    OrderManagementController.$inject = ['webservice', '$rootScope', '$state', '$sessionStorage'];
+    OrderManagementController.$inject = ['webservice', '$rootScope', '$state'];
 
-    function OrderManagementController(webservice, $rootScope, $state, $sessionStorage) {
+    function OrderManagementController(webservice, $rootScope, $state) {
         var vm = this;
         $rootScope.appURL = "http://localhost:8080";
         $rootScope.baseURL = "http://localhost:8080/rest";
@@ -55,12 +55,6 @@
         vm.payment = 0;
         vm.orderTime = new Date();
         vm.kotNumber = "";
-
-        var user = $sessionStorage.getObject('user');
-        console.log(user);
-        if(user == ""){
-            $state.go('login');
-        }
 
         initCategoriesList();
         setPendingOrderCount();
@@ -154,6 +148,7 @@
                 sendObj.type = vm.type;
                 sendObj.comment = vm.comment;
                 var itemResourceList = [];
+                var paymentDetails = {};
                 angular.forEach(vm.menu, function (value) {
                     var item = {};
                     item.itemId = value.id;
@@ -162,6 +157,15 @@
                     item.price = value.price;
                     itemResourceList.push(item);
                 });
+                paymentDetails.amount = parseFloat(vm.subTotal);
+                paymentDetails.tax = parseFloat(vm.tax);
+                paymentDetails.serviceCharge = vm.serviceCharge;
+                paymentDetails.discount =  parseFloat(vm.discount);
+                paymentDetails.totalAmount = parseFloat(calculateTotal());
+                paymentDetails.date = Math.round((new Date()).getTime() / 1000);
+                paymentDetails.type = 0;
+
+                sendObj.paymentDetails1 = paymentDetails;
                 sendObj.itemResourceList1 = itemResourceList;
                 // console.log(sendObj);
                 webservice.call($rootScope.baseURL + "/order", "post", sendObj).then(function (response) {

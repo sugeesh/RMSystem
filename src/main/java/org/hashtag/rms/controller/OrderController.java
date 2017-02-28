@@ -97,7 +97,7 @@ public class OrderController extends AbstractController{
     @Path("/update_order/{id}/")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(OrderResource orderResource, @PathParam("id") int id) {
+    public Response update(OrderResource orderResource, @PathParam("id") int id) throws ParseException {
         try {
             Order update = orderService.update(orderResource, id);
             return sendSuccessResponse(update);

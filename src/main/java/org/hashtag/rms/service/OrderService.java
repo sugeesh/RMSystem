@@ -8,6 +8,7 @@ import org.hashtag.rms.repository.OrderRepository;
 import org.hashtag.rms.resource.CategoryResource;
 import org.hashtag.rms.resource.ItemResource;
 import org.hashtag.rms.resource.OrderResource;
+import org.hashtag.rms.resource.PaymentResource;
 import org.hashtag.rms.util.KOTNumberGenerator;
 import org.hashtag.rms.util.rest.DataTableResponse;
 import org.hibernate.service.spi.ServiceException;
@@ -36,6 +37,8 @@ public class OrderService {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
+    @Autowired
+    private PaymentService paymentService;
 
     @Autowired
     private OrderDetailService orderDetailService;
@@ -66,6 +69,10 @@ public class OrderService {
             itemResourceList.stream().forEach(itemResource -> {
                 orderDetailService.create(itemResource,ordersaved);
             });
+
+            PaymentResource paymentDetails = orderResource.getPaymentDetails();
+            paymentDetails.setOrderId(ordersaved.getOrderId());
+            paymentService.create(paymentDetails);
             return ordersaved;
         } catch (DataAccessException e) {
             throw new org.hibernate.service.spi.ServiceException("Failed to save the Order", e);
@@ -149,7 +156,7 @@ public class OrderService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Order update(OrderResource orderResource, int id) {
+    public Order update(OrderResource orderResource, int id) throws ParseException {
         orderRepository.deleteByOrderId(id);
         orderResource.autoCorrectModel();
 
