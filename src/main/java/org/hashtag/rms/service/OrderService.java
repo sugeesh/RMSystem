@@ -205,4 +205,13 @@ public class OrderService {
         response.setEntries(orderList.size());
         return response;
     }
+
+    public OrderResource getNextKOT() {
+        List<Order> allByOrderByKotNumber = orderRepository.findAllByOrderByKotNumber();
+        String nextKOTNumber = "KOT0001";
+        if(allByOrderByKotNumber.size()!=0) {
+            nextKOTNumber = KOTNumberGenerator.getNextKOTNumber(allByOrderByKotNumber.get(allByOrderByKotNumber.size() - 1).getKotNumber());
+        }
+        return new OrderResource(nextKOTNumber);
+    }
 }

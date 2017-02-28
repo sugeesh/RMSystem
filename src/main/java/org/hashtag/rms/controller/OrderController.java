@@ -119,4 +119,17 @@ public class OrderController extends AbstractController{
         }
     }
 
+
+    @GET
+    @Path("/get_next_kot/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getNextKOT() {
+        try {
+            return sendSuccessResponse(orderService.getNextKOT());
+        } catch (ServiceException e) {
+            return handleServiceException(e);
+        }
+    }
+
 }

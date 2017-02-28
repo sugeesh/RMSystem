@@ -13,10 +13,9 @@
 
                 <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box -->
-        </div>
 
-        <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
                 <span class="info-box-icon bg-green"><i class="fa fa-shopping-cart"></i></span>
 
@@ -24,8 +23,17 @@
                     <span class="info-box-text">Served KOT</span>
                     <span class="info-box-number">{{ vm.servedOrderCount }}</span>
                 </div>
+            </div>
+        </div>
 
-                <!-- /.info-box-content -->
+        <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+            <div class="info-box">
+                <span class="info-box-icon bg-green"><i class="fa fa-shopping-cart"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Order Number</span>
+                    <span class="info-box-number">{{ vm.kotNumber }}</span>
+                </div>
             </div>
         </div>
 
@@ -126,7 +134,7 @@
                                 <td>{{menuItem.price}}</td>
                                 <td><input type="number" ng-model="menuItem.quantity" ng-change="vm.changeQuantity()">
                                 </td>
-                                <td>{{menuItem.amount}}</td>
+                                <td>{{menuItem.amount | number:2 }}</td>
                                 <td>
                                     <span class="input-group-btn">
                                             <button type="button" class="btn btn-flat bg-red"
@@ -147,7 +155,31 @@
                             <table class="table">
                                 <tr>
                                     <th style="width:75%">Subtotal:</th>
-                                    <td>{{ vm.subTotal }}</td>
+                                    <td>{{ vm.subTotal | number:2  }}</td>
+                                </tr>
+                                <tr>
+                                    <th style="width:75%">Tax (%):</th>
+                                    <td><input type="number" ng-value="vm.tax" ng-model="vm.tax" ng-change="vm.calculateBalance()"></td>
+                                </tr>
+                                <tr>
+                                    <th style="width:75%">Service Charges (%):</th>
+                                    <td><input type="number" ng-value="vm.serviceCharge" ng-model="vm.serviceCharge" ng-change="vm.calculateBalance()"></td>
+                                </tr>
+                                <tr>
+                                    <th style="width:75%">Discount:</th>
+                                    <td><input type="number" ng-value="vm.discount" ng-model="vm.discount" ng-change="vm.calculateBalance()"></td>
+                                </tr>
+                                <tr>
+                                    <th style="width:75%">Total:</th>
+                                    <td>{{ vm.calculateTotal()  | number:2}}</td>
+                                </tr>
+                                <tr>
+                                    <th style="width:75%">Payment:</th>
+                                    <td><input type="number" ng-value="vm.payment" ng-model="vm.payment" ng-change="vm.calculateBalance()"></td>
+                                </tr>
+                                <tr>
+                                    <th style="width:75%">Balance:</th>
+                                    <td>{{ vm.calculateBalance()  | number:2 }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -200,8 +232,10 @@
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer clearfix">
-                            <a data-ng-click="vm.saveOrder()" class="btn btn-sm btn-info btn-flat pull-right">Place
-                                KOT</a>
+                            <button type="button" class="btn btn-flat bg-yellow"
+                                    data-toggle="modal"
+                                    data-target="#submitOrderModal"><i
+                                    class="fa fa-edit"></i>Place KOT</button>
                         </div>
                     </div>
                 </div>
@@ -214,6 +248,161 @@
 </section>
 <!-- /.content -->
 
+
+
+<!-- Submit Order Modal -->
+<div class="modal fade bs-example-modal-lg" id="submitOrderModal" tabindex="-1" role="dialog" aria-labelledby="submitOrderModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="submitOrderModalLabel">Submit Order</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-info">
+                            <!-- title row -->
+                            <div class="box-header with-border">
+                                <h3 class="box-title">
+                                    Invoice
+                                </h3>
+                            </div>
+                            <!-- info row -->
+                            <div class="box-body">
+                                <div class="col-sm-2 invoice-col">
+                                    Customer<br>
+                                    <b>{{vm.customerName}}</b><br>
+                                    <br>
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-2 invoice-col">
+                                    Table<br>
+                                    <b>{{vm.tableId}}</b><br>
+                                    <br>
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-2 invoice-col">
+                                    Date<br>
+                                    <b>{{ vm.orderTime | date : "dd.MM.y" }}</b><br>
+                                    <br>
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-2 invoice-col pull-right">
+                                    Order ID<br>
+                                    <b>{{ vm.kotNumber }}</b> <br>
+                                    <br>
+                                </div>
+                                <!-- /.col -->
+
+                                <div class="row">
+                                    <div class="col-xs-12 table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>Item Code</th>
+                                                <th>Item Name</th>
+                                                <th>Qty</th>
+                                                <th>Price</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="menuItem in vm.menu">
+                                                <td>{{menuItem.skuCode}}</td>
+                                                <td>{{menuItem.name}}</td>
+                                                <td>{{menuItem.quantity}}</td>
+                                                <td>{{menuItem.price}}</td>
+                                                <td>{{menuItem.amount}}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+
+                                <div class="row">
+                                    <!-- accepted payments column -->
+                                    <div class="col-xs-6" style="margin-top: 140px">
+                                        <p class="lead" style="font-size: 18px">Thank You!</p>
+                                        <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
+                                            Restaurant MS,<br/>
+                                            Address.<br/>
+                                            <br/>
+                                            Tel: <br/>
+                                            Fax: <br/>
+                                            Email: <br/>
+                                        </p>
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-xs-6">
+                                        <p class="lead">Payment</p>
+
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <th style="width:80%">Subtotal:</th>
+                                                    <td>{{ vm.subTotal }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Tax (%):</th>
+                                                    <td>{{ vm.tax }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Service Charges (%):</th>
+                                                    <td>{{ vm.serviceCharge }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Discount:</th>
+                                                    <td>{{ vm.discount }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Total:</th>
+                                                    <td>{{ vm.calculateTotal() }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Payment:</th>
+                                                    <td>{{ vm.payment }}</td
+                                                </tr>
+                                                <tr>
+                                                    <th>Balance:</th>
+                                                    <td>{{ vm.calculateBalance() }}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        data-ng-click="vm.updateCategory()">Update
+                    Category
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
 <script>
     $("#newitemid").keyup(function (event) {
         if (event.keyCode == 13) {
@@ -221,3 +410,5 @@
         }
     });
 </script>
+
+

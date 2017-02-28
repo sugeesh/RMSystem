@@ -22,6 +22,10 @@ public class OrderResource {
     public OrderResource() {
     }
 
+    public OrderResource(String kotNumber) {
+        this.kotNumber = kotNumber;
+    }
+
     public OrderResource(Date orderTime, double amount) {
         this.orderTime = orderTime;
         this.amount = amount;

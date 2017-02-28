@@ -36,6 +36,9 @@
         vm.removeAllItems = removeAllItems;
         vm.addItemByCode = addItemByCode;
         vm.changeType = changeType;
+        vm.calculateBalance = calculateBalance;
+        vm.calculateTotal = calculateTotal;
+        vm.setKOTNumber = setKOTNumber;
 
         vm.menu = [];
         vm.subTotal = 0;
@@ -45,10 +48,18 @@
         vm.comment = "";
         vm.pendingOrderCount = 0;
         vm.servedOrderCount = 0;
+        vm.subTotal = 0;
+        vm.tax = 0;
+        vm.serviceCharge = 0;
+        vm.discount = 0;
+        vm.payment = 0;
+        vm.orderTime = new Date();
+        vm.kotNumber = "";
 
         initCategoriesList();
         setPendingOrderCount();
         setServedOrderCount();
+        setKOTNumber();
 
         /** This function will get all the categories and their items */
         function initCategoriesList() {
@@ -56,6 +67,13 @@
                 vm.categoriesList = response.data.dataRows;
                 console.log(response.data.dataRows[0].categoryId);
 
+            });
+
+        }
+
+        function setKOTNumber() {
+            webservice.call($rootScope.baseURL + "/order/get_next_kot", "get").then(function (response) {
+              vm.kotNumber = response.data.kotNumber;
             });
 
         }
@@ -178,6 +196,19 @@
                 vm.servedOrderCount = response.data.dataRows.length;
             });
         }
+
+        function calculateTotal() {
+            return Number(vm.subTotal) + Number(vm.subTotal*(vm.tax / 100)) + Number(vm.subTotal*(vm.serviceCharge/100)) - Number(vm.discount);
+        }
+
+        function calculateBalance() {
+            if ((Number(vm.payment) - calculateTotal()) > 0) {
+                return Number(vm.payment) - calculateTotal();
+            } else {
+                return 0;
+            }
+        }
+
 
     }
 
