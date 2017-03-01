@@ -44,7 +44,7 @@ public class PaymentService {
         payment.setOrderForP(orderId);
         try{
             Payment save = paymentRepository.save(payment);
-            orderService.updateState(orderId,"COMPLETED");
+//            orderService.updateState(orderId,"COMPLETED");
             return save;
         } catch (DataAccessException e) {
             throw new org.hibernate.service.spi.ServiceException("Failed to save the Payment", e);

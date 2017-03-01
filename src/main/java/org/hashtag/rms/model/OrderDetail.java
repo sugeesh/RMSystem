@@ -22,6 +22,9 @@ public class OrderDetail {
     @Column(name = "UnitPrice")
     private Double price;
 
+    @Column(name = "ItemName")
+    private String itemName;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ItemID",
             referencedColumnName = "ItemID",
@@ -41,11 +44,11 @@ public class OrderDetail {
     public OrderDetail() {
     }
 
-    public OrderDetail(Double quantity, Double price, Item item, Order order) {
+    public OrderDetail(Double quantity, Double price, String itemName, Item item) {
         this.quantity = quantity;
         this.price = price;
+        this.itemName = itemName;
         this.item = item;
-        this.order = order;
     }
 
     public Integer getId() {
@@ -86,5 +89,13 @@ public class OrderDetail {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 }

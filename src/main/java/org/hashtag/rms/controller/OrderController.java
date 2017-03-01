@@ -44,6 +44,16 @@ public class OrderController extends AbstractController{
         return sendSuccessResponse(order);
     }
 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/open_order")
+    public Response saveOpenOrder( OrderResource orderObj) throws ParseException {
+        orderObj.autoCorrectModel();
+        Order order = orderService.createOpenOrder(orderObj);
+        return sendSuccessResponse(order);
+    }
+
     @GET
     @Path("/all_pending_orders")
     @Produces(MediaType.APPLICATION_JSON)

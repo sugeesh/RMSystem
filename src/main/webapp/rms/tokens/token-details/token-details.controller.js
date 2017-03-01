@@ -39,9 +39,13 @@
                 vm.kotNumber = vm.backendData.kotNumber;
 
                 angular.forEach(vm.backendData.itemResourceList, function (item) {
+                    var skuCode = item.skuCode;
+                    if(item.itemId==-1){
+                        skuCode = "OPEN ORDER";
+                    }
                     var menuItem = {
                         "id": item.itemId,
-                        "skuCode": item.skuCode,
+                        "skuCode": skuCode,
                         "name": item.name,
                         "quantity": item.quantity
                     };
