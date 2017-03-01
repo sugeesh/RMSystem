@@ -8,9 +8,9 @@
 
     angular.module('myApp').controller('OrderUpdateController', OrderUpdateController);
 
-    OrderUpdateController.$inject = ['webservice', '$rootScope', '$state', '$stateParams', '$sessionStorage'];
+    OrderUpdateController.$inject = ['webservice', '$rootScope', '$state', '$stateParams'];
 
-    function OrderUpdateController(webservice, $rootScope, $state, $stateParams, $sessionStorage) {
+    function OrderUpdateController(webservice, $rootScope, $state, $stateParams) {
         var vm = this;
         // console.log("World most important finding : " + $stateParams.orderId);
         $rootScope.appURL = "http://localhost:8080";
@@ -39,12 +39,6 @@
         vm.kotNumber;
         vm.pendingOrderCount = 0;
         vm.servedOrderCount = 0;
-
-        var user = $sessionStorage.getObject('user');
-        console.log(user);
-        if(user == ""){
-            $state.go('login');
-        }
 
         initCategoriesList();
         setPendingOrderCount();

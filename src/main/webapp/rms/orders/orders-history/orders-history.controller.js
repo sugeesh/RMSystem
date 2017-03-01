@@ -8,19 +8,13 @@
     angular.module('myApp')
         .controller('OrdersHistoryController', OrdersHistoryController);
 
-    OrdersHistoryController.$inject = ['webservice', '$rootScope', '$state', '$sessionStorage'];
+    OrdersHistoryController.$inject = ['webservice', '$rootScope', '$state'];
 
-    function OrdersHistoryController(webservice, $rootScope, $state, $sessionStorage) {
+    function OrdersHistoryController(webservice, $rootScope, $state) {
         var vm = this;
         $rootScope.baseURL = "http://localhost:8080/rest";
 
         vm.initOrderList = initOrderList;
-
-        var user = $sessionStorage.getObject('user');
-        console.log(user);
-        if(user == ""){
-            $state.go('login');
-        }
 
         initOrderList();
 

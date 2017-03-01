@@ -30,9 +30,6 @@
                 };
                 webservice.call($rootScope.baseURL + '/user/register_user', "post", user).then(function (response) {
                     if (response.data.username == user.username) {
-                        $rootScope.user = respone.data;
-                        $rootScope.isLoggedin = true;
-
                         $state.go('dashboard');
                     }
                 });

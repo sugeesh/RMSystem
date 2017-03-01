@@ -8,9 +8,9 @@
     angular.module('myApp')
         .controller('PendingOrdersController', PendingOrdersController);
 
-    PendingOrdersController.$inject = ['webservice','$rootScope','$state', '$sessionStorage'];
+    PendingOrdersController.$inject = ['webservice','$rootScope','$state'];
 
-    function PendingOrdersController(webservice,$rootScope,$state, $sessionStorage) {
+    function PendingOrdersController(webservice,$rootScope,$state) {
         var vm = this;
         vm.initOrderList = initOrderList;
         vm.routeToOrder = routeToOrder;
@@ -20,12 +20,6 @@
 
         vm.orderList = [];
 
-        var user = $sessionStorage.getObject('user');
-        console.log(user);
-        if(user == ""){
-            $state.go('login');
-        }
-
         initOrderList();
 
         /** This function will get all the pending orders */
@@ -33,8 +27,6 @@
             webservice.call($rootScope.baseURL + "/order/all_pending_orders", "get").then(function (response) {
                 vm.pendingOrders = response.data.dataRows;
                 vm.pendingOrderCount = response.data.entries;
-                console.log(response);
-                //  vm.categoriesList = response.data.dataRows;
             });
         }
         
