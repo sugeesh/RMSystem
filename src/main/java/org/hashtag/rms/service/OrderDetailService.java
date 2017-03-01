@@ -28,6 +28,7 @@ public class OrderDetailService {
         Item item = new Item();
         item.setItemId(itemResource.getItemId());
 
+        orderDetail.setItemName(itemResource.getName());
         orderDetail.setItem(item);
         orderDetail.setOrder(ordersaved);
         orderDetail.setPrice(itemResource.getPrice());
@@ -35,5 +36,15 @@ public class OrderDetailService {
 
         orderDetailRepository.save(orderDetail);
     }
+
+    public void createOpenOrder(ItemResource itemResource, Order ordersaved) {
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setItemName(itemResource.getName());
+        orderDetail.setOrder(ordersaved);
+        orderDetail.setPrice(itemResource.getPrice());
+        orderDetail.setQuantity(itemResource.getQuantity());
+        orderDetailRepository.save(orderDetail);
+    }
+
 
 }

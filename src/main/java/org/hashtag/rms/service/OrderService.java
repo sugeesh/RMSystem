@@ -8,6 +8,7 @@ import org.hashtag.rms.repository.OrderRepository;
 import org.hashtag.rms.resource.CategoryResource;
 import org.hashtag.rms.resource.ItemResource;
 import org.hashtag.rms.resource.OrderResource;
+import org.hashtag.rms.resource.PaymentResource;
 import org.hashtag.rms.util.KOTNumberGenerator;
 import org.hashtag.rms.util.rest.DataTableResponse;
 import org.hibernate.service.spi.ServiceException;
@@ -36,6 +37,8 @@ public class OrderService {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
+    @Autowired
+    private PaymentService paymentService;
 
     @Autowired
     private OrderDetailService orderDetailService;
@@ -66,11 +69,56 @@ public class OrderService {
             itemResourceList.stream().forEach(itemResource -> {
                 orderDetailService.create(itemResource,ordersaved);
             });
+
+            PaymentResource paymentDetails = orderResource.getPaymentDetails();
+            paymentDetails.setOrderId(ordersaved.getOrderId());
+            paymentService.create(paymentDetails);
             return ordersaved;
         } catch (DataAccessException e) {
             throw new org.hibernate.service.spi.ServiceException("Failed to save the Order", e);
         }
     }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Order createOpenOrder(OrderResource orderResource) throws ServiceException, ParseException {
+
+        Order order = new Order();
+        order.setOrderTime(orderResource.getOrderTime());
+        order.setAmount(orderResource.getAmount());
+        order.setCustomerName(orderResource.getCustomerName());
+        order.setTableId(orderResource.getTableId());
+        order.setType(orderResource.getType());
+        order.setComment(orderResource.getComment());
+
+        //Set KOT Number
+        List<Order> allByOrderByKotNumber = orderRepository.findAllByOrderByKotNumber();
+        String nextKOTNumber = "KOT0001";
+        if(allByOrderByKotNumber.size()!=0) {
+            nextKOTNumber = KOTNumberGenerator.getNextKOTNumber(allByOrderByKotNumber.get(allByOrderByKotNumber.size() - 1).getKotNumber());
+        }
+        order.setKotNumber(nextKOTNumber);
+
+        order.setStatus("WAIT");
+        try {
+            Order ordersaved = orderRepository.save(order);
+            ArrayList<ItemResource> itemResourceList = (ArrayList<ItemResource>) orderResource.getItemResourceList();
+            itemResourceList.stream().forEach(itemResource -> {
+                if(itemResource.getItemId()==-1) {
+                    orderDetailService.createOpenOrder(itemResource, ordersaved);
+                }else {
+                    orderDetailService.create(itemResource, ordersaved);
+                }
+            });
+
+            PaymentResource paymentDetails = orderResource.getPaymentDetails();
+            paymentDetails.setOrderId(ordersaved.getOrderId());
+            paymentService.create(paymentDetails);
+            return ordersaved;
+        } catch (DataAccessException e) {
+            throw new org.hibernate.service.spi.ServiceException("Failed to save the Order", e);
+        }
+    }
+
 
     public DataTableResponse<OrderResource> getAllPendingOrders() {
         DataTableResponse<OrderResource> response = new DataTableResponse<>();
@@ -134,14 +182,18 @@ public class OrderService {
         List<ItemResource> itemResourceList = new ArrayList<>();
         orderNew.getOrderDetailList().stream().forEach(orderDetail -> {
             ItemResource itemResource = new ItemResource();
-            itemResource.setItemId(orderDetail.getItem().getItemId());
+            if(orderDetail.getItem()!=null) {
+                itemResource.setItemId(orderDetail.getItem().getItemId());
+                itemResource.setTaxCode(orderDetail.getItem().getTaxCode());
+                itemResource.setComment(orderDetail.getItem().getComment());
+                itemResource.setPortion(orderDetail.getItem().getPortion());
+                itemResource.setSkuCode(orderDetail.getItem().getSkuCode());
+            }else{
+                itemResource.setItemId(-1);
+            }
             itemResource.setPrice(orderDetail.getPrice());
             itemResource.setQuantity(orderDetail.getQuantity());
-            itemResource.setName(orderDetail.getItem().getName());
-            itemResource.setTaxCode(orderDetail.getItem().getTaxCode());
-            itemResource.setComment(orderDetail.getItem().getComment());
-            itemResource.setPortion(orderDetail.getItem().getPortion());
-            itemResource.setSkuCode(orderDetail.getItem().getSkuCode());
+            itemResource.setName(orderDetail.getItemName());
             itemResourceList.add(itemResource);
         });
         orderResource.setItemResourceList(itemResourceList);
@@ -149,7 +201,7 @@ public class OrderService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Order update(OrderResource orderResource, int id) {
+    public Order update(OrderResource orderResource, int id) throws ParseException {
         orderRepository.deleteByOrderId(id);
         orderResource.autoCorrectModel();
 

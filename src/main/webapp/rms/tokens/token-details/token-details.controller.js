@@ -8,9 +8,9 @@
     angular.module('myApp')
         .controller('TokenDetailsController', TokenDetailsController);
 
-    TokenDetailsController.$inject = ['$stateParams', 'webservice', '$rootScope','$state', '$sessionStorage'];
+    TokenDetailsController.$inject = ['$stateParams', 'webservice', '$rootScope','$state'];
 
-    function TokenDetailsController($stateParams, webservice, $rootScope,$state, $sessionStorage) {
+    function TokenDetailsController($stateParams, webservice, $rootScope,$state) {
         var vm = this;
 
         $rootScope.baseURL = "http://localhost:8080/rest";
@@ -19,12 +19,6 @@
         vm.tokenId = $stateParams.tokenId;
         vm.serveOrder = serveOrder;
         vm.setPendingOrderCount = setPendingOrderCount;
-
-        var user = $sessionStorage.getObject('user');
-        console.log(user);
-        if(user == ""){
-            $state.go('login');
-        }
 
         initTokenDetails(vm.tokenId);
         setPendingOrderCount();
@@ -45,9 +39,13 @@
                 vm.kotNumber = vm.backendData.kotNumber;
 
                 angular.forEach(vm.backendData.itemResourceList, function (item) {
+                    var skuCode = item.skuCode;
+                    if(item.itemId==-1){
+                        skuCode = "OPEN ORDER";
+                    }
                     var menuItem = {
                         "id": item.itemId,
-                        "skuCode": item.skuCode,
+                        "skuCode": skuCode,
                         "name": item.name,
                         "quantity": item.quantity
                     };

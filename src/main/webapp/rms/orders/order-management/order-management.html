@@ -76,6 +76,17 @@
                     <div class="box-group" id="accordion">
                         <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
 
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title">
+                                    <a data-toggle="modal" data-parent="#accordion" href=""
+                                       data-target="#openOrderModal">
+                                        Open Order
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+
                         <div ng-repeat="category in vm.categoriesList" class="box">
                             <div class="box-header with-border">
                                 <h4 class="box-title">
@@ -100,6 +111,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <!-- /.box-body -->
@@ -155,31 +167,35 @@
                             <table class="table">
                                 <tr>
                                     <th style="width:75%">Subtotal:</th>
-                                    <td>{{ vm.subTotal | number:2  }}</td>
+                                    <td>{{ vm.subTotal | number:2 }}</td>
                                 </tr>
                                 <tr>
                                     <th style="width:75%">Tax (%):</th>
-                                    <td><input type="number" ng-value="vm.tax" ng-model="vm.tax" ng-change="vm.calculateBalance()"></td>
+                                    <td><input type="number" ng-value="vm.tax" ng-model="vm.tax"
+                                               ng-change="vm.calculateBalance()"></td>
                                 </tr>
                                 <tr>
                                     <th style="width:75%">Service Charges (%):</th>
-                                    <td><input type="number" ng-value="vm.serviceCharge" ng-model="vm.serviceCharge" ng-change="vm.calculateBalance()"></td>
+                                    <td><input type="number" ng-value="vm.serviceCharge" ng-model="vm.serviceCharge"
+                                               ng-change="vm.calculateBalance()"></td>
                                 </tr>
                                 <tr>
                                     <th style="width:75%">Discount:</th>
-                                    <td><input type="number" ng-value="vm.discount" ng-model="vm.discount" ng-change="vm.calculateBalance()"></td>
+                                    <td><input type="number" ng-value="vm.discount" ng-model="vm.discount"
+                                               ng-change="vm.calculateBalance()"></td>
                                 </tr>
                                 <tr>
                                     <th style="width:75%">Total:</th>
-                                    <td>{{ vm.calculateTotal()  | number:2}}</td>
+                                    <td>{{ vm.calculateTotal() | number:2}}</td>
                                 </tr>
                                 <tr>
                                     <th style="width:75%">Payment:</th>
-                                    <td><input type="number" ng-value="vm.payment" ng-model="vm.payment" ng-change="vm.calculateBalance()"></td>
+                                    <td><input type="number" ng-value="vm.payment" ng-model="vm.payment"
+                                               ng-change="vm.calculateBalance()"></td>
                                 </tr>
                                 <tr>
                                     <th style="width:75%">Balance:</th>
-                                    <td>{{ vm.calculateBalance()  | number:2 }}</td>
+                                    <td>{{ vm.calculateBalance() | number:2 }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -235,7 +251,8 @@
                             <button type="button" class="btn btn-flat bg-yellow"
                                     data-toggle="modal"
                                     data-target="#submitOrderModal"><i
-                                    class="fa fa-edit"></i>Place KOT</button>
+                                    class="fa fa-edit"></i>Place KOT
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -249,9 +266,9 @@
 <!-- /.content -->
 
 
-
 <!-- Submit Order Modal -->
-<div class="modal fade bs-example-modal-lg" id="submitOrderModal" tabindex="-1" role="dialog" aria-labelledby="submitOrderModalLabel">
+<div class="modal fade bs-example-modal-lg" id="submitOrderModal" tabindex="-1" role="dialog"
+     aria-labelledby="submitOrderModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -365,7 +382,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th>Payment:</th>
-                                                    <td>{{ vm.payment }}</td
+                                                    <td>{{ vm.payment }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Balance:</th>
@@ -386,8 +403,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        data-ng-click="vm.updateCategory()">Update
-                    Category
+                        data-ng-click="vm.saveOrder()">
                 </button>
             </div>
         </div>
@@ -395,12 +411,41 @@
 </div>
 
 
-
-
-
-
-
-
+<!-- Open Order Modal -->
+<div class="modal fade " id="openOrderModal" role="dialog" aria-labelledby="openOrderModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="openOrderModalLabel">Open Order</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="newitemname" class="control-label">ItemName</label>
+                        <input type="text" class="form-control" placeholder="Enter New Item"
+                               ng-model="newItemName" id="newItemName">
+                    </div>
+                    <div class="form-group">
+                        <label for="newUnitPrice" class="control-label">Unit Price</label>
+                        <input type="text" class="form-control" placeholder="Unit Price"
+                               ng-model="newUnitPrice" id="newUnitPrice">
+                    </div>
+                    <div class="form-group">
+                        <label for="newQuantity" class="control-label">Quantity</label>
+                        <input type="number" class="form-control" placeholder="Quantity"
+                               ng-model="newQuantity" id="newQuantity">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="vm.addOpenOrderToTable(newItemName,newUnitPrice,newQuantity)">Add Item</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script>

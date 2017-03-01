@@ -29,6 +29,7 @@
 
         vm.initCategoriesList = initCategoriesList;
         vm.addToTable = addToTable;
+        vm.addOpenOrderToTable = addOpenOrderToTable;
         vm.calculateAmountAndSubTotal = calculateAmountAndSubTotal;
         vm.changeQuantity = changeQuantity;
         vm.saveOrder = saveOrder;
@@ -39,6 +40,7 @@
         vm.calculateBalance = calculateBalance;
         vm.calculateTotal = calculateTotal;
         vm.setKOTNumber = setKOTNumber;
+
 
         vm.menu = [];
         vm.subTotal = 0;
@@ -73,7 +75,7 @@
 
         function setKOTNumber() {
             webservice.call($rootScope.baseURL + "/order/get_next_kot", "get").then(function (response) {
-              vm.kotNumber = response.data.kotNumber;
+                vm.kotNumber = response.data.kotNumber;
             });
 
         }
@@ -125,6 +127,21 @@
             }
         }
 
+        function addOpenOrderToTable(newItemName,newUnitPrice,newQuantity) {
+            var amount = Number(newUnitPrice) * (newQuantity);
+            var menuItem = {
+                "id": -1,
+                "skuCode": "OPEN ORDER",
+                "name": newItemName,
+                "price": newUnitPrice,
+                "quantity": newQuantity,
+                "amount": amount
+            };
+            vm.menu.push(menuItem);
+            vm.calculateAmountAndSubTotal();
+
+        }
+
         function calculateAmountAndSubTotal() {
             var subTotal = 0;
             angular.forEach(vm.menu, function (value) {
@@ -139,6 +156,7 @@
         }
 
         function saveOrder() {
+            var checkOpen = false;
             if (!isNaN(vm.subTotal)) {
                 var sendObj = {};
                 sendObj.orderTime = new Date();
@@ -148,22 +166,48 @@
                 sendObj.type = vm.type;
                 sendObj.comment = vm.comment;
                 var itemResourceList = [];
+                var paymentDetails = {};
                 angular.forEach(vm.menu, function (value) {
                     var item = {};
                     item.itemId = value.id;
+                    if(value.id==-1){
+                        checkOpen = true;
+                    }
                     item.name = value.name;
                     item.quantity = value.quantity;
                     item.price = value.price;
                     itemResourceList.push(item);
                 });
+                paymentDetails.amount = parseFloat(vm.subTotal);
+                paymentDetails.tax = parseFloat(vm.tax);
+                paymentDetails.serviceCharge = vm.serviceCharge;
+                paymentDetails.discount = parseFloat(vm.discount);
+                paymentDetails.totalAmount = parseFloat(calculateTotal());
+                paymentDetails.date = Math.round((new Date()).getTime() / 1000);
+                paymentDetails.type = 0;
+
+                sendObj.paymentDetails1 = paymentDetails;
                 sendObj.itemResourceList1 = itemResourceList;
                 // console.log(sendObj);
-                webservice.call($rootScope.baseURL + "/order", "post", sendObj).then(function (response) {
-                    alert("KOT issued with KOT number  " + response.data.kotNumber);
-                    $state.go("pending_orders");
-                });
+
+
+                // If Open Order
+                if(checkOpen){
+                    webservice.call($rootScope.baseURL + "/order/open_order", "post", sendObj).then(function (response) {
+                        alert("KOT issued with KOT number  " + response.data.kotNumber);
+                        $state.go("pending_orders");
+                    });
+                }else {
+                    webservice.call($rootScope.baseURL + "/order", "post", sendObj).then(function (response) {
+                        alert("KOT issued with KOT number  " + response.data.kotNumber);
+                        $state.go("pending_orders");
+                    });
+                }
             }
         }
+
+
+
 
         function removeItem(item) {
             var len = vm.menu.length;
@@ -198,7 +242,7 @@
         }
 
         function calculateTotal() {
-            return Number(vm.subTotal) + Number(vm.subTotal*(vm.tax / 100)) + Number(vm.subTotal*(vm.serviceCharge/100)) - Number(vm.discount);
+            return Number(vm.subTotal) + Number(vm.subTotal * (vm.tax / 100)) + Number(vm.subTotal * (vm.serviceCharge / 100)) - Number(vm.discount);
         }
 
         function calculateBalance() {

@@ -20,7 +20,8 @@
 
         vm.orderList = [];
 
-        initOrderList();
+<<<<<<< .mine=======
+>>>>>>> .theirs        initOrderList();
 
         /** This function will get all the pending orders */
         function initOrderList() {

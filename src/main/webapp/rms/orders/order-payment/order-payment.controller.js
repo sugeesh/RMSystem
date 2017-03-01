@@ -32,7 +32,8 @@
         vm.payment = 0
         vm.discount = 0;
 
-        initOrderTable($stateParams.orderId);
+<<<<<<< .mine=======
+>>>>>>> .theirs        initOrderTable($stateParams.orderId);
 
         function initOrderTable(orderId) {
             webservice.call($rootScope.baseURL + "/order/get_order_from_id/" + orderId, "get").then(function (response) {
