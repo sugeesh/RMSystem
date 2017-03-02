@@ -16,8 +16,8 @@
 
         vm.initOrderList = initOrderList;
 
-
-        initOrderList();
+<<<<<<< .mine=======
+>>>>>>> .theirs        initOrderList();
 
         function initOrderList() {
             webservice.call($rootScope.baseURL + "/order/all_completed_orders", "get").then(function (response) {

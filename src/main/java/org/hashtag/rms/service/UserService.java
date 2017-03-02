@@ -2,11 +2,14 @@ package org.hashtag.rms.service;
 
 import org.hashtag.rms.model.Category;
 import org.hashtag.rms.model.Item;
+import org.hashtag.rms.model.Order;
 import org.hashtag.rms.model.User;
 import org.hashtag.rms.repository.UserRepository;
 import org.hashtag.rms.resource.ItemResource;
 import org.hashtag.rms.resource.UserResource;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 /**
  * Created by Buddhi on 2/19/2017.
@@ -27,5 +30,11 @@ public class UserService {
         return save;
     }
 
+    public Object loginUser(UserResource userResource) {
+//        User user = userRepository.findByUsernameByPassword(userResource.getUsername(), userResource.getPassword());
 
+//        return user;
+
+        return null;
+    }
 }

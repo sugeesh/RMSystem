@@ -13,6 +13,6 @@
     function SidebarController(webservice) {
         var vm = this;
 
-        vm.show = true;
+        console.log("in sidebar");
     }
 })();

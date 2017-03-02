@@ -20,16 +20,14 @@
 
         vm.orderList = [];
 
-
-        initOrderList();
+<<<<<<< .mine=======
+>>>>>>> .theirs        initOrderList();
 
         /** This function will get all the pending orders */
         function initOrderList() {
             webservice.call($rootScope.baseURL + "/order/all_pending_orders", "get").then(function (response) {
                 vm.pendingOrders = response.data.dataRows;
                 vm.pendingOrderCount = response.data.entries;
-                console.log(response);
-                //  vm.categoriesList = response.data.dataRows;
             });
         }
         

@@ -13,6 +13,11 @@
                     templateUrl: 'rms/core/body.html',
                     controller: 'BodyController',
                     controllerAs: 'vm'
+                },
+                "sidebar": {
+                    templateUrl: 'rms/core/sidebar.html',
+                    controller: 'SidebarController',
+                    controllerAs: 'vm'
                 }
             }
         }).state('login', {
