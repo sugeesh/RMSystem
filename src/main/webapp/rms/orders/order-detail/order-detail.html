@@ -1,0 +1,146 @@
+<!-- Main content -->
+<section class="content">
+    <!-- Info boxes -->
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-file-text"></i></span>
+
+                <div class="info-box-content" data-ng-click="vm.printOrder()" style="cursor: pointer">
+                    <span class="info-box-text">&nbsp;</span>
+                    <span class="info-box-number">PRINT</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <!-- Main row -->
+    <div id="printContent">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <!-- title row -->
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            Invoice
+                        </h3>
+                    </div>
+                    <!-- info row -->
+                    <div class="box-body">
+                        <div class="col-sm-2 invoice-col">
+                            Customer<br>
+                            <b>{{vm.customerName}}</b><br>
+                            <br>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-2 invoice-col">
+                            Table<br>
+                            <b>{{vm.tableId}}</b><br>
+                            <br>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-2 invoice-col">
+                            Date<br>
+                            <b>{{ vm.orderTime | date : "dd.MM.y" }}</b><br>
+                            <br>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-2 invoice-col">
+                            Time<br>
+                            <b>{{ vm.orderTime | date : "shortTime" }}</b><br>
+                            <br>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-2 invoice-col pull-right">
+                            Invoice<br>
+                            <b>Order ID:</b> {{ vm.kotNumber }}<br>
+                            <br>
+                        </div>
+                        <!-- /.col -->
+
+                        <div class="row">
+                            <div class="col-xs-12 table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Item Code</th>
+                                        <th>Item Name</th>
+                                        <th>Qty</th>
+                                        <th>Price</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="menuItem in vm.menu">
+                                        <td>{{menuItem.skuCode}}</td>
+                                        <td>{{menuItem.name}}</td>
+                                        <td>{{menuItem.quantity}}</td>
+                                        <td>{{menuItem.price}}</td>
+                                        <td>{{menuItem.amount}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+
+                        <div class="row">
+                            <!-- accepted payments column -->
+                            <div class="col-xs-6" style="margin-top: 140px">
+                                <p class="lead" style="font-size: 18px">Thank You!</p>
+                                <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
+                                    Restaurant MS,<br/>
+                                    Address.<br/>
+                                    <br/>
+                                    Tel: <br/>
+                                    Fax: <br/>
+                                    Email: <br/>
+                                </p>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-xs-6">
+                                <p class="lead">Payment</p>
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th style="width:80%">Subtotal:</th>
+                                            <td>{{ vm.subTotal }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tax (%):</th>
+                                            <td>{{ vm.tax }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Service Charges (%):</th>
+                                            <td>{{ vm.serviceCharge }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Discount:</th>
+                                            <td>{{ vm.discount }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total:</th>
+                                            <td>{{ vm.total}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /.row -->
+</section>
+<!-- /.content -->

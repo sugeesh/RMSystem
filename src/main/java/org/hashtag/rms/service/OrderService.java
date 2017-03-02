@@ -64,11 +64,10 @@ public class OrderService {
         order.setVoidOrder(orderResource.getVoidOrder());
 
         //Set KOT Number
-        List<Order> allByOrderByKotNumber = orderRepository.findAllByOrderByKotNumber();
-        String nextKOTNumber = "KOT0001";
-        if(allByOrderByKotNumber.size()!=0) {
-            nextKOTNumber = KOTNumberGenerator.getNextKOTNumber(allByOrderByKotNumber.get(allByOrderByKotNumber.size() - 1).getKotNumber());
-        }
+
+        String nextKOTNumber = KOTNumberGenerator.getNextKOTNumber();
+        KOTNumberGenerator.increaseOrderId(nextKOTNumber);
+
         order.setKotNumber(nextKOTNumber);
 
         order.setStatus("PENDING");
@@ -109,13 +108,10 @@ public class OrderService {
         order.setVoidOrder(orderResource.getVoidOrder());
 
         //Set KOT Number
-        List<Order> allByOrderByKotNumber = orderRepository.findAllByOrderByKotNumber();
-        String nextKOTNumber = "KOT0001";
-        if(allByOrderByKotNumber.size()!=0) {
-            nextKOTNumber = KOTNumberGenerator.getNextKOTNumber(allByOrderByKotNumber.get(allByOrderByKotNumber.size() - 1).getKotNumber());
-        }
-        order.setKotNumber(nextKOTNumber);
+        String nextKOTNumber = KOTNumberGenerator.getNextKOTNumber();
+        KOTNumberGenerator.increaseOrderId(nextKOTNumber);
 
+        order.setKotNumber(nextKOTNumber);
         order.setStatus("WAITING");
         try {
             Order ordersaved = orderRepository.save(order);
@@ -220,6 +216,8 @@ public class OrderService {
         orderResource.setCustomerName(orderNew.getCustomerName());
         orderResource.setComment(orderNew.getComment());
         orderResource.setType(orderNew.getType());
+        orderResource.setVoidOrder(orderNew.getVoidOrder());
+        orderResource.setOpenOrder(orderNew.getOpenOrder());
         List<ItemResource> itemResourceList = new ArrayList<>();
         orderNew.getOrderDetailList().stream().forEach(orderDetail -> {
             ItemResource itemResource = new ItemResource();
@@ -330,10 +328,47 @@ public class OrderService {
      */
     public OrderResource getNextKOT() {
         List<Order> allByOrderByKotNumber = orderRepository.findAllByOrderByKotNumber();
-        String nextKOTNumber = "KOT0001";
-        if(allByOrderByKotNumber.size()!=0) {
-            nextKOTNumber = KOTNumberGenerator.getNextKOTNumber(allByOrderByKotNumber.get(allByOrderByKotNumber.size() - 1).getKotNumber());
-        }
+        String nextKOTNumber = KOTNumberGenerator.getNextKOTNumber();
         return new OrderResource(nextKOTNumber);
     }
+
+    public int updateVoidOrder(OrderResource orderResource) {
+        Integer integer = orderRepository.updateVoidOrder(orderResource.getOrderId(),orderResource.getVoidOrder(),orderResource.getState());
+        return integer;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void approveOrder(OrderResource orderResource) {
+        if(orderResource.getVoidOrder()){
+            orderRepository.deleteByOrderId(orderResource.getOrderId());
+        }else if(orderResource.getOpenOrder()){
+            orderRepository.updateOrderState(orderResource.getOrderId(),orderResource.getState());
+        }
+    }
+
+    public DataTableResponse<OrderResource> getOrdersForDateRange(String startDate, String endDate) throws ParseException {
+        DataTableResponse<OrderResource> response = new DataTableResponse<>();
+        List<OrderResource> orderList = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDateObj = dateFormat.parse(startDate);
+        Date endDateObj = dateFormat.parse(endDate);
+        for (Order order : orderRepository.findByStatusAndOrderTimeBetween("COMPLETED",startDateObj,endDateObj)) {
+            OrderResource orderResource = new OrderResource();
+            orderResource.setOrderId(order.getOrderId());
+            orderResource.setTableId(order.getTableId());
+            orderResource.setCustomerName(order.getCustomerName());
+            orderResource.setOrderTime(order.getOrderTime());
+            orderResource.setKotNumber(order.getKotNumber());
+            orderResource.setComment(order.getComment());
+            orderResource.setType(order.getType());
+            orderResource.setAmount(order.getAmount());
+            orderResource.setItemResourceList(orderResource.getItemResourceList());
+            orderList.add(orderResource);
+        }
+        response.setDataRows(orderList);
+        response.setEntries(orderList.size());
+        return response;
+    }
+
+
 }

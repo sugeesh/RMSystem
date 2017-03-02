@@ -25,9 +25,6 @@
 
         function initTokenDetails(tokenId) {
             vm.menu = [];
-
-            console.log()
-
             webservice.call($rootScope.baseURL + "/order/get_order_from_id/" + tokenId, "get").then(function (response) {
                 vm.backendData = response.data;
                 vm.tableId = vm.backendData.tableId;
@@ -55,7 +52,7 @@
         }
 
         function serveOrder() {
-            var sendObj = {"orderId":vm.orderId,"state":"SERVED"};
+            var sendObj = {"orderId":vm.orderId,"state":"COMPLETED"};
 
             webservice.call($rootScope.baseURL + "/order/update_status_order/", "put",sendObj).then(function (response) {
                 $state.go("token_management");

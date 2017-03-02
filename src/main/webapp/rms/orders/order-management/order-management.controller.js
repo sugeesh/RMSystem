@@ -18,9 +18,9 @@
 
     angular.module('myApp').controller('OrderManagementController', OrderManagementController);
 
-    OrderManagementController.$inject = ['webservice', '$rootScope', '$state'];
+    OrderManagementController.$inject = ['webservice', '$rootScope', '$state','$window'];
 
-    function OrderManagementController(webservice, $rootScope, $state) {
+    function OrderManagementController(webservice, $rootScope, $state,$window) {
         var vm = this;
         $rootScope.appURL = "http://localhost:8080";
         $rootScope.baseURL = "http://localhost:8080/rest";
@@ -40,6 +40,7 @@
         vm.calculateBalance = calculateBalance;
         vm.calculateTotal = calculateTotal;
         vm.setKOTNumber = setKOTNumber;
+        vm.printOrder = printOrder;
 
 
         vm.menu = [];
@@ -210,8 +211,6 @@
         }
 
 
-
-
         function removeItem(item) {
             var len = vm.menu.length;
             for (var i = len - 1; i >= 0; i--) {
@@ -254,6 +253,75 @@
             } else {
                 return 0;
             }
+        }
+
+        function printOrder() {
+            var checkOpen = false;
+            if (!isNaN(vm.subTotal)) {
+                var sendObj = {};
+                sendObj.orderTime = new Date();
+                sendObj.amount = vm.subTotal;
+                sendObj.customerName = vm.customerName;
+                sendObj.tableId = vm.tableId;
+                sendObj.type = vm.type;
+                sendObj.comment = vm.comment;
+                sendObj.openOrder = false;
+                sendObj.voidOrder = false;
+                var itemResourceList = [];
+                var paymentDetails = {};
+                angular.forEach(vm.menu, function (value) {
+                    var item = {};
+                    item.itemId = value.id;
+                    if(value.id==-1){
+                        checkOpen = true;
+                        sendObj.openOrder = true;
+                    }
+                    item.name = value.name;
+                    item.quantity = value.quantity;
+                    item.price = value.price;
+                    itemResourceList.push(item);
+                });
+                paymentDetails.amount = parseFloat(vm.subTotal);
+                paymentDetails.tax = parseFloat(vm.tax);
+                paymentDetails.serviceCharge = vm.serviceCharge;
+                paymentDetails.discount = parseFloat(vm.discount);
+                paymentDetails.totalAmount = parseFloat(calculateTotal());
+                paymentDetails.date = Math.round((new Date()).getTime() / 1000);
+                paymentDetails.type = 0;
+
+                sendObj.paymentDetails1 = paymentDetails;
+                sendObj.itemResourceList1 = itemResourceList;
+                // console.log(sendObj);
+
+
+                // If Open Order
+                if(checkOpen){
+                    webservice.call($rootScope.baseURL + "/order/open_order", "post", sendObj).then(function (response) {
+                        alert("KOT issued with KOT number  " + response.data.kotNumber);
+                        $window.location.reload();
+                        var printContents = document.getElementById('printContent').innerHTML;
+                        var originalContents = document.body.innerHTML;
+
+                        document.body.innerHTML = printContents;
+                        window.print();
+                        document.body.innerHTML = originalContents;
+
+                    });
+                }else {
+                    webservice.call($rootScope.baseURL + "/order", "post", sendObj).then(function (response) {
+                        alert("KOT issued with KOT number  " + response.data.kotNumber);
+                        $window.location.reload();
+                        var printContents = document.getElementById('printContent').innerHTML;
+                        var originalContents = document.body.innerHTML;
+
+                        document.body.innerHTML = printContents;
+                        window.print();
+                        document.body.innerHTML = originalContents;
+                    });
+                }
+            }
+
+
         }
 
 

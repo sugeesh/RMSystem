@@ -119,6 +119,26 @@
                     controllerAs: 'vm'
                 }
             }
+        }).state('admin_waiting_orders', {
+            parent: 'default',
+            url: '/admin_waiting_orders',
+            views: {
+                "view@default": {
+                    templateUrl: 'rms/admin/orders/waiting-orders/admin-waiting-orders.html',
+                    controller: 'AdminWaitingOrdersController',
+                    controllerAs: 'vm'
+                }
+            }
+        }).state('admin_order_detail', {
+            parent: 'default',
+            url: '/admin_order_detail/:orderId',
+            views: {
+                "view@default": {
+                    templateUrl: 'rms/admin/orders/order-detail/admin-order-detail.html',
+                    controller: 'AdminOrderDetailController',
+                    controllerAs: 'vm'
+                }
+            }
         }).state('served_orders', {
             parent: 'default',
             url: '/served_orders',
@@ -129,13 +149,13 @@
                     controllerAs: 'vm'
                 }
             }
-        }).state('order_payment', {
+        }).state('order_detail', {
             parent: 'default',
-            url: '/order_payment/:orderId',
+            url: '/order_detail/:orderId',
             views: {
                 "view@default": {
-                    templateUrl: 'rms/orders/order-payment/order-payment.html',
-                    controller: 'OrderPaymentController',
+                    templateUrl: 'rms/orders/order-detail/order-detail.html',
+                    controller: 'OrderDetailController',
                     controllerAs: 'vm'
                 }
             }

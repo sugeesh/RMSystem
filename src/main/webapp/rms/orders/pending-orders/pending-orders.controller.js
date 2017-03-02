@@ -14,14 +14,14 @@
         var vm = this;
         vm.initOrderList = initOrderList;
         vm.routeToOrder = routeToOrder;
+        vm.voidOrder = voidOrder;
 
         $rootScope.appURL = "http://localhost:8080";
         $rootScope.baseURL = "http://localhost:8080/rest";
 
         vm.orderList = [];
 
-<<<<<<< .mine=======
->>>>>>> .theirs        initOrderList();
+        initOrderList();
 
         /** This function will get all the pending orders */
         function initOrderList() {
@@ -32,8 +32,19 @@
         }
         
         function routeToOrder(orderId) {
-            $state.go("order_update",{ 'orderId' : orderId });
+            $state.go("order_detail",{ 'orderId' : orderId });
         }
+
+        function voidOrder(orderId) {
+            var sendObj = {"orderId":orderId,"voidOrder":true,"state":"WAITING"};
+
+            webservice.call($rootScope.baseURL + "/order/update_void_order/", "put",sendObj).then(function (response) {
+                $state.go("waiting_orders");
+                alert("Order Voided.");
+            });
+        }
+
+
     }
 
 

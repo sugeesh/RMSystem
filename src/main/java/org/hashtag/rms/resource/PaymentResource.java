@@ -1,6 +1,7 @@
 package org.hashtag.rms.resource;
 
 import org.hashtag.rms.model.Order;
+import org.hashtag.rms.model.Payment;
 
 import java.util.Date;
 
@@ -104,5 +105,22 @@ public class PaymentResource {
     public void setDiscount(double discount) {
         this.discount = discount;
     }
+
+
+    public PaymentResource convertToResource(Payment payment){
+        PaymentResource paymentResource = new PaymentResource();
+        paymentResource.setOrderId(payment.getOrderForP());
+        paymentResource.setType(payment.getType());
+        paymentResource.setTotalAmount(payment.getTotalAmount());
+        paymentResource.setDiscount(payment.getDiscount());
+        paymentResource.setServiceCharge(payment.getServiceCharge());
+        paymentResource.setTax(payment.getTax());
+        paymentResource.setAmount(payment.getAmount());
+        paymentResource.setDate(payment.getDate());
+        return paymentResource;
+    }
+
+
+
 }
 

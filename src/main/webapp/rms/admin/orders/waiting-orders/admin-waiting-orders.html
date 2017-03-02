@@ -26,6 +26,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">Waiting KOT List</h3>
                 </div>
+
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="table-responsive">
@@ -54,7 +55,7 @@
                                 <td ng-if="order.openOrder==1">OPEN ORDER</td>
                                 <td ng-if="order.voidOrder==1">Waiting For VOID</td>
                                 <td ng-if="order.voidOrder!=1">Waiting For Approve</td>
-                                <td ><button data-ng-click="vm.voidOrder(order.orderId)" ng-if="order.voidOrder!=1">VOID ORDER</button></td>
+                                <<!--td ><button data-ng-click="vm.voidOrder(order.orderId)" ng-if="order.voidOrder!=1">VOID ORDER</button></td>-->
                             </tr>
                             </tbody>
                         </table>

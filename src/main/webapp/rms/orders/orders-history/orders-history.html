@@ -17,74 +17,99 @@
         <!-- /.col -->
     </div>
     <!-- /.row -->
-<!--
+    <!--
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-info">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Select Period</h3>
-                </div>
-                &lt;!&ndash; /.box-header &ndash;&gt;
-                <div class="box-body">
-                    <div class="col-md-6 col-lg-6">
-                        <div class="form-group">
-                            <label>End Date</label>
-
-                            <div class="input-group date">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <input type="text" class="form-control pull-right" id="startdatepicker">
-                            </div>
-                            &lt;!&ndash; /.input group &ndash;&gt;
-                        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Select Period</h3>
                     </div>
-                    <div class="col-md-6 col-lg-6">
-                        <div class="form-group">
-                            <label>End Date</label>
+                    &lt;!&ndash; /.box-header &ndash;&gt;
+                    <div class="box-body">
+                        <div class="col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label>End Date</label>
 
-                            <div class="input-group date">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="startdatepicker">
                                 </div>
-                                <input type="text" class="form-control pull-right" id="enddatepicker">
+                                &lt;!&ndash; /.input group &ndash;&gt;
                             </div>
-                            &lt;!&ndash; /.input group &ndash;&gt;
+                        </div>
+                        <div class="col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label>End Date</label>
+
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="enddatepicker">
+                                </div>
+                                &lt;!&ndash; /.input group &ndash;&gt;
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
--->
+    -->
 
     <!-- Main row -->
     <div class="row">
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Select date range</h3>
+                </div>
+
+                <!-- Date range -->
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" class="form-control pull-right" id="reservation">
+                    </div>
+                    <button data-ng-click="vm.searchOrders()">Search Orders</button>
+                    <!-- /.input group -->
+                </div>
+                <!-- /.form group -->
+
+            </div>
+        </div>
+        <div class="col-md-6"></div>
         <div class="col-md-12">
             <!-- TABLE: LATEST ORDERS -->
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">Completed Order Details </h3>
                 </div>
+
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="table-responsive">
                         <table class="table no-margin">
                             <thead>
                             <tr>
-                                <th></th>
+                                <th>Order Id</th>
                                 <th>Customer Name</th>
-                                <th>Table Name</th>
+                                <th>Table </th>
+                                <th>Order Date</th>
                                 <th>Order Time</th>
                                 <th>Amount</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr  ng-repeat="order in vm.completedOrders" >
+                            <tr ng-repeat="order in vm.completedOrders" data-ng-click="vm.routeToOrder(order.orderId)" style="cursor: pointer;" >
                                 <td>{{order.kotNumber}}</td>
                                 <td>{{order.customerName}}</td>
                                 <td>{{order.tableId}}</td>
+                                <td>{{order.orderTime | date : "yyyy-MM-dd" }}</td>
                                 <td>{{order.orderTime | date : "shortTime" }}</td>
                                 <td>{{order.amount}}</td>
                             </tr>
@@ -105,3 +130,10 @@
     <!-- /.row -->
 </section>
 <!-- /.content -->
+
+<script>
+    //Date range picker
+    $('#reservation').daterangepicker();
+
+</script>
+<!-- bootstrap datepicker -->

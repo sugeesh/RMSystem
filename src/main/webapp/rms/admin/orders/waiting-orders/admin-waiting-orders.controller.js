@@ -6,11 +6,11 @@
     'use strict';
 
     angular.module('myApp')
-        .controller('WaitingOrdersController', WaitingOrdersController);
+        .controller('AdminWaitingOrdersController', AdminWaitingOrdersController);
 
-    WaitingOrdersController.$inject = ['webservice','$rootScope','$state'];
+    AdminWaitingOrdersController.$inject = ['webservice','$rootScope','$state'];
 
-    function WaitingOrdersController(webservice,$rootScope,$state) {
+    function AdminWaitingOrdersController(webservice,$rootScope,$state) {
         var vm = this;
         vm.initOrderList = initOrderList;
         vm.routeToOrder = routeToOrder;
@@ -35,7 +35,7 @@
         }
         
         function routeToOrder(orderId) {
-            $state.go("order_detail",{ 'orderId' : orderId });
+            $state.go("admin_order_detail",{ 'orderId' : orderId });
         }
 
 
@@ -43,7 +43,7 @@
             var sendObj = {"orderId":orderId,"voidOrder":true,"state":"WAITING"};
 
             webservice.call($rootScope.baseURL + "/order/update_void_order/", "put",sendObj).then(function (response) {
-                $state.go("waiting_orders");
+                $state.go("admin_waiting_orders");
                 alert("Order Voided.");
             });
         }

@@ -42,16 +42,17 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="order in vm.pendingOrders" style="cursor: pointer;" data-ng-click="vm.routeToOrder(order.orderId)">
-                                <td>{{order.kotNumber}}</td>
-                                <td>{{order.customerName}}</td>
-                                <td>{{order.tableId}}</td>
-                                <td>{{order.orderTime | date : "shortTime" }}</td>
-                                <td>{{order.amount}}</td>
-                                <td ng-if="order.type==0">Dine In</td>
-                                <td ng-if="order.type==1">Take Away</td>
-                                <td ng-if="order.openOrder!=1">NORMAL ORDER</td>
-                                <td ng-if="order.openOrder==1">OPEN ORDER</td>
+                            <tr ng-repeat="order in vm.pendingOrders" style="cursor: pointer;" >
+                                <td data-ng-click="vm.routeToOrder(order.orderId)">{{order.kotNumber}}</td>
+                                <td data-ng-click="vm.routeToOrder(order.orderId)">{{order.customerName}}</td>
+                                <td data-ng-click="vm.routeToOrder(order.orderId)">{{order.tableId}}</td>
+                                <td data-ng-click="vm.routeToOrder(order.orderId)">{{order.orderTime | date : "shortTime" }}</td>
+                                <td data-ng-click="vm.routeToOrder(order.orderId)">{{order.amount}}</td>
+                                <td data-ng-click="vm.routeToOrder(order.orderId)" ng-if="order.type==0">Dine In</td>
+                                <td data-ng-click="vm.routeToOrder(order.orderId)" ng-if="order.type==1">Take Away</td>
+                                <td data-ng-click="vm.routeToOrder(order.orderId)" ng-if="order.openOrder!=1">NORMAL ORDER</td>
+                                <td data-ng-click="vm.routeToOrder(order.orderId)" ng-if="order.openOrder==1">OPEN ORDER</td>
+                                <td ><button data-ng-click="vm.voidOrder(order.orderId)">VOID ORDER</button></td>
                             </tr>
                             </tbody>
                         </table>

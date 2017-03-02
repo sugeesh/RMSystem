@@ -100,6 +100,20 @@ public class OrderController extends AbstractController{
         }
     }
 
+    @GET
+    @Path("/get_orders_for_date_range/{startDate}/{endDate}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOrdersForDateRange(@PathParam("startDate") String startDate,
+                                          @PathParam("endDate") String endDate) {
+        try {
+            return sendSuccessResponse(orderService.getOrdersForDateRange(startDate,endDate));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return handleServiceException(e);
+        }
+    }
+
+
     @PUT
     @Path("/update_order/{id}/")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -126,6 +140,32 @@ public class OrderController extends AbstractController{
         }
     }
 
+    @PUT
+    @Path("/update_void_order/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateVoidOrder(OrderResource orderResource) {
+        try {
+            orderService.updateVoidOrder(orderResource);
+            return sendSuccessResponse(orderResource);
+        } catch (ServiceException e) {
+            return handleServiceException(e);
+        }
+    }
+
+
+    @PUT
+    @Path("/approve_waiting_order/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response approveOrder(OrderResource orderResource) {
+        try {
+            orderService.approveOrder(orderResource);
+            return sendSuccessResponse(orderResource);
+        } catch (ServiceException e) {
+            return handleServiceException(e);
+        }
+    }
 
     @GET
     @Path("/get_next_kot/")

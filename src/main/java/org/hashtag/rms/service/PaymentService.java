@@ -53,4 +53,10 @@ public class PaymentService {
 
     }
 
+    public PaymentResource getPaymentByOrderId(int orderId) {
+        Payment byOrderForP = paymentRepository.findByOrderForP(orderId);
+        PaymentResource paymentResource = new PaymentResource();
+        paymentResource = paymentResource.convertToResource(byOrderForP);
+        return  paymentResource;
+    }
 }

@@ -31,6 +31,14 @@ public class PaymentController extends AbstractController{
         Payment payment = paymentService.create(paymentResource);
         return sendSuccessResponse(payment);
     }
+
+    @GET
+    @Path("/get_payment_from_order/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPaymentByOrder(@PathParam("id") int id) throws ParseException {
+        PaymentResource paymentResource = paymentService.getPaymentByOrderId(id);
+        return sendSuccessResponse(paymentResource);
+    }
 }
 
 
