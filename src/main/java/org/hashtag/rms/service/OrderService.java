@@ -43,6 +43,13 @@ public class OrderService {
     @Autowired
     private OrderDetailService orderDetailService;
 
+    /**
+     * This method is for insert normal order for the table.
+     * @param orderResource
+     * @return
+     * @throws ServiceException
+     * @throws ParseException
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public Order create(OrderResource orderResource) throws ServiceException, ParseException {
 
@@ -53,6 +60,8 @@ public class OrderService {
         order.setTableId(orderResource.getTableId());
         order.setType(orderResource.getType());
         order.setComment(orderResource.getComment());
+        order.setOpenOrder(orderResource.getOpenOrder());
+        order.setVoidOrder(orderResource.getVoidOrder());
 
         //Set KOT Number
         List<Order> allByOrderByKotNumber = orderRepository.findAllByOrderByKotNumber();
@@ -79,6 +88,13 @@ public class OrderService {
         }
     }
 
+    /**
+     * This metod will insert open order to the table.
+     * @param orderResource
+     * @return
+     * @throws ServiceException
+     * @throws ParseException
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public Order createOpenOrder(OrderResource orderResource) throws ServiceException, ParseException {
 
@@ -89,6 +105,8 @@ public class OrderService {
         order.setTableId(orderResource.getTableId());
         order.setType(orderResource.getType());
         order.setComment(orderResource.getComment());
+        order.setOpenOrder(orderResource.getOpenOrder());
+        order.setVoidOrder(orderResource.getVoidOrder());
 
         //Set KOT Number
         List<Order> allByOrderByKotNumber = orderRepository.findAllByOrderByKotNumber();
@@ -98,7 +116,7 @@ public class OrderService {
         }
         order.setKotNumber(nextKOTNumber);
 
-        order.setStatus("WAIT");
+        order.setStatus("WAITING");
         try {
             Order ordersaved = orderRepository.save(order);
             ArrayList<ItemResource> itemResourceList = (ArrayList<ItemResource>) orderResource.getItemResourceList();
@@ -120,6 +138,10 @@ public class OrderService {
     }
 
 
+    /**
+     * This method will return the all "PENDING" status orders only.
+     * @return DataTableResponseObject
+     */
     public DataTableResponse<OrderResource> getAllPendingOrders() {
         DataTableResponse<OrderResource> response = new DataTableResponse<>();
         List<OrderResource> orderList = new ArrayList<>();
@@ -131,6 +153,8 @@ public class OrderService {
             orderResource.setOrderTime(order.getOrderTime());
             orderResource.setKotNumber(order.getKotNumber());
             orderResource.setComment(order.getComment());
+            orderResource.setVoidOrder(order.getVoidOrder());
+            orderResource.setOpenOrder(order.getOpenOrder());
             orderResource.setType(order.getType());
             orderResource.setAmount(order.getAmount());
             orderResource.setItemResourceList(orderResource.getItemResourceList());
@@ -141,10 +165,15 @@ public class OrderService {
         return response;
     }
 
-    public DataTableResponse<OrderResource> getAllServedOrders() {
+
+    /**
+     * This method is for get all "WAITING" state Orders
+     * @return
+     */
+    public DataTableResponse<OrderResource> getAllWaitingOrders() {
         DataTableResponse<OrderResource> response = new DataTableResponse<>();
         List<OrderResource> orderList = new ArrayList<>();
-        for (Order order : orderRepository.findByStatus("SERVED")) {
+        for (Order order : orderRepository.findByStatus("WAITING")) {
             OrderResource orderResource = new OrderResource();
             orderResource.setOrderId(order.getOrderId());
             orderResource.setTableId(order.getTableId());
@@ -154,6 +183,8 @@ public class OrderService {
             orderResource.setComment(order.getComment());
             orderResource.setType(order.getType());
             orderResource.setAmount(order.getAmount());
+            orderResource.setOpenOrder(order.getOpenOrder());
+            orderResource.setVoidOrder(order.getVoidOrder());
             orderResource.setItemResourceList(orderResource.getItemResourceList());
             orderList.add(orderResource);
         }
@@ -162,12 +193,22 @@ public class OrderService {
         return response;
     }
 
+    /**
+     * This method is for getting tht Order Object without converting to the OrderResource.
+     * @param id
+     * @return
+     */
     public Order getPlainOrderObject(int id){
         Order orderNew = orderRepository.findByOrderId(id);
         return orderNew;
     }
 
 
+    /**
+     * This method is for get the Order as OrderResource.
+     * @param id
+     * @return
+     */
     public OrderResource getOrder(int id) {
         OrderResource orderResource = new OrderResource();
         Order orderNew = getPlainOrderObject(id);
@@ -200,6 +241,15 @@ public class OrderService {
         return orderResource;
     }
 
+
+    /**
+     * This method is for updating the order, This will no longer required.
+     * //TODO remove this method.
+     * @param orderResource
+     * @param id
+     * @return
+     * @throws ParseException
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public Order update(OrderResource orderResource, int id) throws ParseException {
         orderRepository.deleteByOrderId(id);
@@ -228,15 +278,30 @@ public class OrderService {
         }
     }
 
+    /**
+     * This method is for updating the Order State.
+     * @param orderResource
+     * @return
+     */
     public int updateOrderState(OrderResource orderResource) {
         return updateState(orderResource.getOrderId(),orderResource.getState());
     }
 
+    /**
+     * This method is for updating the state.
+     * @param id
+     * @param state
+     * @return
+     */
     public int updateState(int id,String state){
         Integer integer = orderRepository.updateOrderState(id,state);
         return integer;
     }
 
+    /**
+     * Get all completed orders. This method is for check the order history.
+     * @return
+     */
     public DataTableResponse<OrderResource> getAllCompletedOrders() {
         DataTableResponse<OrderResource> response = new DataTableResponse<>();
         List<OrderResource> orderList = new ArrayList<>();
@@ -258,6 +323,11 @@ public class OrderService {
         return response;
     }
 
+
+    /** This method is for returning the next KOT
+     *
+     * @return
+     */
     public OrderResource getNextKOT() {
         List<Order> allByOrderByKotNumber = orderRepository.findAllByOrderByKotNumber();
         String nextKOTNumber = "KOT0001";

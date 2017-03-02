@@ -38,6 +38,7 @@
                                 <th>Order Time</th>
                                 <th>Amount</th>
                                 <th>Type</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -49,6 +50,8 @@
                                 <td>{{order.amount}}</td>
                                 <td ng-if="order.type==0">Dine In</td>
                                 <td ng-if="order.type==1">Take Away</td>
+                                <td ng-if="order.openOrder!=1">NORMAL ORDER</td>
+                                <td ng-if="order.openOrder==1">OPEN ORDER</td>
                             </tr>
                             </tbody>
                         </table>

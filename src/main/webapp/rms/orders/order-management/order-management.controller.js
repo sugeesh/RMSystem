@@ -165,6 +165,8 @@
                 sendObj.tableId = vm.tableId;
                 sendObj.type = vm.type;
                 sendObj.comment = vm.comment;
+                sendObj.openOrder = false;
+                sendObj.voidOrder = false;
                 var itemResourceList = [];
                 var paymentDetails = {};
                 angular.forEach(vm.menu, function (value) {
@@ -172,6 +174,7 @@
                     item.itemId = value.id;
                     if(value.id==-1){
                         checkOpen = true;
+                        sendObj.openOrder = true;
                     }
                     item.name = value.name;
                     item.quantity = value.quantity;

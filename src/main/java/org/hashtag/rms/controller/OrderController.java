@@ -28,13 +28,7 @@ public class OrderController extends AbstractController{
     @Autowired
     private OrderService orderService;
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllOrders() {
-        System.out.println("A");
-        return null;
-    }
-
+    // Save order for normal order
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -44,6 +38,7 @@ public class OrderController extends AbstractController{
         return sendSuccessResponse(order);
     }
 
+    // Save order for Open Order
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -54,6 +49,7 @@ public class OrderController extends AbstractController{
         return sendSuccessResponse(order);
     }
 
+    // Get all pending orders for view Pending orders.
     @GET
     @Path("/all_pending_orders")
     @Produces(MediaType.APPLICATION_JSON)
@@ -66,12 +62,13 @@ public class OrderController extends AbstractController{
         }
     }
 
+    // Get all waiting orders for view Pending orders.
     @GET
-    @Path("/all_served_orders")
+    @Path("/all_waiting_orders")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllServedOrders() {
+    public Response getAllWaitingOrders() {
         try {
-            return sendSuccessResponse(orderService.getAllServedOrders());
+            return sendSuccessResponse(orderService.getAllWaitingOrders());
         } catch (Exception e) {
             e.printStackTrace();
             return handleServiceException(e);

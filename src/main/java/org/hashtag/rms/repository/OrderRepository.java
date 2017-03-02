@@ -18,6 +18,8 @@ import java.util.List;
 public interface OrderRepository extends CrudRepository<Order, Integer> {
 
 
+    List<Order> findByStatusOrStatus(String status1,String status2);
+
     List<Order> findByStatus(String status);
 
     Order findByOrderId(int id);

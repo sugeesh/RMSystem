@@ -104,6 +104,16 @@
                     params: ['id']
                 }
             }
+        }).state('waiting_orders', {
+            parent: 'default',
+            url: '/waiting_orders',
+            views: {
+                "view@default": {
+                    templateUrl: 'rms/orders/waiting-orders/waiting-orders.html',
+                    controller: 'WaitingOrdersController',
+                    controllerAs: 'vm'
+                }
+            }
         }).state('served_orders', {
             parent: 'default',
             url: '/served_orders',

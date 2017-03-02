@@ -14,7 +14,12 @@ public class OrderResource {
     private double amount;
     private String customerName;
     private String tableId;
+
+    // To check order is in "PENDING", "COMPLETED" OR "WAIT" state
     private String state;
+    private Boolean voidOrder;
+    private Boolean openOrder;
+
     private List<ItemResource> itemResourceList;
     private Object itemResourceList1[];
     private Object paymentDetails1;
@@ -131,6 +136,7 @@ public class OrderResource {
 
     public List<ItemResource> getItemResourceList() {
         return itemResourceList;
+
     }
 
     public void setItemResourceList(List<ItemResource> itemResourceList) {
@@ -208,5 +214,21 @@ public class OrderResource {
 
     public void setPaymentDetails(PaymentResource paymentDetails) {
         this.paymentDetails = paymentDetails;
+    }
+
+    public Boolean getVoidOrder() {
+        return voidOrder;
+    }
+
+    public void setVoidOrder(Boolean voidOrder) {
+        this.voidOrder = voidOrder;
+    }
+
+    public Boolean getOpenOrder() {
+        return openOrder;
+    }
+
+    public void setOpenOrder(Boolean openOrder) {
+        this.openOrder = openOrder;
     }
 }
