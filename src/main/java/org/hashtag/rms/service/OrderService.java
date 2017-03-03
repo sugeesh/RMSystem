@@ -346,13 +346,19 @@ public class OrderService {
         }
     }
 
-    public DataTableResponse<OrderResource> getOrdersForDateRange(String startDate, String endDate) throws ParseException {
+    public DataTableResponse<OrderResource> getOrdersForDateRange(String startDate, String endDate,int type) throws ParseException {
         DataTableResponse<OrderResource> response = new DataTableResponse<>();
         List<OrderResource> orderList = new ArrayList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date startDateObj = dateFormat.parse(startDate);
         Date endDateObj = dateFormat.parse(endDate);
-        for (Order order : orderRepository.findByStatusAndOrderTimeBetween("COMPLETED",startDateObj,endDateObj)) {
+        List<Order> orderListFromDb = null;
+        if(type==2){
+            orderListFromDb = orderRepository.findByStatusAndOrderTimeBetween("COMPLETED", startDateObj, endDateObj);
+        }else{
+            orderListFromDb = orderRepository.findByStatusAndTypeAndOrderTimeBetween("COMPLETED",type, startDateObj, endDateObj);
+        }
+        for (Order order : orderListFromDb) {
             OrderResource orderResource = new OrderResource();
             orderResource.setOrderId(order.getOrderId());
             orderResource.setTableId(order.getTableId());

@@ -88,7 +88,8 @@
         }
 
         function addItemToList(newItemName, newItemCategory, newItemPortion, newItemPrice, newItemSKUCode, newItemTAXCode, newItemComment) {
-            if (newItemName != undefined) {
+
+            if (newItemName != undefined && newItemCategory != undefined && newItemPrice != undefined) {
                 var newItem = {
                     name: newItemName,
                     portion: newItemPortion,
@@ -103,6 +104,8 @@
                     loadCategories();
                     console.log(response);
                 });
+            } else {
+                alert("Please correctly fill the form");
             }
         }
 
@@ -193,7 +196,7 @@
         function updateItemOrder() {
             var request = [];
             for (var i = 0; i < Object.keys(vm.itemList).length; i++) {
-                var ite = {"itemId": vm.itemList[i].itemId, "priority": i, "active":vm.itemList[i].active};
+                var ite = {"itemId": vm.itemList[i].itemId, "priority": i, "active": vm.itemList[i].active};
                 request.push(ite);
             }
             webservice.call($rootScope.baseURL + "/item/update_priority", "put", request).then(function (response) {
@@ -216,7 +219,7 @@
 
         function loadUpdateForm(category) {
             vm.updCatId = category.categoryId;
-            vm.catUpdateName  = category.name;
+            vm.catUpdateName = category.name;
             vm.catUpdateColor = category.colorCode;
         }
 

@@ -17,6 +17,10 @@
         vm.initOrderList = initOrderList;
         vm.routeToOrder  = routeToOrder;
         vm.searchOrders = searchOrders;
+        vm.changeType = changeType;
+
+
+        vm.type = 2;
 
         initOrderList();
 
@@ -38,12 +42,16 @@
             var startDate = $('#reservation').data('daterangepicker').startDate.format("YYYY-MM-DD");
             var endDate = $('#reservation').data('daterangepicker').endDate.format("YYYY-MM-DD");
 
-            webservice.call($rootScope.baseURL + "/order/get_orders_for_date_range/"+startDate+"/"+endDate, "get").then(function (response) {
+            webservice.call($rootScope.baseURL + "/order/get_orders_for_date_range/"+startDate+"/"+endDate+"/"+vm.type, "get").then(function (response) {
                 vm.completedOrders = response.data.dataRows;
                 vm.completedOrderCount = response.data.entries;
                 console.log(response);
                 //  vm.categoriesList = response.data.dataRows;
             });
+        }
+
+        function changeType(type) {
+            vm.type = type;
         }
     }
 })();

@@ -25,6 +25,8 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
 
     List<Order> findByStatusAndOrderTimeBetween(String status,Date startDate,Date endDate);
 
+    List<Order> findByStatusAndTypeAndOrderTimeBetween(String status,int type,Date startDate,Date endDate);
+
     Order findByOrderId(int id);
 
     void deleteByOrderId(int id);
