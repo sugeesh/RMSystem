@@ -19,13 +19,13 @@ import java.util.List;
 public interface OrderRepository extends CrudRepository<Order, Integer> {
 
 
-    List<Order> findByStatusOrStatus(String status1,String status2);
+    List<Order> findByStatusOrStatus(String status1, String status2);
 
     List<Order> findByStatus(String status);
 
-    List<Order> findByStatusAndOrderTimeBetween(String status,Date startDate,Date endDate);
+    List<Order> findByStatusAndOrderTimeBetween(String status, Date startDate, Date endDate);
 
-    List<Order> findByStatusAndTypeAndOrderTimeBetween(String status,int type,Date startDate,Date endDate);
+    List<Order> findByStatusAndTypeAndOrderTimeBetween(String status, int type, Date startDate, Date endDate);
 
     Order findByOrderId(int id);
 

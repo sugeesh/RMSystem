@@ -3,8 +3,11 @@
 
     angular.module('myApp', [
         'myApp.services',
-        'ui.router'
-    ]).config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+        'ui.router',
+        'chart.js'
+    ]).config(['$stateProvider', '$urlRouterProvider', 'ChartJsProvider', function ($stateProvider, $urlRouterProvider, ChartJsProvider) {
+
+        ChartJsProvider.setOptions({ colors : ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
 
         $stateProvider.state('default', {
             url: '',
