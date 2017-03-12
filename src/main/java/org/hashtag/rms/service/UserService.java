@@ -31,10 +31,7 @@ public class UserService {
     }
 
     public Object loginUser(UserResource userResource) {
-//        User user = userRepository.findByUsernameByPassword(userResource.getUsername(), userResource.getPassword());
-
-//        return user;
-
-        return null;
+        User user = userRepository.findByUsernameAndPassword(userResource.getUsername(), userResource.getPassword());
+        return user;
     }
 }

@@ -60,6 +60,7 @@ public class OrderResource {
             ItemResource itemResource = new ItemResource();
             itemResource.setItemId((Integer) item1.get("itemId"));
             itemResource.setName((String) item1.get("name"));
+            itemResource.setComment((String) item1.get("comment"));
             try{
                 itemResource.setPrice(Double.parseDouble(item1.get("price").toString()));
             }catch (java.lang.ClassCastException e){

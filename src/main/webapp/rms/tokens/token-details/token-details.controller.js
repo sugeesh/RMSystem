@@ -44,7 +44,8 @@
                         "id": item.itemId,
                         "skuCode": skuCode,
                         "name": item.name,
-                        "quantity": item.quantity
+                        "quantity": item.quantity,
+                        "comment": item.comment
                     };
                     vm.menu.push(menuItem);
                 });

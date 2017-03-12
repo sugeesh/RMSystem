@@ -30,7 +30,7 @@
                 };
                 webservice.call($rootScope.baseURL + '/user/register_user', "post", user).then(function (response) {
                     if (response.data.username == user.username) {
-                        $state.go('dashboard');
+                        $state.go('login');
                     }
                 });
             }else{

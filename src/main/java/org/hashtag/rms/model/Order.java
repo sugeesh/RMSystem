@@ -42,6 +42,9 @@ public class Order {
     @Column(name = "VoidOrder")
     private Boolean voidOrder;
 
+    @Column(name = "VoidOrderCompleted")
+    private Boolean voidOrderCompleted;
+
     @Column(name = "OpenOrder")
     private Boolean openOrder;
 
@@ -55,7 +58,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Date orderTime, String customerName, String tableId, Double amount, String status, String kotNumber, Integer type, Boolean voidOrder, Boolean openOrder, String comment) {
+    public Order(Date orderTime, String customerName, String tableId, Double amount, String status, String kotNumber, Integer type, Boolean voidOrder, Boolean openOrder, String comment, Boolean voidOrderCompleted) {
         this.orderTime = orderTime;
         this.customerName = customerName;
         this.tableId = tableId;
@@ -66,6 +69,7 @@ public class Order {
         this.voidOrder = voidOrder;
         this.openOrder = openOrder;
         this.comment = comment;
+        this.voidOrderCompleted = voidOrderCompleted;
     }
 
     public Integer getOrderId() {
@@ -162,5 +166,13 @@ public class Order {
 
     public void setOpenOrder(Boolean openOrder) {
         this.openOrder = openOrder;
+    }
+
+    public Boolean getVoidOrderCompleted() {
+        return voidOrderCompleted;
+    }
+
+    public void setVoidOrderCompleted(Boolean voidOrderCompleted) {
+        this.voidOrderCompleted = voidOrderCompleted;
     }
 }
