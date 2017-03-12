@@ -8,12 +8,25 @@
     angular.module('myApp')
         .controller('BodyController', BodyController);
 
-    BodyController.$inject = ['$state', '$rootScope', 'webservice'];
+    BodyController.$inject = ['$state', '$rootScope', 'webservice','$cookies'];
 
-    function BodyController($state, $rootScope, webservice) {
+    function BodyController($state, $rootScope, webservice,$cookies) {
         var vm = this;
+        vm.userType = $cookies.get('userType');
 
-        console.log("Buddhi");
+        vm.logOut = logOut;
+
+        console.log("Buddhi"+vm.userType);
+
+
+        function logOut() {
+            $cookies.remove('userType');
+            $state.go('login');
+        }
     }
+
+
+
+
 })();
 
