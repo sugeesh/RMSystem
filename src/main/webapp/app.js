@@ -235,6 +235,6 @@
             }
         });
 
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/404');
     }]);
 })();

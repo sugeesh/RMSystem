@@ -20,6 +20,7 @@
         vm.orderDetailLabels = ["Dine in", "Take away"];
         vm.orderDetailData = [0, 0];
 
+        vm.bestDeals = [];
         vm.bestDealsLabels = [];
         vm.bestDealsData = [];
 
