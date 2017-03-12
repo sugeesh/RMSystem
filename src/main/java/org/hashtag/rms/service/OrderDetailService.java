@@ -43,6 +43,7 @@ public class OrderDetailService {
         orderDetail.setOrder(ordersaved);
         orderDetail.setPrice(itemResource.getPrice());
         orderDetail.setQuantity(itemResource.getQuantity());
+        orderDetail.setComment(itemResource.getComment());
         orderDetailRepository.save(orderDetail);
     }
 

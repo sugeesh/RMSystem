@@ -8,14 +8,16 @@
     angular.module('myApp')
         .controller('AdminOrderDetailController', AdminOrderDetailController);
 
-    AdminOrderDetailController.$inject = ['webservice', '$stateParams', '$rootScope', '$state'];
+    AdminOrderDetailController.$inject = ['webservice', '$stateParams', '$rootScope', '$state', '$scope'];
 
-    function AdminOrderDetailController(webservice, $stateParams, $rootScope, $state) {
+    function AdminOrderDetailController(webservice, $stateParams, $rootScope, $state, $scope) {
         var vm = this;
 
         $rootScope.baseURL = "http://localhost:8080/rest";
         vm.printOrder = printOrder;
         vm.approveOrder = approveOrder;
+        vm.addItemsModal = addItemsModal;
+        vm.addItem = addItem;
 
         vm.menu = [];
         vm.subTotal = 0;
@@ -30,6 +32,11 @@
         vm.discount = 0;
         vm.voidOrder =false ;
         vm.openOrder = false;
+
+        // For the add Item
+        vm.newItemName = "";
+        vm.newItemPrice = 0;
+        vm.categoryList = [];
 
 
         initOrderTable($stateParams.orderId);
@@ -92,7 +99,57 @@
             });
         }
 
+        function addItemsModal(menuItem){
+            vm.newItemName = menuItem.name;
+            vm.newItemPrice = menuItem.price;
+            loadCategories();
+            $("#addItemModal").modal();
+        }
 
+        function loadCategories() {
+            webservice.call($rootScope.baseURL + "/category/all_categories_with_items", "get", {}).then(function (response) {
+                vm.categoryList = response.data.dataRows;
+            });
+        }
+
+
+        function addItem(newItemName, newItemCategory, newItemPortion, newItemPrice, newItemSKUCode, newItemTAXCode, newItemComment) {
+
+            if (newItemName != undefined && newItemCategory != undefined && newItemPrice != undefined) {
+                var newItem = {
+                    name: newItemName,
+                    portion: newItemPortion,
+                    categoryId: newItemCategory,
+                    price: newItemPrice,
+                    skuCode: newItemSKUCode,
+                    taxCode: newItemTAXCode,
+                    comment: newItemComment
+                };
+
+                webservice.call($rootScope.baseURL + "/item/save_item", "post", newItem).then(function (response) {
+                    alert("Item Saved.");
+                    vm.menu = [];
+
+                    for (var i = 0; i < Object.keys(vm.backendData.itemResourceList).length; i++) {
+                        var item = vm.backendData.itemResourceList[i];
+                        if(item.itemId == -1){
+                            item.itemId = -2;
+                        }
+                        var menuItem = {
+                            "id": item.itemId,
+                            "skuCode": item.skuCode,
+                            "name": item.name,
+                            "price": item.price,
+                            "quantity": item.quantity,
+                            "amount": item.price * item.quantity
+                        };
+                        vm.menu.push(menuItem);
+                    }
+                });
+            } else {
+                alert("Please correctly fill the form");
+            }
+        }
     }
 })();
 

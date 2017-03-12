@@ -41,14 +41,20 @@ public class OrderDetail {
 //    @JsonBackReference
     private Order order;
 
+
+    // This is for the
+    @Column(name = "comment")
+    private String comment;
+
     public OrderDetail() {
     }
 
-    public OrderDetail(Double quantity, Double price, String itemName, Item item) {
+    public OrderDetail(Double quantity, Double price, String itemName, Item item, String comment) {
         this.quantity = quantity;
         this.price = price;
         this.itemName = itemName;
         this.item = item;
+        this.comment = comment;
     }
 
     public Integer getId() {
@@ -97,5 +103,13 @@ public class OrderDetail {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

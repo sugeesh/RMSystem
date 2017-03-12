@@ -41,6 +41,7 @@
         vm.calculateTotal = calculateTotal;
         vm.setKOTNumber = setKOTNumber;
         vm.printOrder = printOrder;
+        vm.placeKOT = placeKOT;
 
 
         vm.menu = [];
@@ -58,6 +59,8 @@
         vm.payment = 0;
         vm.orderTime = new Date();
         vm.kotNumber = "";
+
+        vm.openOrder = false;
 
         initCategoriesList();
         setPendingOrderCount();
@@ -128,7 +131,7 @@
             }
         }
 
-        function addOpenOrderToTable(newItemName,newUnitPrice,newQuantity) {
+        function addOpenOrderToTable(newItemName,newUnitPrice,newQuantity,newItemComment) {
             var amount = Number(newUnitPrice) * (newQuantity);
             var menuItem = {
                 "id": -1,
@@ -136,7 +139,8 @@
                 "name": newItemName,
                 "price": newUnitPrice,
                 "quantity": newQuantity,
-                "amount": amount
+                "amount": amount,
+                "comment":newItemComment
             };
             vm.menu.push(menuItem);
             vm.calculateAmountAndSubTotal();
@@ -180,6 +184,7 @@
                     item.name = value.name;
                     item.quantity = value.quantity;
                     item.price = value.price;
+                    item.comment = value.comment;
                     itemResourceList.push(item);
                 });
                 paymentDetails.amount = parseFloat(vm.subTotal);
@@ -320,8 +325,16 @@
                     });
                 }
             }
+        }
 
-
+        function placeKOT() {
+            vm.openOrder = false;
+            angular.forEach(vm.menu, function (value) {
+                if(value.id==-1){
+                    vm.openOrder = true;
+                }
+            });
+            $("#submitOrderModal").modal();
         }
 
 

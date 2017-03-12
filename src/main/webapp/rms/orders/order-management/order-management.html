@@ -249,8 +249,7 @@
                         <!-- /.box-body -->
                         <div class="box-footer clearfix">
                             <button type="button" class="btn btn-flat bg-yellow"
-                                    data-toggle="modal"
-                                    data-target="#submitOrderModal"><i
+                                    ng-click="vm.placeKOT()"><i
                                     class="fa fa-edit"></i>Place KOT
                             </button>
                         </div>
@@ -383,6 +382,7 @@
                                                     <tr>
                                                         <th>Payment:</th>
                                                         <td>{{ vm.payment }}</td>
+                                                        openOrderModal
                                                     </tr>
                                                     <tr>
                                                         <th>Balance:</th>
@@ -403,12 +403,17 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                <button ng-if="vm.openOrder==false" type="button" class="btn btn-primary" data-dismiss="modal"
                         data-ng-click="vm.saveOrder()"> Settle Order
                 </button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                <button ng-if="vm.openOrder==false" type="button" class="btn btn-primary" data-dismiss="modal"
                         data-ng-click="vm.printOrder()"> Settle and Print
                 </button>
+
+                <button ng-if="vm.openOrder==true" type="button" class="btn btn-primary" data-dismiss="modal"
+                        data-ng-click="vm.saveOrder()"> Place Order
+                </button>
+
             </div>
         </div>
     </div>
@@ -428,7 +433,7 @@
                 <form>
                     <div class="form-group">
                         <label for="newitemname" class="control-label">ItemName</label>
-                        <input type="text" class="form-control" placeholder="Enter New Item"
+                        <input type="text" class="form-control" placeholder="Item Name"
                                ng-model="newItemName" id="newItemName">
                     </div>
                     <div class="form-group">
@@ -441,12 +446,18 @@
                         <input type="number" class="form-control" placeholder="Quantity"
                                ng-model="newQuantity" id="newQuantity">
                     </div>
+                    <div class="form-group">
+                        <label for="newitemname" class="control-label">ItemName</label>
+                        <input type="text" class="form-control" placeholder="Comments"
+                               ng-model="newItemComment" id="newItemComment">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        data-ng-click="vm.addOpenOrderToTable(newItemName,newUnitPrice,newQuantity)">Add Item
+                        data-ng-click="vm.addOpenOrderToTable(newItemName,newUnitPrice,newQuantity,newItemComment)">Add
+                    Item
                 </button>
             </div>
         </div>

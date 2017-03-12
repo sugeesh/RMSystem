@@ -227,8 +227,10 @@ public class OrderService {
                 itemResource.setComment(orderDetail.getItem().getComment());
                 itemResource.setPortion(orderDetail.getItem().getPortion());
                 itemResource.setSkuCode(orderDetail.getItem().getSkuCode());
+                itemResource.setComment(orderDetail.getItem().getComment());
             }else{
                 itemResource.setItemId(-1);
+                itemResource.setComment(orderDetail.getComment());
             }
             itemResource.setPrice(orderDetail.getPrice());
             itemResource.setQuantity(orderDetail.getQuantity());
@@ -340,7 +342,8 @@ public class OrderService {
     @Transactional(propagation = Propagation.REQUIRED)
     public void approveOrder(OrderResource orderResource) {
         if(orderResource.getVoidOrder()){
-            orderRepository.deleteByOrderId(orderResource.getOrderId());
+              updateState(orderResource.getOrderId(),"VOIDED");
+//            orderRepository.deleteByOrderId(orderResource.getOrderId());
         }else if(orderResource.getOpenOrder()){
             orderRepository.updateOrderState(orderResource.getOrderId(),orderResource.getState());
         }
@@ -375,6 +378,8 @@ public class OrderService {
         response.setEntries(orderList.size());
         return response;
     }
+
+
 
 
 }

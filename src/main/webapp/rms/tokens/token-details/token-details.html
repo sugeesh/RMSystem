@@ -51,6 +51,7 @@
                             <tr>
                                 <th></th>
                                 <th>Item</th>
+                                <th>Item Comment</th>
                                 <th>Quantity</th>
                             </tr>
                             </thead>
@@ -58,6 +59,7 @@
                             <tr ng-repeat="menuItem in vm.menu">
                                 <td>{{menuItem.skuCode}}</td>
                                 <td>{{menuItem.name}}</td>
+                                <td>{{menuItem.comment}}</td>
                                 <td>{{menuItem.quantity}}</td>
                             </tr>
                             </tbody>
