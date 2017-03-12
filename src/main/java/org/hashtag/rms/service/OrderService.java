@@ -42,6 +42,7 @@ public class OrderService {
 
     /**
      * This method is for insert normal order for the table.
+     *
      * @param orderResource
      * @return
      * @throws ServiceException
@@ -72,7 +73,7 @@ public class OrderService {
             Order ordersaved = orderRepository.save(order);
             ArrayList<ItemResource> itemResourceList = (ArrayList<ItemResource>) orderResource.getItemResourceList();
             itemResourceList.stream().forEach(itemResource -> {
-                orderDetailService.create(itemResource,ordersaved);
+                orderDetailService.create(itemResource, ordersaved);
             });
 
             PaymentResource paymentDetails = orderResource.getPaymentDetails();
@@ -86,6 +87,7 @@ public class OrderService {
 
     /**
      * This metod will insert open order to the table.
+     *
      * @param orderResource
      * @return
      * @throws ServiceException
@@ -114,9 +116,9 @@ public class OrderService {
             Order ordersaved = orderRepository.save(order);
             ArrayList<ItemResource> itemResourceList = (ArrayList<ItemResource>) orderResource.getItemResourceList();
             itemResourceList.stream().forEach(itemResource -> {
-                if(itemResource.getItemId()==-1) {
+                if (itemResource.getItemId() == -1) {
                     orderDetailService.createOpenOrder(itemResource, ordersaved);
-                }else {
+                } else {
                     orderDetailService.create(itemResource, ordersaved);
                 }
             });
@@ -133,6 +135,7 @@ public class OrderService {
 
     /**
      * This method will return the all "PENDING" status orders only.
+     *
      * @return DataTableResponseObject
      */
     public DataTableResponse<OrderResource> getAllPendingOrders() {
@@ -161,6 +164,7 @@ public class OrderService {
 
     /**
      * This method is for get all "WAITING" state Orders
+     *
      * @return
      */
     public DataTableResponse<OrderResource> getAllWaitingOrders() {
@@ -188,10 +192,11 @@ public class OrderService {
 
     /**
      * This method is for getting tht Order Object without converting to the OrderResource.
+     *
      * @param id
      * @return
      */
-    public Order getPlainOrderObject(int id){
+    public Order getPlainOrderObject(int id) {
         Order orderNew = orderRepository.findByOrderId(id);
         return orderNew;
     }
@@ -199,6 +204,7 @@ public class OrderService {
 
     /**
      * This method is for get the Order as OrderResource.
+     *
      * @param id
      * @return
      */
@@ -218,14 +224,14 @@ public class OrderService {
         List<ItemResource> itemResourceList = new ArrayList<>();
         orderNew.getOrderDetailList().stream().forEach(orderDetail -> {
             ItemResource itemResource = new ItemResource();
-            if(orderDetail.getItem()!=null) {
+            if (orderDetail.getItem() != null) {
                 itemResource.setItemId(orderDetail.getItem().getItemId());
                 itemResource.setTaxCode(orderDetail.getItem().getTaxCode());
                 itemResource.setComment(orderDetail.getItem().getComment());
                 itemResource.setPortion(orderDetail.getItem().getPortion());
                 itemResource.setSkuCode(orderDetail.getItem().getSkuCode());
                 itemResource.setComment(orderDetail.getItem().getComment());
-            }else{
+            } else {
                 itemResource.setItemId(-1);
                 itemResource.setComment(orderDetail.getComment());
             }
@@ -242,6 +248,7 @@ public class OrderService {
     /**
      * This method is for updating the order, This will no longer required.
      * //TODO remove this method.
+     *
      * @param orderResource
      * @param id
      * @return
@@ -267,7 +274,7 @@ public class OrderService {
             Order ordersaved = orderRepository.save(order);
             ArrayList<ItemResource> itemResourceList = (ArrayList<ItemResource>) orderResource.getItemResourceList();
             itemResourceList.stream().forEach(itemResource -> {
-                orderDetailService.create(itemResource,ordersaved);
+                orderDetailService.create(itemResource, ordersaved);
             });
             return ordersaved;
         } catch (DataAccessException e) {
@@ -277,26 +284,29 @@ public class OrderService {
 
     /**
      * This method is for updating the Order State.
+     *
      * @param orderResource
      * @return
      */
     public int updateOrderState(OrderResource orderResource) {
-        return updateState(orderResource.getOrderId(),orderResource.getState());
+        return updateState(orderResource.getOrderId(), orderResource.getState());
     }
 
     /**
      * This method is for updating the state.
+     *
      * @param id
      * @param state
      * @return
      */
-    public int updateState(int id,String state){
-        Integer integer = orderRepository.updateOrderState(id,state);
+    public int updateState(int id, String state) {
+        Integer integer = orderRepository.updateOrderState(id, state);
         return integer;
     }
 
     /**
      * Get all completed orders. This method is for check the order history.
+     *
      * @return
      */
     public DataTableResponse<OrderResource> getAllCompletedOrders() {
@@ -321,7 +331,8 @@ public class OrderService {
     }
 
 
-    /** This method is for returning the next KOT
+    /**
+     * This method is for returning the next KOT
      *
      * @return
      */
@@ -332,21 +343,21 @@ public class OrderService {
     }
 
     public int updateVoidOrder(OrderResource orderResource) {
-        Integer integer = orderRepository.updateVoidOrder(orderResource.getOrderId(),orderResource.getVoidOrder(),orderResource.getState());
+        Integer integer = orderRepository.updateVoidOrder(orderResource.getOrderId(), orderResource.getVoidOrder(), orderResource.getState());
         return integer;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void approveOrder(OrderResource orderResource) {
-        if(orderResource.getVoidOrder()){
-              updateState(orderResource.getOrderId(),"VOIDED");
+        if (orderResource.getVoidOrder()) {
+            updateState(orderResource.getOrderId(), "VOIDED");
 //            orderRepository.deleteByOrderId(orderResource.getOrderId());
-        }else if(orderResource.getOpenOrder()){
-            orderRepository.updateOrderState(orderResource.getOrderId(),orderResource.getState());
+        } else if (orderResource.getOpenOrder()) {
+            orderRepository.updateOrderState(orderResource.getOrderId(), orderResource.getState());
         }
     }
 
-    public DataTableResponse<OrderResource> getOrdersForDateRange(String startDate, String endDate,int type) throws ParseException {
+    public DataTableResponse<OrderResource> getOrdersForDateRange(String startDate, String endDate, int type) throws ParseException {
         DataTableResponse<OrderResource> response = new DataTableResponse<>();
         List<OrderResource> orderList = new ArrayList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -358,46 +369,6 @@ public class OrderService {
             c.add(Calendar.DATE, 1);
             endDate = sdf.format(c.getTime());
         }
-
-        Date startDateObj = dateFormat.parse(startDate);
-        Date endDateObj = dateFormat.parse(endDate);
-        List<Order> orderListFromDb = null;
-        if(type==2){
-            orderListFromDb = orderRepository.findByStatusAndOrderTimeBetween("COMPLETED", startDateObj, endDateObj);
-        }else{
-            orderListFromDb = orderRepository.findByStatusAndTypeAndOrderTimeBetween("COMPLETED",type, startDateObj, endDateObj);
-        }
-        for (Order order : orderListFromDb) {
-            OrderResource orderResource = new OrderResource();
-            orderResource.setOrderId(order.getOrderId());
-            orderResource.setTableId(order.getTableId());
-            orderResource.setCustomerName(order.getCustomerName());
-            orderResource.setOrderTime(order.getOrderTime());
-            orderResource.setKotNumber(order.getKotNumber());
-            orderResource.setComment(order.getComment());
-            orderResource.setType(order.getType());
-            orderResource.setAmount(order.getAmount());
-            orderResource.setItemResourceList(orderResource.getItemResourceList());
-            orderList.add(orderResource);
-        }
-        response.setDataRows(orderList);
-        response.setEntries(orderList.size());
-        return response;
-    }
-
-
-    public DataTableResponse<OrderResource> getOrdersForDate(String date, int type) throws ParseException {
-        DataTableResponse<OrderResource> response = new DataTableResponse<>();
-        List<OrderResource> orderList = new ArrayList<>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        String startDate = date;
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar c = Calendar.getInstance();
-        c.setTime(sdf.parse(date));
-        c.add(Calendar.DATE, 1);
-        String endDate = sdf.format(c.getTime());
 
         Date startDateObj = dateFormat.parse(startDate);
         Date endDateObj = dateFormat.parse(endDate);
@@ -417,7 +388,90 @@ public class OrderService {
             orderResource.setComment(order.getComment());
             orderResource.setType(order.getType());
             orderResource.setAmount(order.getAmount());
-            orderResource.setItemResourceList(orderResource.getItemResourceList());
+
+            List<ItemResource> itemResourceList = new ArrayList<>();
+            order.getOrderDetailList().stream().forEach(orderDetail -> {
+                ItemResource itemResource = new ItemResource();
+                if (orderDetail.getItem() != null) {
+                    itemResource.setItemId(orderDetail.getItem().getItemId());
+                    itemResource.setTaxCode(orderDetail.getItem().getTaxCode());
+                    itemResource.setComment(orderDetail.getItem().getComment());
+                    itemResource.setPortion(orderDetail.getItem().getPortion());
+                    itemResource.setSkuCode(orderDetail.getItem().getSkuCode());
+                    itemResource.setComment(orderDetail.getItem().getComment());
+                } else {
+                    itemResource.setItemId(-1);
+                    itemResource.setComment(orderDetail.getComment());
+                }
+                itemResource.setPrice(orderDetail.getPrice());
+                itemResource.setQuantity(orderDetail.getQuantity());
+                itemResource.setName(orderDetail.getItemName());
+                itemResourceList.add(itemResource);
+            });
+            orderResource.setItemResourceList(itemResourceList);
+
+            orderList.add(orderResource);
+        }
+        response.setDataRows(orderList);
+        response.setEntries(orderList.size());
+        return response;
+    }
+
+
+    public DataTableResponse<OrderResource> getAllOrdersForDate(String date) throws ParseException {
+        DataTableResponse<OrderResource> response = new DataTableResponse<>();
+        List<OrderResource> orderList = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        String startDate = date;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        c.setTime(sdf.parse(date));
+        c.add(Calendar.DATE, 1);
+        String endDate = sdf.format(c.getTime());
+
+        Date startDateObj = dateFormat.parse(startDate);
+        Date endDateObj = dateFormat.parse(endDate);
+        List<Order> orderListFromDb = null;
+
+        orderListFromDb = orderRepository.findByOrderTimeBetween(startDateObj, endDateObj);
+
+        for (Order order : orderListFromDb) {
+            PaymentResource paymentByOrderId = paymentService.getPaymentByOrderId(order.getOrderId());
+
+            OrderResource orderResource = new OrderResource();
+            orderResource.setOrderId(order.getOrderId());
+            orderResource.setTableId(order.getTableId());
+            orderResource.setCustomerName(order.getCustomerName());
+            orderResource.setOrderTime(order.getOrderTime());
+            orderResource.setKotNumber(order.getKotNumber());
+            orderResource.setComment(order.getComment());
+            orderResource.setType(order.getType());
+            orderResource.setAmount(order.getAmount());
+
+            List<ItemResource> itemResourceList = new ArrayList<>();
+            order.getOrderDetailList().stream().forEach(orderDetail -> {
+                ItemResource itemResource = new ItemResource();
+                if (orderDetail.getItem() != null) {
+                    itemResource.setItemId(orderDetail.getItem().getItemId());
+                    itemResource.setTaxCode(orderDetail.getItem().getTaxCode());
+                    itemResource.setComment(orderDetail.getItem().getComment());
+                    itemResource.setPortion(orderDetail.getItem().getPortion());
+                    itemResource.setSkuCode(orderDetail.getItem().getSkuCode());
+                    itemResource.setComment(orderDetail.getItem().getComment());
+                } else {
+                    itemResource.setItemId(-1);
+                    itemResource.setComment(orderDetail.getComment());
+                }
+                itemResource.setPrice(orderDetail.getPrice());
+                itemResource.setQuantity(orderDetail.getQuantity());
+                itemResource.setName(orderDetail.getItemName());
+                itemResourceList.add(itemResource);
+            });
+            orderResource.setItemResourceList(itemResourceList);
+
+            orderResource.setPaymentDetails(paymentByOrderId);
             orderList.add(orderResource);
         }
         response.setDataRows(orderList);

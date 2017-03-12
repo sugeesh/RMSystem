@@ -51,32 +51,36 @@
                 <div class="box-body">
                     <div class="table-responsive">
                         <table class="table">
-                            <thead>
-                            <tr>
-                                <th style="width: 40%;">Activity</th>
-                                <th>Value</th>
-                            </tr>
-                            </thead>
                             <tbody>
                             <tr>
+                                <th>Orders</th>
                                 <th>All orders</th>
-                                <td>dfsdf</td>
+                                <th>{{vm.orderCount}}</th>
                             </tr>
                             <tr>
-                                <th>Dine in</th>
-                                <td>asdasd</td>
+                                <td></td>
+                                <td>Dine in</td>
+                                <td>{{vm.dineInCount}}</td>
                             </tr>
                             <tr>
-                                <th>Take away</th>
-                                <td>asdsadasdda</td>
+                                <td></td>
+                                <td>Take away</td>
+                                <td>{{vm.takeAwayCount}}</td>
                             </tr>
                             <tr>
-                                <th>Open order</th>
-                                <td>asdsadasdda</td>
+                                <td></td>
+                                <td>Void orders</td>
+                                <td>{{vm.voidCount}}</td>
                             </tr>
                             <tr>
-                                <th>Void orders</th>
-                                <td>asdsadasdda</td>
+                                <td>Cash</td>
+                                <th>Total order amount</th>
+                                <th>{{vm.ordersAmount}}</th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <th>Total income</th>
+                                <th>{{vm.totalAmount}}</th>
                             </tr>
                             </tbody>
                         </table>

@@ -44,4 +44,5 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
     Integer updateVoidOrder(@Param("orderId") int orderId, @Param("voidOrder") Boolean voidOrder, @Param("status") String status);
 
 
+    List<Order> findByOrderTimeBetween(Date startDateObj, Date endDateObj);
 }

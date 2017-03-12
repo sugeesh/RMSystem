@@ -17,15 +17,50 @@
 
         vm.getOrdersForDay = getOrdersForDay;
 
+        vm.dineInCount = 0;
+        vm.takeAwayCount = 0;
+        vm.voidCount = 0;
+        vm.ordersAmount = 0;
+        vm.totalAmount = 0;
+
+        getOrdersForDay();
+
         function getOrdersForDay() {
             var today = $('#reservation').data('daterangepicker').startDate.format("YYYY-MM-DD");
 
             console.log("today: " + today);
-            webservice.call($rootScope.baseURL + "/order/get_orders_for_date/" + today + "/2", "get").then(function (response) {
-                vm.completedOrders = response.data.dataRows;
-                vm.completedOrderCount = response.data.entries;
+            webservice.call($rootScope.baseURL + "/order/get_all_orders_for_date/" + today, "get").then(function (response) {
+                var orders = response.data.dataRows;
+                vm.orderCount = response.data.entries;
                 console.log(response);
-                //  vm.categoriesList = response.data.dataRows;
+
+                var diCount = 0;
+                var taCount = 0;
+                var vCount = 0;
+                var oAmount = 0;
+                var tAmount = 0;
+
+                angular.forEach(orders, function (order, key) {
+                    if (order.type == 0) {
+                        diCount++;
+                    } else if (order.type == 1) {
+                        taCount++;
+                    }
+
+                    if (order.state == "VOID") {
+                        vCount++;
+                    }
+
+                    var payment = order.paymentDetails;
+                    oAmount += payment.amount;
+                    tAmount += payment.totalAmount;
+                });
+
+                vm.dineInCount = diCount;
+                vm.takeAwayCount = taCount;
+                vm.voidCount = vCount;
+                vm.ordersAmount = oAmount;
+                vm.totalAmount = tAmount;
             });
         }
     }

@@ -115,12 +115,11 @@ public class OrderController extends AbstractController {
     }
 
     @GET
-    @Path("/get_orders_for_date/{date}/{type}")
+    @Path("/get_all_orders_for_date/{date}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getOrdersForDateRange(@PathParam("date") String date,
-                                          @PathParam("type") int type) {
+    public Response getOrdersForDateRange(@PathParam("date") String date) {
         try {
-            return sendSuccessResponse(orderService.getOrdersForDate(date, type));
+            return sendSuccessResponse(orderService.getAllOrdersForDate(date));
         } catch (Exception e) {
             e.printStackTrace();
             return handleServiceException(e);
