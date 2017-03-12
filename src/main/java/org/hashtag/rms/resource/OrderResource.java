@@ -25,6 +25,8 @@ public class OrderResource {
     private String kotNumber;
     private int type;
     private String comment;
+    private String userId;
+    private String userName;
 
     public OrderResource() {
     }
@@ -229,5 +231,21 @@ public class OrderResource {
 
     public void setOpenOrder(Boolean openOrder) {
         this.openOrder = openOrder;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

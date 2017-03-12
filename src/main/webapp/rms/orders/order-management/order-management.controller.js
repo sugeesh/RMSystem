@@ -18,9 +18,9 @@
 
     angular.module('myApp').controller('OrderManagementController', OrderManagementController);
 
-    OrderManagementController.$inject = ['webservice', '$rootScope', '$state','$window'];
+    OrderManagementController.$inject = ['webservice', '$rootScope', '$state','$window','$cookies'];
 
-    function OrderManagementController(webservice, $rootScope, $state,$window) {
+    function OrderManagementController(webservice, $rootScope, $state,$window,$cookies) {
         var vm = this;
         $rootScope.appURL = "http://localhost:8080";
         $rootScope.baseURL = "http://localhost:8080/rest";
@@ -168,6 +168,7 @@
                 sendObj.amount = vm.subTotal;
                 sendObj.customerName = vm.customerName;
                 sendObj.tableId = vm.tableId;
+                sendObj.userId = $cookies.get('userId');
                 sendObj.type = vm.type;
                 sendObj.comment = vm.comment;
                 sendObj.openOrder = false;

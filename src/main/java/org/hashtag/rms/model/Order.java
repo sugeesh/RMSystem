@@ -51,6 +51,14 @@ public class Order {
     @Column(name = "Comment")
     private String comment;
 
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "UserID",
+            referencedColumnName = "UserID",
+            foreignKey = @ForeignKey(name = "USER_ORDER_FK")
+    )
+    private User user;
+
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
 //    @JsonManagedReference
     private Collection<OrderDetail> orderDetailList;
@@ -174,5 +182,13 @@ public class Order {
 
     public void setVoidOrderCompleted(Boolean voidOrderCompleted) {
         this.voidOrderCompleted = voidOrderCompleted;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

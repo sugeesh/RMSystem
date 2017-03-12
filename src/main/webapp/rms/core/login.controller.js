@@ -36,6 +36,7 @@
                     }else if(response.data.type==4){
                         $cookies.put('userType', 'KITCHEN');
                     }
+                    $cookies.put('userId', response.data.userId);
                     $state.go('dashboard');
                 }else{
                     alert("Username or Password is wrong.");
