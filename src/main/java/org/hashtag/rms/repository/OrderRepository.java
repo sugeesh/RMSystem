@@ -42,4 +42,5 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
     @Modifying
     @Query("UPDATE Order o SET o.voidOrder = :voidOrder , o.status = :status WHERE o.orderId = :orderId")
     Integer updateVoidOrder(@Param("orderId") int orderId, @Param("voidOrder") Boolean voidOrder, @Param("status") String status);
+
 }

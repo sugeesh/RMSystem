@@ -20,10 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Sugeesh Chandraweera
@@ -361,6 +358,15 @@ public class OrderService {
         DataTableResponse<OrderResource> response = new DataTableResponse<>();
         List<OrderResource> orderList = new ArrayList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        if (startDate.contentEquals(endDate)) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar c = Calendar.getInstance();
+            c.setTime(sdf.parse(startDate));
+            c.add(Calendar.DATE, 1);
+            endDate = sdf.format(c.getTime());
+        }
+
         Date startDateObj = dateFormat.parse(startDate);
         Date endDateObj = dateFormat.parse(endDate);
         List<Order> orderListFromDb = null;
@@ -388,4 +394,42 @@ public class OrderService {
     }
 
 
+    public DataTableResponse<OrderResource> getOrdersForDate(String date, int type) throws ParseException {
+        DataTableResponse<OrderResource> response = new DataTableResponse<>();
+        List<OrderResource> orderList = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        String startDate = date;
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        c.setTime(sdf.parse(date));
+        c.add(Calendar.DATE, 1);
+        String endDate = sdf.format(c.getTime());
+
+        Date startDateObj = dateFormat.parse(startDate);
+        Date endDateObj = dateFormat.parse(endDate);
+        List<Order> orderListFromDb = null;
+        if (type == 2) {
+            orderListFromDb = orderRepository.findByStatusAndOrderTimeBetween("COMPLETED", startDateObj, endDateObj);
+        } else {
+            orderListFromDb = orderRepository.findByStatusAndTypeAndOrderTimeBetween("COMPLETED", type, startDateObj, endDateObj);
+        }
+        for (Order order : orderListFromDb) {
+            OrderResource orderResource = new OrderResource();
+            orderResource.setOrderId(order.getOrderId());
+            orderResource.setTableId(order.getTableId());
+            orderResource.setCustomerName(order.getCustomerName());
+            orderResource.setOrderTime(order.getOrderTime());
+            orderResource.setKotNumber(order.getKotNumber());
+            orderResource.setComment(order.getComment());
+            orderResource.setType(order.getType());
+            orderResource.setAmount(order.getAmount());
+            orderResource.setItemResourceList(orderResource.getItemResourceList());
+            orderList.add(orderResource);
+        }
+        response.setDataRows(orderList);
+        response.setEntries(orderList.size());
+        return response;
+    }
 }

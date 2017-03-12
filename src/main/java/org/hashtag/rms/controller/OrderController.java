@@ -24,7 +24,7 @@ import java.util.HashMap;
  */
 @Component
 @Path("/order")
-public class OrderController extends AbstractController{
+public class OrderController extends AbstractController {
     @Autowired
     private OrderService orderService;
 
@@ -32,7 +32,7 @@ public class OrderController extends AbstractController{
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response saveOrder( OrderResource orderObj) throws ParseException {
+    public Response saveOrder(OrderResource orderObj) throws ParseException {
         orderObj.autoCorrectModel();
         Order order = orderService.create(orderObj);
         return sendSuccessResponse(order);
@@ -43,7 +43,7 @@ public class OrderController extends AbstractController{
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/open_order")
-    public Response saveOpenOrder( OrderResource orderObj) throws ParseException {
+    public Response saveOpenOrder(OrderResource orderObj) throws ParseException {
         orderObj.autoCorrectModel();
         Order order = orderService.createOpenOrder(orderObj);
         return sendSuccessResponse(order);
@@ -107,7 +107,20 @@ public class OrderController extends AbstractController{
                                           @PathParam("endDate") String endDate,
                                           @PathParam("type") int type) {
         try {
-            return sendSuccessResponse(orderService.getOrdersForDateRange(startDate,endDate,type));
+            return sendSuccessResponse(orderService.getOrdersForDateRange(startDate, endDate, type));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return handleServiceException(e);
+        }
+    }
+
+    @GET
+    @Path("/get_orders_for_date/{date}/{type}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOrdersForDateRange(@PathParam("date") String date,
+                                          @PathParam("type") int type) {
+        try {
+            return sendSuccessResponse(orderService.getOrdersForDate(date, type));
         } catch (Exception e) {
             e.printStackTrace();
             return handleServiceException(e);

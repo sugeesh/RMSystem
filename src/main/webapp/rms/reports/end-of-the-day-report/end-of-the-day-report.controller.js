@@ -8,18 +8,20 @@
     angular.module('myApp')
         .controller('EndOfTheDayReportController', EndOfTheDayReportController);
 
-    EndOfTheDayReportController.$inject = [];
+    EndOfTheDayReportController.$inject = ['webservice', '$rootScope'];
 
-    function EndOfTheDayReportController() {
+    function EndOfTheDayReportController(webservice, $rootScope) {
         var vm = this;
+
+        $rootScope.baseURL = "http://localhost:8080/rest";
 
         vm.getOrdersForDay = getOrdersForDay;
 
         function getOrdersForDay() {
-            var today = $('#reservation').data('datepicker').date.format("YYYY-MM-DD");
+            var today = $('#reservation').data('daterangepicker').startDate.format("YYYY-MM-DD");
 
             console.log("today: " + today);
-            webservice.call($rootScope.baseURL + "/order/get_orders_for_date_range/" + today + "/" + today + "/2", "get").then(function (response) {
+            webservice.call($rootScope.baseURL + "/order/get_orders_for_date/" + today + "/2", "get").then(function (response) {
                 vm.completedOrders = response.data.dataRows;
                 vm.completedOrderCount = response.data.entries;
                 console.log(response);
