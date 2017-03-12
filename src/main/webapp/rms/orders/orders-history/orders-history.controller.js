@@ -15,7 +15,7 @@
         $rootScope.baseURL = "http://localhost:8080/rest";
 
         vm.initOrderList = initOrderList;
-        vm.routeToOrder  = routeToOrder;
+        vm.routeToOrder = routeToOrder;
         vm.searchOrders = searchOrders;
         vm.changeType = changeType;
 
@@ -34,7 +34,7 @@
         }
 
         function routeToOrder(orderId) {
-            $state.go("order_detail",{ 'orderId' : orderId });
+            $state.go("order_detail", {'orderId': orderId});
         }
 
 
@@ -42,7 +42,10 @@
             var startDate = $('#reservation').data('daterangepicker').startDate.format("YYYY-MM-DD");
             var endDate = $('#reservation').data('daterangepicker').endDate.format("YYYY-MM-DD");
 
-            webservice.call($rootScope.baseURL + "/order/get_orders_for_date_range/"+startDate+"/"+endDate+"/"+vm.type, "get").then(function (response) {
+
+            console.log("start date: " + startDate);
+            console.log("end date: " + endDate);
+            webservice.call($rootScope.baseURL + "/order/get_orders_for_date_range/" + startDate + "/" + endDate + "/" + vm.type, "get").then(function (response) {
                 vm.completedOrders = response.data.dataRows;
                 vm.completedOrderCount = response.data.entries;
                 console.log(response);

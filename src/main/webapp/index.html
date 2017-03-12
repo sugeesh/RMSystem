@@ -39,7 +39,7 @@
     <![endif]-->
 
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini body-dark">
 
 <div ui-view="body"></div>
 
@@ -59,7 +59,7 @@
 <!-- SlimScroll 1.3.0 -->
 <script src="rms/Template/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- ChartJS 1.0.1 -->
-<!--<script src="rms/Template/plugins/chartjs/Chart.min.js"></script>-->
+<script src="rms/Template/plugins/chartjs/Chart.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!--<script src="rms/Template/dist/js/pages/dashboard2.js"></script>-->
 <!-- AdminLTE for demo purposes -->
@@ -72,6 +72,8 @@
 <script src="bower_components/angular-route/angular-route.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 <script src="bower_components/q/q.js"></script>
+<script src="bower_components/chart.js/dist/Chart.js"></script>
+<script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
 
 <script src="app.js"></script>
 <script src="rms/services/webservice.js"></script>
@@ -98,15 +100,12 @@
 <script src="rms/tokens/token-management/token-management.controller.js"></script>
 <script src="rms/tokens/tokens-history/tokens-history.controller.js"></script>
 
-<script src="rms/reports/income-reports/income-reports.controller.js"></script>
-<script src="rms/reports/orders-summary/orders-summary.controller.js"></script>
-<script src="rms/reports/tokens-summary/tokens-summary.controller.js"></script>
+<script src="rms/reports/cash-drawer-report/cash-drawer-report.controller.js"></script>
+<script src="rms/reports/sales-report/sales-report.controller.js"></script>
+<script src="rms/reports/end-of-the-day-report/end-of-the-day-report.controller.js"></script>
 
 <script src="rms/menu/menu-management/menu-management.controller.js"></script>
 
-
-
-// This is for date picker
 <script src="rms/Template/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="rms/Template/bootstrap/js/bootstrap.min.js"></script>

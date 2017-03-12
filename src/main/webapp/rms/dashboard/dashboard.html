@@ -32,28 +32,57 @@
     <!-- /.row -->
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">Orders Today</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8">
+                            <canvas id="doughnut" class="chart chart-doughnut"
+                                    chart-data="vm.orderDetailData" chart-labels="vm.orderDetailLabels">
+                            </canvas>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="lead">Legend</p>
+                            <p style="color: #97BBCD;">Dine in orders</p>
+                            <p style="color: #DCDCDC;">Take away orders</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">Best Deals Today</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8">
+                            <canvas id="doughnut" class="chart chart-doughnut"
+                                    chart-data="vm.bestDealsData" chart-labels="vm.bestDealsLabels">
+                            </canvas>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="lead">Legend</p>
+                            <p style="color: #97BBCD;">Mongolian Nasigoreng</p>
+                            <p style="color: #DCDCDC;">Cream Soda 300ml</p>
+                            <p style="color: #F7464A;">Chicken Fried Rice</p>
+                            <p style="color: #46BFBD;">Chicken Mixed Rice</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

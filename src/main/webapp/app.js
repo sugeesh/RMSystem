@@ -3,8 +3,11 @@
 
     angular.module('myApp', [
         'myApp.services',
-        'ui.router'
-    ]).config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+        'ui.router',
+        'chart.js'
+    ]).config(['$stateProvider', '$urlRouterProvider', 'ChartJsProvider', function ($stateProvider, $urlRouterProvider, ChartJsProvider) {
+
+        ChartJsProvider.setOptions({ colors : ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
 
         $stateProvider.state('default', {
             url: '',
@@ -180,33 +183,33 @@
                     controllerAs: 'vm'
                 }
             }
-        }).state('income_reports', {
+        }).state('cash_drawer_report', {
             parent: 'default',
-            url: '/income_reports',
+            url: '/cash_drawer_report',
             views: {
                 "view@default": {
-                    templateUrl: 'rms/reports/income-reports/income-reports.html',
-                    controller: 'IncomeReportsController',
+                    templateUrl: 'rms/reports/cash-drawer-report/cash-drawer-report.html',
+                    controller: 'CashDrawerReportController',
                     controllerAs: 'vm'
                 }
             }
-        }).state('orders_summary', {
+        }).state('sales_report', {
             parent: 'default',
-            url: '/orders_summary',
+            url: '/sales_report',
             views: {
                 "view@default": {
-                    templateUrl: 'rms/reports/orders-summary/orders-summary.html',
-                    controller: 'OrdersSummaryController',
+                    templateUrl: 'rms/reports/sales-report/sales-report.html',
+                    controller: 'SalesReportController',
                     controllerAs: 'vm'
                 }
             }
-        }).state('tokens_summary', {
+        }).state('end_of_the_day_report', {
             parent: 'default',
-            url: '/tokens_summary',
+            url: '/end_of_the_day_report',
             views: {
                 "view@default": {
-                    templateUrl: 'rms/reports/tokens-summary/tokens-summary.html',
-                    controller: 'TokensSummaryController',
+                    templateUrl: 'rms/reports/end-of-the-day-report/end-of-the-day-report.html',
+                    controller: 'EndOfTheDayReportController',
                     controllerAs: 'vm'
                 }
             }
@@ -232,6 +235,6 @@
             }
         });
 
-        $urlRouterProvider.otherwise('/404');
+        $urlRouterProvider.otherwise('/');
     }]);
 })();
