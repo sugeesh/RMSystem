@@ -34,4 +34,9 @@ public class UserService {
         User user = userRepository.findByUsernameAndPassword(userResource.getUsername(), userResource.getPassword());
         return user;
     }
+
+
+    public User getUserByUserId(String id){
+        return userRepository.findByUserId(Integer.parseInt(id));
+    }
 }

@@ -2,6 +2,7 @@ package org.hashtag.rms.service;
 
 import org.hashtag.rms.model.Category;
 import org.hashtag.rms.model.Order;
+import org.hashtag.rms.model.User;
 import org.hashtag.rms.repository.ItemRepository;
 import org.hashtag.rms.repository.OrderDetailRepository;
 import org.hashtag.rms.repository.OrderRepository;
@@ -40,6 +41,9 @@ public class OrderService {
     @Autowired
     private OrderDetailService orderDetailService;
 
+    @Autowired
+    private UserService userService;
+
     /**
      * This method is for insert normal order for the table.
      * @param orderResource
@@ -60,8 +64,11 @@ public class OrderService {
         order.setOpenOrder(orderResource.getOpenOrder());
         order.setVoidOrder(orderResource.getVoidOrder());
 
-        //Set KOT Number
+        // Get User Object
+        User userByUserId = userService.getUserByUserId(orderResource.getUserId());
+        order.setUser(userByUserId);
 
+        //Set KOT Number
         String nextKOTNumber = KOTNumberGenerator.getNextKOTNumber();
         KOTNumberGenerator.increaseOrderId(nextKOTNumber);
 
@@ -103,6 +110,10 @@ public class OrderService {
         order.setComment(orderResource.getComment());
         order.setOpenOrder(orderResource.getOpenOrder());
         order.setVoidOrder(orderResource.getVoidOrder());
+
+        // Get User Object
+        User userByUserId = userService.getUserByUserId(orderResource.getUserId());
+        order.setUser(userByUserId);
 
         //Set KOT Number
         String nextKOTNumber = KOTNumberGenerator.getNextKOTNumber();
@@ -151,6 +162,8 @@ public class OrderService {
             orderResource.setType(order.getType());
             orderResource.setAmount(order.getAmount());
             orderResource.setItemResourceList(orderResource.getItemResourceList());
+            orderResource.setUserId(String.valueOf(order.getUser().getUserId()));
+            orderResource.setUserName(order.getUser().getUsername());
             orderList.add(orderResource);
         }
         response.setDataRows(orderList);
@@ -179,6 +192,8 @@ public class OrderService {
             orderResource.setOpenOrder(order.getOpenOrder());
             orderResource.setVoidOrder(order.getVoidOrder());
             orderResource.setItemResourceList(orderResource.getItemResourceList());
+            orderResource.setUserId(String.valueOf(order.getUser().getUserId()));
+            orderResource.setUserName(order.getUser().getUsername());
             orderList.add(orderResource);
         }
         response.setDataRows(orderList);
@@ -215,6 +230,8 @@ public class OrderService {
         orderResource.setType(orderNew.getType());
         orderResource.setVoidOrder(orderNew.getVoidOrder());
         orderResource.setOpenOrder(orderNew.getOpenOrder());
+        orderResource.setUserId(String.valueOf(orderNew.getUser().getUserId()));
+        orderResource.setUserName(orderNew.getUser().getUsername());
         List<ItemResource> itemResourceList = new ArrayList<>();
         orderNew.getOrderDetailList().stream().forEach(orderDetail -> {
             ItemResource itemResource = new ItemResource();
@@ -313,6 +330,8 @@ public class OrderService {
             orderResource.setType(order.getType());
             orderResource.setAmount(order.getAmount());
             orderResource.setItemResourceList(orderResource.getItemResourceList());
+            orderResource.setUserId(String.valueOf(order.getUser().getUserId()));
+            orderResource.setUserName(order.getUser().getUsername());
             orderList.add(orderResource);
         }
         response.setDataRows(orderList);
@@ -378,6 +397,8 @@ public class OrderService {
             orderResource.setType(order.getType());
             orderResource.setAmount(order.getAmount());
             orderResource.setItemResourceList(orderResource.getItemResourceList());
+            orderResource.setUserId(String.valueOf(order.getUser().getUserId()));
+            orderResource.setUserName(order.getUser().getUsername());
             orderList.add(orderResource);
         }
         response.setDataRows(orderList);
@@ -418,6 +439,8 @@ public class OrderService {
             orderResource.setType(order.getType());
             orderResource.setAmount(order.getAmount());
             orderResource.setItemResourceList(orderResource.getItemResourceList());
+            orderResource.setUserId(String.valueOf(order.getUser().getUserId()));
+            orderResource.setUserName(order.getUser().getUsername());
             orderList.add(orderResource);
         }
         response.setDataRows(orderList);
