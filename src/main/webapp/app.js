@@ -4,10 +4,10 @@
     angular.module('myApp', [
         'myApp.services',
         'ui.router',
-        'chart.js','ngCookies'
+        'chart.js', 'ngCookies'
     ]).config(['$stateProvider', '$urlRouterProvider', 'ChartJsProvider', function ($stateProvider, $urlRouterProvider, ChartJsProvider) {
 
-        ChartJsProvider.setOptions({ colors : ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
+        ChartJsProvider.setOptions({colors: ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360']});
 
         $stateProvider.state('default', {
             url: '',
@@ -51,13 +51,13 @@
                     controllerAs: 'vm'
                 }
             }
-        }).state('settings', {
+        }).state('user_settings', {
             parent: 'default',
-            url: '/settings',
+            url: '/user_settings',
             views: {
                 "view@default": {
-                    templateUrl: 'rms/core/settings.html',
-                    controller: 'SettingsController',
+                    templateUrl: 'rms/settings/user-settings/user-settings.html',
+                    controller: 'UserSettingsController',
                     controllerAs: 'vm'
                 }
             }

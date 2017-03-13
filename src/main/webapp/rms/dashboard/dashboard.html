@@ -38,7 +38,7 @@
                     <h3 class="box-title">Orders Today</h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
+                <div class="box-body" ng-if="vm.noData != true">
                     <div class="row">
                         <div class="col-md-2"></div>
                         <div class="col-md-8">
@@ -56,6 +56,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="box-body" ng-if="vm.noData == true">
+                    <p>No data to display</p>
+                </div>
             </div>
         </div>
         <div class="col-md-6">
@@ -64,7 +67,7 @@
                     <h3 class="box-title">Best Deals Today</h3>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body">
+                <div class="box-body" ng-if="vm.noData != true">
                     <div class="row">
                         <div class="col-md-2"></div>
                         <div class="col-md-8">
@@ -82,6 +85,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="box-body" ng-if="vm.noData == true">
+                    <p>No data to display</p>
                 </div>
             </div>
         </div>

@@ -134,10 +134,14 @@
                 </a>
             </li>
             <li ng-if="vm.userType==='ADMIN'">
-                <a ui-sref="settings" id="settings">
-                    <i class="fa fa-book"></i>
+                <a href="" id="settings">
+                    <i class="fa fa-gears"></i>
                     <span>Settings</span>
                 </a>
+                <ul class="treeview-menu">
+                    <li><a ui-sref="user_settings"><i class="fa fa-circle-o"></i>User Settings</a></li>
+                    <!--<li><a ui-sref="tokens_history"><i class="fa fa-circle-o"></i> Tokens History</a></li>-->
+                </ul>
             </li>
         </ul>
     </section>

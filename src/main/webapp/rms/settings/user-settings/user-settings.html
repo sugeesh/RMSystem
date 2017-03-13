@@ -1,0 +1,79 @@
+<!-- Main content -->
+<section class="content">
+    <!-- Info boxes -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Register User</h3>
+                </div>
+
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <form>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" ng-model="name"
+                                   id="name">
+                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" class="form-control" ng-model="username"
+                                   id="username">
+                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" class="form-control" ng-model="password"
+                                   id="password">
+                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Retype Password</label>
+                            <input type="password" class="form-control" ng-model="retypepassword"
+                                   id="retypepassword">
+                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>User Type</label>
+                            <select class="form-control" ng-model="type" id="type">
+                                <option value="0">- Select -</option>
+                                <option value="1">Admin User</option>
+                                <option value="2">Cashier User</option>
+                                <option value="3">Waiter User</option>
+                                <option value="4">Kitchen User</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-3 pull-right">
+                                <button data-ng-click="vm.createUser(this.username, this.password, this.retypepassword, this.name, this.type)"
+                                        class="btn btn-primary btn-block btn-flat">Register
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+        <div class="col-md-6">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Existing Users</h3>
+                </div>
+
+                <!-- /.box-header -->
+                <div class="box-body">
+                    Existing users list
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->

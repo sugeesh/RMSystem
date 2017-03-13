@@ -19,8 +19,6 @@
 
         if (vm.userType == undefined) {
             $state.go('login');
-        }else{
-            $state.go('dashboard');
         }
 
         function logOut() {

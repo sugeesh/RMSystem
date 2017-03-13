@@ -269,6 +269,7 @@
                 sendObj.amount = vm.subTotal;
                 sendObj.customerName = vm.customerName;
                 sendObj.tableId = vm.tableId;
+                sendObj.userId = $cookies.get('userId');
                 sendObj.type = vm.type;
                 sendObj.comment = vm.comment;
                 sendObj.openOrder = false;
