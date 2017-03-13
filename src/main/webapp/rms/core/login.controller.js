@@ -8,7 +8,7 @@
     angular.module('myApp')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['$state', '$rootScope', 'webservice','$cookies'];
+    LoginController.$inject = ['$state', '$rootScope', 'webservice', '$cookies'];
 
     function LoginController($state, $rootScope, webservice, $cookies) {
         var vm = this;
@@ -24,22 +24,24 @@
                 type: 0
             };
 
+            $rootScope.isLoading = true;
             webservice.call($rootScope.baseURL + '/user/login_user', "post", user).then(function (response) {
                 console.log(response.data);
                 if (response.data.userId != null) {
-                    if(response.data.type==1){
+                    if (response.data.type == 1) {
                         $cookies.put('userType', 'ADMIN');
-                    }else if(response.data.type==2){
+                    } else if (response.data.type == 2) {
                         $cookies.put('userType', 'CASHIER');
-                    }else if(response.data.type==3){
+                    } else if (response.data.type == 3) {
                         $cookies.put('userType', 'WAITER');
-                    }else if(response.data.type==4){
+                    } else if (response.data.type == 4) {
                         $cookies.put('userType', 'KITCHEN');
                     }
                     $cookies.put('userId', response.data.userId);
                     $state.go('dashboard');
-                }else{
-                    alert("Username or Password is wrong.");
+                } else {
+                    // alert("Username or Password is wrong.");
+                    $rootScope.isLoading = false;
                     vm.error = "Username and password mismatch";
                 }
             });
@@ -47,3 +49,4 @@
 
     }
 })();
+e
