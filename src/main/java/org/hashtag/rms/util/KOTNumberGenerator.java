@@ -1,9 +1,6 @@
 package org.hashtag.rms.util;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 /**
@@ -16,7 +13,10 @@ public class KOTNumberGenerator {
 
         FileInputStream input = null;
         try {
-            input = new FileInputStream("./src/main/resources/kotconfig.properties");
+            ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+            File file = new File(classLoader.getResource("kotconfig.properties").getFile());
+            input = new FileInputStream(file);
+            // input = new FileInputStream("./src/main/resources/kotconfig.properties");
             // load a properties file
             prop.load(input);
 
