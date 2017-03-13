@@ -38,7 +38,7 @@
                             <br>
                         </div>
                         <!-- /.col -->
-                        <div class="col-sm-2 invoice-col">
+                        <div class="col-sm-2 invoice-col" ng-show = "vm.type==0">
                             Table<br>
                             <b>{{vm.tableId}}</b><br>
                             <br>
@@ -80,8 +80,8 @@
                                         <td>{{menuItem.skuCode}}</td>
                                         <td>{{menuItem.name}}</td>
                                         <td>{{menuItem.quantity}}</td>
-                                        <td>{{menuItem.price}}</td>
-                                        <td>{{menuItem.amount}}</td>
+                                        <td>{{menuItem.price | number:2 }}</td>
+                                        <td>{{menuItem.amount | number:2 }}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -111,23 +111,23 @@
                                     <table class="table">
                                         <tr>
                                             <th style="width:80%">Subtotal:</th>
-                                            <td>{{ vm.subTotal }}</td>
+                                            <td>{{ vm.subTotal | number:2 }}</td>
                                         </tr>
                                         <tr>
                                             <th>Tax (%):</th>
-                                            <td>{{ vm.tax }}</td>
+                                            <td>{{ vm.tax | number:2}}</td>
                                         </tr>
                                         <tr>
                                             <th>Service Charges (%):</th>
-                                            <td>{{ vm.serviceCharge }}</td>
+                                            <td>{{ vm.serviceCharge | number:2}}</td>
                                         </tr>
                                         <tr>
                                             <th>Discount:</th>
-                                            <td>{{ vm.discount }}</td>
+                                            <td>{{ vm.discount | number:2}}</td>
                                         </tr>
                                         <tr>
                                             <th>Total:</th>
-                                            <td>{{ vm.total}}</td>
+                                            <td>{{ vm.total | number:2}}</td>
                                         </tr>
                                     </table>
                                 </div>

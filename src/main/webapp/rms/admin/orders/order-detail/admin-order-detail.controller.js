@@ -94,7 +94,7 @@
             var sendObj = {"orderId":vm.orderId,"voidOrder":vm.voidOrder,"openOrder":vm.openOrder,"state":"PENDING"};
 
             webservice.call($rootScope.baseURL + "/order/approve_waiting_order/", "put",sendObj).then(function (response) {
-                $state.go("waiting_orders");
+                $state.go("admin_waiting_orders");
                 alert("Order Approved.");
             });
         }

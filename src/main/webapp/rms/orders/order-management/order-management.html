@@ -45,7 +45,8 @@
                     <span class="info-box-text">Order Type</span>
                     <span class="info-box-number">
                         <input style="margin-top: -5px" type="checkbox" checked data-toggle="toggle" id="ordertoggle"
-                               data-onstyle="primary" data-offstyle="info" data-height="25" ng-model="type"/>
+                               data-onstyle="primary" data-offstyle="info" data-height="25" />
+
                     </span>
                 </div>
             </div>
@@ -220,7 +221,7 @@
                             <input type="text" class="form-control" id="customername" placeholder="Customer Name"
                                    ng-model="vm.customerName">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" ng-show="vm.type==0">
                             <label for="table">Table</label>
                             <input type="text" class="form-control" id="table"
                                    placeholder="Table" ng-model="vm.tableId">
@@ -277,7 +278,7 @@
                                         <br>
                                     </div>
                                     <!-- /.col -->
-                                    <div class="col-sm-2 invoice-col">
+                                    <div class="col-sm-2 invoice-col" ng-show="vm.type==0">
                                         Table<br>
                                         <b>{{vm.tableId}}</b><br>
                                         <br>
@@ -344,32 +345,31 @@
                                                 <table class="table">
                                                     <tr>
                                                         <th style="width:80%">Subtotal:</th>
-                                                        <td>{{ vm.subTotal }}</td>
+                                                        <td>{{ vm.subTotal  | number:2  }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Tax (%):</th>
-                                                        <td>{{ vm.tax }}</td>
+                                                        <td>{{ vm.tax   | number:2 }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Service Charges (%):</th>
-                                                        <td>{{ vm.serviceCharge }}</td>
+                                                        <td>{{ vm.serviceCharge  | number:2  }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Discount:</th>
-                                                        <td>{{ vm.discount }}</td>
+                                                        <td>{{ vm.discount  | number:2  }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Total:</th>
-                                                        <td>{{ vm.calculateTotal() }}</td>
+                                                        <td>{{ vm.calculateTotal()  | number:2  }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Payment:</th>
-                                                        <td>{{ vm.payment }}</td>
-                                                        openOrderModal
+                                                        <td>{{ vm.payment  | number:2 }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Balance:</th>
-                                                        <td>{{ vm.calculateBalance() }}</td>
+                                                        <td>{{ vm.calculateBalance() | number:2 }}</td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -420,7 +420,7 @@
                     </div>
                     <div class="form-group">
                         <label for="newUnitPrice" class="control-label">Unit Price</label>
-                        <input type="text" class="form-control" placeholder="Unit Price"
+                        <input type="number" class="form-control" placeholder="Unit Price"
                                ng-model="newUnitPrice" id="newUnitPrice">
                     </div>
                     <div class="form-group">
@@ -429,7 +429,7 @@
                                ng-model="newQuantity" id="newQuantity">
                     </div>
                     <div class="form-group">
-                        <label for="newitemname" class="control-label">ItemName</label>
+                        <label for="newitemname" class="control-label">Comments</label>
                         <input type="text" class="form-control" placeholder="Comments"
                                ng-model="newItemComment" id="newItemComment">
                     </div>
@@ -459,7 +459,18 @@
             on: "Dine in",
             off: "Take away"
         });
-    })
+    });
+
+    $(function() {
+        $('#ordertoggle').change(function() {
+            if($('#ordertoggle').prop('checked')) {
+                angular.element('#ordertoggle').scope().vm.changeType(0);
+            }else{
+                angular.element('#ordertoggle').scope().vm.changeType(1);
+            }
+            angular.element('#ordertoggle').scope().$apply();
+        })
+    });
 </script>
 
 
