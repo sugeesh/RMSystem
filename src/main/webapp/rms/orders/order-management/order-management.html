@@ -37,21 +37,19 @@
             </div>
         </div>
 
-        <!-- /.col -->
-        <!--<div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+        <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
             <div class="info-box">
                 <span class="info-box-icon bg-green"><i class="fa fa-shopping-cart"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">New</span>
-                    <span class="info-box-number">ORDER</span>
+                    <span class="info-box-text">Order Type</span>
+                    <span class="info-box-number">
+                        <input style="margin-top: -5px" type="checkbox" checked data-toggle="toggle" id="ordertoggle"
+                               data-onstyle="primary" data-offstyle="info" data-height="25" ng-model="type"/>
+                    </span>
                 </div>
-                &lt;!&ndash; /.info-box-content &ndash;&gt;
             </div>
-            &lt;!&ndash; /.info-box &ndash;&gt;
-        </div>-->
-        <!-- /.col -->
-
+        </div>
     </div>
     <!-- /.row -->
 
@@ -228,29 +226,14 @@
                                    placeholder="Table" ng-model="vm.tableId">
                         </div>
                         <div class="form-group">
-                            <label for="table">Order Type</label>
-                            <div class="form-group">
-                                <label>
-                                    <input type="radio" name="r3" class="flat-red" checked ng-click="vm.changeType(0)">
-                                    Dine In
-                                </label>
-                                <label>
-                                    <input type="radio" name="r3" class="flat-red" ng-click="vm.changeType(1)">
-                                    Take away
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label for="table">Comment</label>
                             <input type="text" class="form-control" id="comment" placeholder="Comment"
                                    ng-model="vm.comment">
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer clearfix">
-                            <button type="button" class="btn btn-flat bg-yellow"
-                                    ng-click="vm.placeKOT()"><i
-                                    class="fa fa-edit"></i>Place KOT
+                            <button type="button" class="btn btn-flat bg-yellow" ng-click="vm.placeKOT()">
+                                Place KOT
                             </button>
                         </div>
                     </div>
@@ -409,7 +392,6 @@
                 <button ng-if="vm.openOrder==false" type="button" class="btn btn-primary" data-dismiss="modal"
                         data-ng-click="vm.printOrder()"> Settle and Print
                 </button>
-
                 <button ng-if="vm.openOrder==true" type="button" class="btn btn-primary" data-dismiss="modal"
                         data-ng-click="vm.saveOrder()"> Place Order
                 </button>
@@ -471,6 +453,13 @@
             $("#newItemIdButton").click();
         }
     });
+
+    $(function () {
+        $('#ordertoggle').bootstrapToggle({
+            on: "Dine in",
+            off: "Take away"
+        });
+    })
 </script>
 
 

@@ -40,6 +40,7 @@
             }
             var today = yyyy + "-" + mm + "-" + dd;
 
+            $rootScope.isLoading = true;
             webservice.call($rootScope.baseURL + "/order/get_all_orders_for_date/" + today, "get").then(function (response) {
                 var orders = response.data.dataRows;
                 console.log(orders);
@@ -57,19 +58,19 @@
                     angular.forEach(order.itemResourceList, function (item, key) {
                         if (itemList.length == 0) {
                             itemList.push({
-                                id: item.id,
+                                id: item.itemId,
                                 name: item.name,
                                 quantity: item.quantity
                             });
                         } else {
                             for (var i = 0; i < Object.keys(itemList).length; i++) {
-                                if (itemList[i].id == item.id) {
+                                if (itemList[i].id == item.itemId) {
                                     itemList[i].quantity += item.quantity;
                                     continue;
                                 }
                                 if (i == Object.keys(itemList).length - 1) {
                                     itemList.push({
-                                        id: item.id,
+                                        id: item.itemId,
                                         name: item.name,
                                         quantity: item.quantity
                                     });
@@ -90,9 +91,11 @@
                         vm.bestDealsLabels.push(itemList[j].name);
                         vm.bestDealsData.push(itemList[j].quantity);
                     }
-                }else{
+                } else {
                     vm.noData = true;
                 }
+
+                $rootScope.isLoading = false;
             });
         }
 
