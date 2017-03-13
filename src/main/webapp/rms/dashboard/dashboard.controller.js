@@ -96,6 +96,8 @@
                 }
 
                 $rootScope.isLoading = false;
+            }).catch(function (error) {
+                $rootScope.isLoading = true;
             });
         }
 
