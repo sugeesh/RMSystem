@@ -13,11 +13,8 @@ public class KOTNumberGenerator {
 
         FileInputStream input = null;
         try {
-            ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-            File file = new File(classLoader.getResource("kotconfig.properties").getFile());
-            input = new FileInputStream(file);
-            // input = new FileInputStream("./src/main/resources/kotconfig.properties");
-            // load a properties file
+//          input = new FileInputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
+            input = new FileInputStream("./src/main/resources/kotconfig.properties");
             prop.load(input);
 
             int lastId = Integer.parseInt(prop.getProperty("kotNumber").substring(3));
@@ -45,6 +42,8 @@ public class KOTNumberGenerator {
     public static void increaseOrderId(String nextKOTNumber) {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream("./src/main/resources/kotconfig.properties");
+//            FileOutputStream fileOutputStream = new FileOutputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
+
             // set the properties value
             prop.setProperty("kotNumber", nextKOTNumber);
             // save properties to project root folder
