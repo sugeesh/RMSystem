@@ -16,10 +16,10 @@
         </div>
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
-            <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="fa fa-list-ul"></i></span>
+            <div class="info-box bg-aqua">
+                <span class="info-box-icon"><i class="fa fa-list"></i></span>
 
-                <div class="info-box-content" data-toggle="modal" data-target="#addCategoryModal">
+                <div class="info-box-content" data-toggle="modal" data-target="#addCategoryModal" style="cursor: pointer">
                     <span class="info-box-text">Add</span>
                     <span class="info-box-number">CATEGORY</span>
                 </div>
@@ -29,12 +29,12 @@
         </div>
 
         <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
-            <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="fa fa-list-alt"></i></span>
+            <div class="info-box bg-aqua">
+                <span class="info-box-icon"><i class="fa fa-list"></i></span>
 
-                <div class="info-box-content" data-toggle="modal" data-target="#addItemModal">
+                <div class="info-box-content" data-toggle="modal" data-target="#addItemModal" style="cursor: pointer">
                     <span class="info-box-text">Add</span>
-                    <span class="info-box-number">Item</span>
+                    <span class="info-box-number">ITEM</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -82,24 +82,29 @@
 
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-flat"
-                                                    style="background-color:{{category.colorCode}}"></button>
+                                                    style="background-color:{{category.colorCode}}"
+                                                    data-toggle="tooltip"
+                                                    title="Change category color"></button>
                                         </span>
                                         <span class="input-group-btn bg-green">
                                             <button type="button" class="btn btn-flat bg-green"
                                                     data-ng-click="vm.getItemsForCategory(this.category.categoryId)"
                                                     data-toggle="modal" data-target="#myModal"><i
-                                                    class="fa fa-angle-right"></i></button>
+                                                    class="fa fa-angle-right" data-toggle="tooltip"
+                                                    title="Edit items"></i></button>
                                         </span>
                                         <span class="input-group-btn bg-yellow">
                                             <button type="button" class="btn btn-flat bg-yellow"
                                                     data-ng-click="vm.loadUpdateForm(this.category)" data-toggle="modal"
                                                     data-target="#updateCategoryModal"><i
-                                                    class="fa fa-edit"></i></button>
+                                                    class="fa fa-edit" data-toggle="tooltip"
+                                                    title="Update category"></i></button>
                                         </span>
                                         <span class="input-group-btn bg-red">
                                             <button type="button" class="btn btn-flat bg-red"
                                                     data-ng-click="vm.removeCategoryFromList(this.category)"><i
-                                                    class="fa fa-close"></i></button>
+                                                    class="fa fa-close" data-toggle="tooltip"
+                                                    title="Remove category"></i></button>
                                         </span>
                                     </div>
                                 </div>
@@ -164,12 +169,16 @@
                                    ng-model="item.itemId" id="itemid"/>
 
                             <span class=" input-group-btn bg-red" style="padding-left: 10px; padding-right: 10px">
-                                                   <input type="checkbox" class="" ng-model="item.active"/></span>
+                                                   <input type="checkbox" class="" ng-model="item.active"
+                                                          data-toggle="tooltip"
+                                                          title="Toggle availability"/></span>
                             <span class=" input-group-btn bg-red">
                                                      <button type="button" class="btn btn-flat bg-red"
                                                              data-ng-click="vm.removeItemFromList(this.item)"
                                                              data-dismiss="modal"><i
-                                                             class="fa fa-close">  </i></button></span>
+                                                             class="fa fa-close"
+                                                             data-toggle="tooltip"
+                                                             title="Remove item"></i></button></span>
                         </div>
                     </div>
                 </form>

@@ -34,10 +34,15 @@
         loadCategories();
 
         function loadCategories() {
+            $rootScope.isLoading = true;
             webservice.call($rootScope.baseURL + "/category/all_categories_with_items", "get", {}).then(function (response) {
                 console.log(response.data);
                 vm.categoryList = response.data.dataRows;
                 vm.itemList = vm.categoryList[0].itemResourceList;
+
+                $rootScope.isLoading = false;
+            }).catch(function(){
+                $rootScope.isLoading = false;
             });
         }
 

@@ -45,7 +45,7 @@
 
 <page-loader flag="isLoading" bg-color="rgba(0, 0, 0, 0.4)"></page-loader>
 <style>
-    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, page-loader {
         display: none !important;
     }
 </style>
@@ -91,8 +91,10 @@
 <script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
 <script src="bower_components/angular-cookies/angular-cookies.js"></script>
 
-<link rel="stylesheet" href="https://cdn.rawgit.com/codekraft-studio/angular-page-loader/master/dist/angular-page-loader.css">
-<script type="text/javascript" src="https://cdn.rawgit.com/codekraft-studio/angular-page-loader/master/dist/angular-page-loader.min.js"></script>
+<link rel="stylesheet"
+      href="https://cdn.rawgit.com/codekraft-studio/angular-page-loader/master/dist/angular-page-loader.css">
+<script type="text/javascript"
+        src="https://cdn.rawgit.com/codekraft-studio/angular-page-loader/master/dist/angular-page-loader.min.js"></script>
 
 <script src="app.js"></script>
 <script src="rms/services/webservice.js"></script>
@@ -124,6 +126,12 @@
 <script src="rms/reports/end-of-the-day-report/end-of-the-day-report.controller.js"></script>
 
 <script src="rms/menu/menu-management/menu-management.controller.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
 
 </body>
 </html>
