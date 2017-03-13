@@ -18,9 +18,9 @@
 
     angular.module('myApp').controller('OrderManagementController', OrderManagementController);
 
-    OrderManagementController.$inject = ['webservice', '$rootScope', '$state','$window','$cookies'];
+    OrderManagementController.$inject = ['webservice', '$rootScope', '$state', '$window', '$cookies'];
 
-    function OrderManagementController(webservice, $rootScope, $state,$window,$cookies) {
+    function OrderManagementController(webservice, $rootScope, $state, $window, $cookies) {
         var vm = this;
         $rootScope.appURL = "http://localhost:8080";
         $rootScope.baseURL = "http://localhost:8080/rest";
@@ -131,7 +131,7 @@
             }
         }
 
-        function addOpenOrderToTable(newItemName,newUnitPrice,newQuantity,newItemComment) {
+        function addOpenOrderToTable(newItemName, newUnitPrice, newQuantity, newItemComment) {
             if (newItemName != undefined && newQuantity != undefined && newUnitPrice != undefined) {
                 var amount = Number(newUnitPrice) * (newQuantity);
                 var menuItem = {
@@ -145,7 +145,7 @@
                 };
                 vm.menu.push(menuItem);
                 vm.calculateAmountAndSubTotal();
-            }else{
+            } else {
                 alert("Please correctly fill the form");
             }
 
@@ -166,7 +166,7 @@
 
         function saveOrder() {
             var checkOpen = false;
-            if (!isNaN(vm.subTotal)) {
+            if (!isNaN(vm.subTotal) && (Object.keys(vm.menu).length > 0)) {
                 var sendObj = {};
                 sendObj.orderTime = new Date();
                 sendObj.amount = vm.subTotal;
@@ -182,7 +182,7 @@
                 angular.forEach(vm.menu, function (value) {
                     var item = {};
                     item.itemId = value.id;
-                    if(value.id==-1){
+                    if (value.id == -1) {
                         checkOpen = true;
                         sendObj.openOrder = true;
                     }
@@ -206,17 +206,19 @@
 
 
                 // If Open Order
-                if(checkOpen){
+                if (checkOpen) {
                     webservice.call($rootScope.baseURL + "/order/open_order", "post", sendObj).then(function (response) {
                         alert("KOT issued with KOT number  " + response.data.kotNumber);
                         $state.go("pending_orders");
                     });
-                }else {
+                } else {
                     webservice.call($rootScope.baseURL + "/order", "post", sendObj).then(function (response) {
                         alert("KOT issued with KOT number  " + response.data.kotNumber);
                         $state.go("pending_orders");
                     });
                 }
+            } else {
+                alert("Please correctly fill the details.");
             }
         }
 
@@ -283,7 +285,7 @@
                 angular.forEach(vm.menu, function (value) {
                     var item = {};
                     item.itemId = value.id;
-                    if(value.id==-1){
+                    if (value.id == -1) {
                         checkOpen = true;
                         sendObj.openOrder = true;
                     }
@@ -306,7 +308,7 @@
 
 
                 // If Open Order
-                if(checkOpen){
+                if (checkOpen) {
                     webservice.call($rootScope.baseURL + "/order/open_order", "post", sendObj).then(function (response) {
                         alert("KOT issued with KOT number  " + response.data.kotNumber);
                         $window.location.reload();
@@ -318,7 +320,7 @@
                         document.body.innerHTML = originalContents;
 
                     });
-                }else {
+                } else {
                     webservice.call($rootScope.baseURL + "/order", "post", sendObj).then(function (response) {
                         alert("KOT issued with KOT number  " + response.data.kotNumber);
                         $window.location.reload();
@@ -334,13 +336,18 @@
         }
 
         function placeKOT() {
-            vm.openOrder = false;
-            angular.forEach(vm.menu, function (value) {
-                if(value.id==-1){
-                    vm.openOrder = true;
-                }
-            });
-            $("#submitOrderModal").modal();
+            if ((Object.keys(vm.menu).length > 0)) {
+
+                vm.openOrder = false;
+                angular.forEach(vm.menu, function (value) {
+                    if (value.id == -1) {
+                        vm.openOrder = true;
+                    }
+                });
+                $("#submitOrderModal").modal();
+            }else {
+                alert("Please correctly fill the details.");
+            }
         }
 
 
