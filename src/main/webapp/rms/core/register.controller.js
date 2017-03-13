@@ -14,11 +14,11 @@
         var vm = this;
         $rootScope.baseURL = "http://localhost:8080/rest";
 
-        vm.signInUser = signInUser;
+        vm.createUser = createUser;
 
         vm.name = 'Buddhi';
 
-        function signInUser(username, password, retypepassword, name, type) {
+        function createUser(username, password, retypepassword, name, type) {
             vm.error = "";
 
             if (password == retypepassword) {

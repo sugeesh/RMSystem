@@ -81,13 +81,17 @@
                 vm.orderDetailData[0] = diCount;
                 vm.orderDetailData[1] = taCount;
 
-                for (var j = 0; j < 7; j++) {
-                    vm.bestDeals.push({
-                        name: itemList[j].name,
-                        color: colors[j]
-                    });
-                    vm.bestDealsLabels.push(itemList[j].name);
-                    vm.bestDealsData.push(itemList[j].quantity);
+                if (itemList.length > 0) {
+                    for (var j = 0; j < 7; j++) {
+                        vm.bestDeals.push({
+                            name: itemList[j].name,
+                            color: colors[j]
+                        });
+                        vm.bestDealsLabels.push(itemList[j].name);
+                        vm.bestDealsData.push(itemList[j].quantity);
+                    }
+                }else{
+                    vm.noData = true;
                 }
             });
         }
