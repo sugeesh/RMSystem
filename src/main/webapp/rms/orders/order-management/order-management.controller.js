@@ -132,18 +132,22 @@
         }
 
         function addOpenOrderToTable(newItemName,newUnitPrice,newQuantity,newItemComment) {
-            var amount = Number(newUnitPrice) * (newQuantity);
-            var menuItem = {
-                "id": -1,
-                "skuCode": "OPEN ORDER",
-                "name": newItemName,
-                "price": newUnitPrice,
-                "quantity": newQuantity,
-                "amount": amount,
-                "comment":newItemComment
-            };
-            vm.menu.push(menuItem);
-            vm.calculateAmountAndSubTotal();
+            if (newItemName != undefined && newQuantity != undefined && newUnitPrice != undefined) {
+                var amount = Number(newUnitPrice) * (newQuantity);
+                var menuItem = {
+                    "id": -1,
+                    "skuCode": "OPEN ORDER",
+                    "name": newItemName,
+                    "price": newUnitPrice,
+                    "quantity": newQuantity,
+                    "amount": amount,
+                    "comment": newItemComment
+                };
+                vm.menu.push(menuItem);
+                vm.calculateAmountAndSubTotal();
+            }else{
+                alert("Please correctly fill the form");
+            }
 
         }
 
