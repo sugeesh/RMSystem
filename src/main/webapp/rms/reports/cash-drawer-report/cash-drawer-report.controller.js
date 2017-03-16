@@ -19,6 +19,25 @@
         vm.addStartingCash = addStartingCash;
         vm.submitCashDrawerReport = submitCashDrawerReport;
 
+        vm.fiveThousandStarting = 0;
+        vm.twoThousandStarting = 0;
+        vm.oneThousandStarting = 0;
+        vm.fiveHundredStarting = 0;
+        vm.twoHundredStarting = 0;
+        vm.oneHundredStarting = 0;
+        vm.fiftyStarting = 0;
+        vm.twentyStarting = 0;
+        vm.tenStarting = 0;
+        vm.fiveThousandActual = 0;
+        vm.twoThousandActual = 0;
+        vm.oneThousandActual = 0;
+        vm.fiveHundredActual = 0;
+        vm.twoHundredActual = 0;
+        vm.oneHundredActual = 0;
+        vm.fiftyActual = 0;
+        vm.twentyActual = 0;
+        vm.tenActual = 0;
+
         vm.comment = '';
 
         getCashDrawerData();
@@ -117,7 +136,7 @@
                     vm.ordersBalance = oAmount;
 
                     vm.enabletext = false;
-                    var cd = cashdrawer.data;
+                    var cd = cashdrawer;
 
                     vm.startingCash = cd.startingCash;
                     vm.ordersBalance = cd.ordersBalance;
@@ -125,7 +144,9 @@
                     vm.actualCash = cd.actualCash;
                     vm.balanceChange = cd.balanceChange;
                     vm.comment = cd.comment;
-                } else if (date == yesterday) {
+                } else if (date == today) {
+                    vm.enabletext = true;
+
                     var promises = [];
                     promises.push(webservice.call($rootScope.baseURL + "/order/get_all_orders_for_date/" + today, "get"));
                     promises.push(webservice.call($rootScope.baseURL + '/cashdrawer/get_cash_drawer_for_date/' + yesterday, 'get'));
@@ -143,30 +164,21 @@
                         vm.ordersBalance = oAmount;
 
                         vm.enabletext = false;
-                        var cd = cashdrawer.data;
 
-                        vm.startingCash = cd.startingCash;
+                        vm.startingCash = cashdrawer.startingCash;
 
                     });
+                } else if (cashdrawer == "") {
+                    vm.enabletext = true;
+
+                    vm.startingCash = 0;
+                    vm.ordersBalance = 0;
+                    vm.endOfTheDayBalance = 0;
+                    vm.actualCash = 0;
+                    vm.balanceChange = 0;
+                    vm.comment = 0;
                 }
-
-
             });
-
-
-            // } else {
-            //     webservice.call($rootScope.baseURL + '/cashdrawer/get_cash_drawer_for_date/' + date, 'get').then(function (response) {
-            //         vm.enabletext = false;
-            //         var cd = response.data;
-            //
-            //         vm.startingCash = cd.startingCash;
-            //         vm.ordersBalance = cd.ordersBalance;
-            //         vm.endOfTheDayBalance = cd.endOfTheDayBalance;
-            //         vm.actualCash = cd.actualCash;
-            //         vm.balanceChange = cd.balanceChange;
-            //         vm.comment = cd.comment;
-            //     });
-            // }
         }
     }
 })();
