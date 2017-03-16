@@ -362,7 +362,8 @@ public class OrderService {
     }
 
     public int updateVoidOrder(OrderResource orderResource) {
-        Integer integer = orderRepository.updateVoidOrder(orderResource.getOrderId(), orderResource.getVoidOrder(), orderResource.getState());
+        Integer integer = orderRepository.updateVoidOrder(orderResource.getOrderId(), orderResource.getVoidOrder(), orderResource.getState(),
+                orderResource.getComment());
         return integer;
     }
 

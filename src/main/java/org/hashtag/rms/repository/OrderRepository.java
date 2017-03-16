@@ -40,9 +40,9 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE Order o SET o.voidOrder = :voidOrder , o.status = :status WHERE o.orderId = :orderId")
-    Integer updateVoidOrder(@Param("orderId") int orderId, @Param("voidOrder") Boolean voidOrder, @Param("status") String status);
-
+    @Query("UPDATE Order o SET o.voidOrder = :voidOrder ,o.comment = :comment, o.status = :status WHERE o.orderId = :orderId")
+    Integer updateVoidOrder(@Param("orderId") int orderId, @Param("voidOrder") Boolean voidOrder, @Param("status") String status,
+                            @Param("comment") String comment);
 
     List<Order> findByOrderTimeBetween(Date startDateObj, Date endDateObj);
 }

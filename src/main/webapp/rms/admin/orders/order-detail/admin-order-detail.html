@@ -42,6 +42,9 @@
                         <h3 class="box-title">
                             Invoice
                         </h3>
+                        <h2 ng-if="vm.isVoid==true">
+                            {{vm.comment}}
+                        </h2>
                     </div>
                     <!-- info row -->
                     <div class="box-body">

@@ -52,7 +52,7 @@
                                 <td data-ng-click="vm.routeToOrder(order.orderId)" ng-if="order.type==1">Take Away</td>
                                 <td data-ng-click="vm.routeToOrder(order.orderId)" ng-if="order.openOrder!=1">NORMAL ORDER</td>
                                 <td data-ng-click="vm.routeToOrder(order.orderId)" ng-if="order.openOrder==1">OPEN ORDER</td>
-                                <td ><button data-ng-click="vm.voidOrder(order.orderId)">VOID ORDER</button></td>
+                                <td ><button data-ng-click="vm.voidOrderModal(order.orderId)">VOID ORDER</button></td>
                             </tr>
                             </tbody>
                         </table>
@@ -70,3 +70,37 @@
     <!-- /.row -->
 </section>
 <!-- /.content -->
+
+
+<div class="modal fade" id="voidOrderModal" tabindex="-1" role="dialog" aria-labelledby="voidOrderModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="updateCategoryModalLabel">Void Order</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="control-label">Order ID</label>
+                        <input type="text" class="form-control"
+                               ng-model="vm.voidkotNumber" id="orderId" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Reason</label>
+                        <input type="text" class="form-control"
+                               ng-model="vm.voidReason" id="comment">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        data-ng-click="vm.voidOrder()">Void
+                    Order
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

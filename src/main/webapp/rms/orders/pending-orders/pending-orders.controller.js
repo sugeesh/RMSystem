@@ -8,18 +8,21 @@
     angular.module('myApp')
         .controller('PendingOrdersController', PendingOrdersController);
 
-    PendingOrdersController.$inject = ['webservice','$rootScope','$state'];
+    PendingOrdersController.$inject = ['webservice', '$rootScope', '$state'];
 
-    function PendingOrdersController(webservice,$rootScope,$state) {
+    function PendingOrdersController(webservice, $rootScope, $state) {
         var vm = this;
         vm.initOrderList = initOrderList;
         vm.routeToOrder = routeToOrder;
         vm.voidOrder = voidOrder;
+        vm.voidOrderModal = voidOrderModal;
 
         $rootScope.appURL = "http://localhost:8080";
         $rootScope.baseURL = "http://localhost:8080/rest";
 
         vm.orderList = [];
+        vm.voidkotNumber = 0;
+        vm.voidReason = "";
 
         initOrderList();
 
@@ -30,15 +33,26 @@
                 vm.pendingOrderCount = response.data.entries;
             });
         }
-        
+
         function routeToOrder(orderId) {
-            $state.go("order_detail",{ 'orderId' : orderId });
+            $state.go("order_detail", {'orderId': orderId});
         }
 
-        function voidOrder(orderId) {
-            var sendObj = {"orderId":orderId,"voidOrder":true,"state":"WAITING"};
+        function voidOrderModal(orderId) {
+            vm.voidkotNumber = orderId;
+            $("#voidOrderModal").modal();
+        }
 
-            webservice.call($rootScope.baseURL + "/order/update_void_order/", "put",sendObj).then(function (response) {
+
+        function voidOrder() {
+            var sendObj = {
+                "orderId": vm.voidkotNumber,
+                "voidOrder": true,
+                "state": "WAITING",
+                "comment": vm.voidReason
+            };
+
+            webservice.call($rootScope.baseURL + "/order/update_void_order/", "put", sendObj).then(function (response) {
                 $state.go("waiting_orders");
                 alert("Order Voided.");
             });
@@ -46,7 +60,6 @@
 
 
     }
-
 
 
 })();
