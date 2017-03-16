@@ -25,8 +25,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <button class="btn btn-flat btn-info pull-right" data-ng-click="vm.searchOrders()">
-                                    Search Orders
+                                <button class="btn btn-flat btn-info pull-right" data-ng-click="vm.getCashDrawerData()">
+                                    Search Records
                                 </button>
                             </div>
                         </div>
@@ -38,47 +38,79 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Completed Order Details </h3>
-
-                    <div class="box-tools">
-                        <h5>
-                            Records: {{ vm.completedOrderCount }}
-                        </h5>
-                    </div>
+                    <h3 class="box-title">Cash Drawer Report</h3>
                 </div>
 
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="table-responsive">
                         <table class="table no-margin">
-                            <thead>
-                            <tr>
-                                <th>Order Id</th>
-                                <th>Customer Name</th>
-                                <th>Order Type</th>
-                                <th>Order Date</th>
-                                <th>Order Time</th>
-                                <th>Amount</th>
-                            </tr>
-                            </thead>
                             <tbody>
-                            <tr ng-repeat="order in vm.completedOrders" data-ng-click="vm.routeToOrder(order.orderId)"
-                                style="cursor: pointer;">
-                                <td>{{order.kotNumber}}</td>
-                                <td>{{order.customerName}}</td>
-                                <td ng-if="order.type==0">Dine In</td>
-                                <td ng-if="order.type==1">Take Away</td>
-                                <td>{{order.orderTime | date : "yyyy-MM-dd" }}</td>
-                                <td>{{order.orderTime | date : "shortTime" }}</td>
-                                <td>{{order.amount}}</td>
+                            <tr>
+                                <th>Starting Cash</th>
+                                <th>
+                                    <div class="input-group">
+                                        <!-- /btn-group -->
+                                        <input type="text" id="startingCashText" ng-model="vm.startingCash"
+                                               class="form-control">
+                                        <div class="input-group-btn">
+                                            <button type="button" data-target="#addStartingCashModal"
+                                                    data-toggle="modal"
+                                                    class="btn btn-info">Change
+                                            </button>
+                                        </div>
+                                    </div>
+                                </th>
                             </tr>
-
+                            <tr>
+                                <td>Orders Balance</td>
+                                <td>{{vm.ordersBalance}}</td>
+                            </tr>
+                            <tr>
+                                <th>End of the Day Balance</th>
+                                <th>{{vm.endOfTheDayBalance}}</th>
+                            </tr>
+                            <tr>
+                                <td>Actual Cash</td>
+                                <!--<td ng-if="vm.enabletext == false">{{vm.actualCash}}</td>-->
+                                <!--<td ng-if="vm.enabletext == true">-->
+                                <td>
+                                    <div class="input-group">
+                                        <!-- /btn-group -->
+                                        <input type="text" id="actualCashText" ng-model="vm.actualCash"
+                                               class="form-control">
+                                        <div class="input-group-btn">
+                                            <button type="button" data-target="#addActualCashModal" data-toggle="modal"
+                                                    class="btn btn-info">Change
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Change in the Balance</td>
+                                <td>{{vm.balanceChange}}</td>
+                            </tr>
+                            <tr ng-if="vm.comment != ''">
+                                <td>Comment</td>
+                                <td>{{vm.comment}}</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
                     <!-- /.table-responsive -->
                 </div>
                 <!-- /.box-body -->
+                <div class="box-footer clearfix">
+                    <!--<a style="margin-left: 10px" class="btn btn-flat btn-warning pull-right"-->
+                    <!--data-ng-click="vm.resetCashDrawer()">-->
+                    <!--Reset Starting Cash-->
+                    <!--</a>-->
+                    <a ng-if="vm.enabletext == true" class="btn btn-flat btn-success pull-right"
+                       data-ng-click="vm.submitCashDrawerReport()">
+                        Submit Record
+                    </a>
+                </div>
             </div>
             <!-- /.box -->
 
@@ -92,7 +124,143 @@
 
 <script>
     //Date range picker
-    $('#reservation').datepicker({
-        autoclose: true
+    $('#reservation').daterangepicker({
+        singleDatePicker: true
     });
 </script>
+
+<div class="modal fade" id="addStartingCashModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addItemModalLabel">Define Starting Cash Items</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="fiveThousand" class="control-label">Rs. 5000</label>
+                        <input type="text" class="form-control" placeholder="5000"
+                               ng-model="vm.fiveThousandStarting" id="fiveThousand">
+                    </div>
+                    <div class="form-group">
+                        <label for="fiveThousand" class="control-label">Rs. 2000</label>
+                        <input type="text" class="form-control" placeholder="2000"
+                               ng-model="vm.twoThousandStarting" id="twoThousand">
+                    </div>
+                    <div class="form-group">
+                        <label for="oneThousand" class="control-label">Rs. 1000</label>
+                        <input type="text" class="form-control" placeholder="1000"
+                               ng-model="vm.oneThousandStarting" id="oneThousand">
+                    </div>
+                    <div class="form-group">
+                        <label for="fiveHundred" class="control-label">Rs. 500</label>
+                        <input type="text" class="form-control" placeholder="500"
+                               ng-model="vm.fiveHundredStarting" id="fiveHundred">
+                    </div>
+                    <div class="form-group">
+                        <label for="fiveHundred" class="control-label">Rs. 200</label>
+                        <input type="text" class="form-control" placeholder="200"
+                               ng-model="vm.twoHundredStarting" id="twoHundred">
+                    </div>
+                    <div class="form-group">
+                        <label for="oneHundred" class="control-label">Rs. 100</label>
+                        <input type="text" class="form-control" placeholder="100"
+                               ng-model="vm.oneHundredStarting" id="oneHundred">
+                    </div>
+                    <div class="form-group">
+                        <label for="fifty" class="control-label">Rs. 50</label>
+                        <input type="text" class="form-control" placeholder="50"
+                               ng-model="vm.fiftyStarting" id="fifty">
+                    </div>
+                    <div class="form-group">
+                        <label for="twenty" class="control-label">Rs. 20</label>
+                        <input type="text" class="form-control" placeholder="20"
+                               ng-model="vm.twentyStarting" id="twenty">
+                    </div>
+                    <div class="form-group">
+                        <label for="ten" class="control-label">Rs. 10</label>
+                        <input type="text" class="form-control" placeholder="10"
+                               ng-model="vm.tenStarting" id="ten">
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="vm.addStartingCash()">
+                    Enter
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addActualCashModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addItemModalLabel">Define Actual Cash Items</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="fiveThousand" class="control-label">Rs. 5000</label>
+                        <input type="text" class="form-control" placeholder="5000"
+                               ng-model="vm.fiveThousandActual" id="fiveThousand">
+                    </div>
+                    <div class="form-group">
+                        <label for="fiveThousand" class="control-label">Rs. 2000</label>
+                        <input type="text" class="form-control" placeholder="2000"
+                               ng-model="vm.twoThousandActual" id="twoThousand">
+                    </div>
+                    <div class="form-group">
+                        <label for="oneThousand" class="control-label">Rs. 1000</label>
+                        <input type="text" class="form-control" placeholder="1000"
+                               ng-model="vm.oneThousandActual" id="oneThousand">
+                    </div>
+                    <div class="form-group">
+                        <label for="fiveHundred" class="control-label">Rs. 500</label>
+                        <input type="text" class="form-control" placeholder="500"
+                               ng-model="vm.fiveHundredActual" id="fiveHundred">
+                    </div>
+                    <div class="form-group">
+                        <label for="fiveHundred" class="control-label">Rs. 200</label>
+                        <input type="text" class="form-control" placeholder="200"
+                               ng-model="vm.twoHundredActual" id="twoHundred">
+                    </div>
+                    <div class="form-group">
+                        <label for="oneHundred" class="control-label">Rs. 100</label>
+                        <input type="text" class="form-control" placeholder="100"
+                               ng-model="vm.oneHundredActual" id="oneHundred">
+                    </div>
+                    <div class="form-group">
+                        <label for="fifty" class="control-label">Rs. 50</label>
+                        <input type="text" class="form-control" placeholder="50"
+                               ng-model="vm.fiftyActual" id="fifty">
+                    </div>
+                    <div class="form-group">
+                        <label for="twenty" class="control-label">Rs. 20</label>
+                        <input type="text" class="form-control" placeholder="20"
+                               ng-model="vm.twentyActual" id="twenty">
+                    </div>
+                    <div class="form-group">
+                        <label for="ten" class="control-label">Rs. 10</label>
+                        <input type="text" class="form-control" placeholder="10"
+                               ng-model="vm.tenActual" id="ten">
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="vm.addActualCash()">
+                    Enter
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

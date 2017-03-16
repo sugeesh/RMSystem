@@ -5,19 +5,19 @@
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
         <!--<File name="NikeLogFile" fileName="${env:log_path}">-->
-        <!--<File name="NikeLogFile" fileName="${env:log_path}">-->
+        <File name="NikeLogFile" fileName="${env:log_path}">
         <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
             </PatternLayout>
         </File>
-        <!--<Async name="AsyncLogFile">
+        <Async name="AsyncLogFile">
             <AppenderRef ref="LogFile"/>
-        </Async>-->
+        </Async>
     </Appenders>
     <Loggers>
         <Root level="info">
             <AppenderRef ref="Console"/>
-         <!--   <AppenderRef ref="AsyncLogFile"/>-->
+            <AppenderRef ref="AsyncLogFile"/>
         </Root>
     </Loggers>
 </Configuration>
