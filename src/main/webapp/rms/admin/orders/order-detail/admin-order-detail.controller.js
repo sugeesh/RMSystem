@@ -51,6 +51,7 @@
                 vm.orderId = vm.backendData.orderId;
                 vm.orderTime = vm.backendData.orderTime;
                 vm.comment = vm.backendData.comment;
+                vm.isVoid = vm.backendData.voidOrder;
                 vm.kotNumber = vm.backendData.kotNumber;
                 vm.type = vm.backendData.type;
                 vm.kotNumber = vm.backendData.kotNumber;
