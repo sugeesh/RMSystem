@@ -6,7 +6,10 @@ import org.hashtag.rms.repository.OrderRepository;
 import org.hashtag.rms.resource.CashDrawerResource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Buddhi on 3/16/2017.
@@ -34,5 +37,16 @@ public class CashDrawerService {
 
         CashDrawer save = cashDrawerRepository.save(cashDrawer);
         return save;
+    }
+
+    public Object getCashDrawerForDateRange(String startDate, String endDate) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date startDateObj = dateFormat.parse(startDate);
+        Date endDateObj = dateFormat.parse(endDate);
+
+        List<CashDrawer> list = null;
+        list = cashDrawerRepository.findByDateBetween(startDateObj, endDateObj);
+        return list;
     }
 }

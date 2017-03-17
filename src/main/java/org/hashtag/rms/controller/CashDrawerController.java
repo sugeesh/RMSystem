@@ -36,13 +36,13 @@ public class CashDrawerController extends AbstractController {
         return sendSuccessResponse(cashDrawer);
     }
 
-    @POST
+    @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/save_cash_drawer")
-    public Response saveCashDrawer(CashDrawerResource cashDrawerResource) {
+    @Path("/get_cash_drawer_for_date_range/{startDate}/{endDate}")
+    public Response saveCashDrawer(@PathParam("startDate") String startDate, @PathParam("endDate") String endDate) {
         try {
-            return sendSuccessResponse(cashDrawerService.saveCashDrawer(cashDrawerResource));
+            return sendSuccessResponse(cashDrawerService.getCashDrawerForDateRange(startDate, endDate));
         } catch (Exception e) {
             e.printStackTrace();
             return handleServiceException(e);

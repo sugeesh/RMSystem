@@ -18,6 +18,7 @@
         vm.addActualCash = addActualCash;
         vm.addStartingCash = addStartingCash;
         vm.submitCashDrawerReport = submitCashDrawerReport;
+        vm.getCashDrawerDataForDateRange = getCashDrawerDataForDateRange;
 
         vm.fiveThousandStarting = 0;
         vm.twoThousandStarting = 0;
@@ -41,6 +42,17 @@
         vm.comment = '';
 
         getCashDrawerData();
+
+        function getCashDrawerDataForDateRange() {
+            var startDate = $('#daterangewidget').data('daterangepicker').startDate.format("YYYY-MM-DD");
+            var endDate = $('#daterangewidget').data('daterangepicker').endDate.format("YYYY-MM-DD");
+
+            webservice.call($rootScope.baseURL + '/cashdrawer/get_cash_drawer_for_date_range/' + startDate + '/' + endDate, 'get').then(function (response) {
+                vm.cashdrawerList = response.data;
+            });
+
+
+        }
 
         function submitCashDrawerReport() {
             var today = new Date();
@@ -73,6 +85,7 @@
 
             webservice.call($rootScope.baseURL + '/cashdrawer/save_cash_drawer', 'post', cashdrawer).then(function (response) {
                 console.log(response);
+                alert("Entry Added");
             });
         }
 
@@ -80,15 +93,27 @@
             var total = vm.fiveThousandStarting * 5000 + vm.twoThousandStarting * 2000 + vm.oneThousandStarting * 1000 + vm.fiveHundredStarting * 500 + vm.twoHundredStarting * 200 + vm.oneHundredStarting * 100 + vm.fiftyStarting * 50 + vm.twentyStarting * 20 + vm.tenStarting * 10;
             console.log(total);
             vm.startingCash = total;
+
+            vm.endOfTheDayBalance = vm.startingCash + vm.ordersBalance;
+            vm.balanceChange = Math.abs(vm.endOfTheDayBalance - vm.actualCash);
         }
 
         function addActualCash() {
             var total = vm.fiveThousandActual * 5000 + vm.twoThousandActual * 2000 + vm.oneThousandActual * 1000 + vm.fiveHundredActual * 500 + vm.twoHundredActual * 200 + vm.oneHundredActual * 100 + vm.fiftyActual * 50 + vm.twentyActual * 20 + vm.tenActual * 10;
             console.log(total);
             vm.actualCash = total;
+
+            vm.balanceChange = Math.abs(vm.endOfTheDayBalance - vm.actualCash);
         }
 
         function getCashDrawerData() {
+            vm.startingCash = 0;
+            vm.ordersBalance = 0;
+            vm.endOfTheDayBalance = 0;
+            vm.actualCash = 0;
+            vm.balanceChange = 0;
+            vm.comment = '';
+
             var today = new Date();
             var dd = today.getDate();
             var mm = today.getMonth() + 1; //January is 0!
@@ -116,7 +141,7 @@
             var yesterday = yyyy + "-" + mm + "-" + dd;
             console.log(yesterday);
 
-            var date = $('#reservation').data('daterangepicker').startDate.format("YYYY-MM-DD");
+            var date = $('#datepickerwidget').data('daterangepicker').startDate.format("YYYY-MM-DD");
 
             var promises = [];
             promises.push(webservice.call($rootScope.baseURL + "/order/get_all_orders_for_date/" + date, "get"));
@@ -135,7 +160,6 @@
                     });
                     vm.ordersBalance = oAmount;
 
-                    vm.enabletext = false;
                     var cd = cashdrawer;
 
                     vm.startingCash = cd.startingCash;
@@ -145,8 +169,6 @@
                     vm.balanceChange = cd.balanceChange;
                     vm.comment = cd.comment;
                 } else if (date == today) {
-                    vm.enabletext = true;
-
                     var promises = [];
                     promises.push(webservice.call($rootScope.baseURL + "/order/get_all_orders_for_date/" + today, "get"));
                     promises.push(webservice.call($rootScope.baseURL + '/cashdrawer/get_cash_drawer_for_date/' + yesterday, 'get'));
@@ -163,20 +185,18 @@
                         });
                         vm.ordersBalance = oAmount;
 
-                        vm.enabletext = false;
-
-                        vm.startingCash = cashdrawer.startingCash;
+                        vm.startingCash = cashdrawer.actualCash;
+                        vm.endOfTheDayBalance = vm.startingCash + vm.ordersBalance;
+                        vm.balanceChange = Math.abs(vm.endOfTheDayBalance - vm.actualCash);
 
                     });
                 } else if (cashdrawer == "") {
-                    vm.enabletext = true;
-
                     vm.startingCash = 0;
                     vm.ordersBalance = 0;
                     vm.endOfTheDayBalance = 0;
                     vm.actualCash = 0;
                     vm.balanceChange = 0;
-                    vm.comment = 0;
+                    vm.comment = '';
                 }
             });
         }
