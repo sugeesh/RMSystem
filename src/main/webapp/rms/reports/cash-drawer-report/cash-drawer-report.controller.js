@@ -116,30 +116,30 @@
         function addStartingCash() {
             var total = vm.fiveThousandStarting * 5000 + vm.twoThousandStarting * 2000 + vm.oneThousandStarting * 1000 + vm.fiveHundredStarting * 500 + vm.twoHundredStarting * 200 + vm.oneHundredStarting * 100 + vm.fiftyStarting * 50 + vm.twentyStarting * 20 + vm.tenStarting * 10;
             console.log(total);
-            vm.startingCash = total;
+            vm.startingCash = Number(total);
 
-            vm.endOfTheDayBalance = vm.startingCash + vm.ordersBalance;
-            vm.balanceChange = Math.abs(vm.endOfTheDayBalance - vm.actualCash);
+            vm.endOfTheDayBalance = Number(vm.startingCash) + Number(vm.ordersBalance);
+            vm.balanceChange = Math.abs(Number(vm.endOfTheDayBalance) - Number(vm.actualCash));
         }
 
         function addActualCash() {
             var total = vm.fiveThousandActual * 5000 + vm.twoThousandActual * 2000 + vm.oneThousandActual * 1000 + vm.fiveHundredActual * 500 + vm.twoHundredActual * 200 + vm.oneHundredActual * 100 + vm.fiftyActual * 50 + vm.twentyActual * 20 + vm.tenActual * 10;
             console.log(total);
-            vm.actualCash = total;
+            vm.actualCash = Number(total);
 
-            vm.balanceChange = Math.abs(vm.endOfTheDayBalance - vm.actualCash);
+            vm.balanceChange = Math.abs(Number(vm.endOfTheDayBalance) - Number(vm.actualCash));
         }
 
         function initForm(){
             webservice.call($rootScope.baseURL + "/cashdrawer/get_cash_drawer_for_today", "get").then(function (response) {
                 if(response.data != ""){
-                    vm.startingCash = response.data.startingCash;
+                    vm.startingCash = Number(response.data.actualCash);
                     vm.cashDrawerId = response.data.id;
                     vm.updatFlag = true;
                 }else{
                     webservice.call($rootScope.baseURL + "/cashdrawer/get_cash_drawer_for_yesterday", "get").then(function (response1) {
                         if(response1.data != ""){
-                            vm.startingCash = response1.data.actualCash;
+                            vm.startingCash = Number(response1.data.actualCash);
                         }else {
                             vm.startingCash = 0;
                         }
@@ -175,18 +175,18 @@
                         var payment = order.paymentDetails;
                         oAmount += payment.amount;
                     });
-                    vm.ordersBalance = oAmount;
-                    vm.endOfTheDayBalance = vm.startingCash + vm.ordersBalance;
+                    vm.ordersBalance = Number(oAmount);
+                    vm.endOfTheDayBalance = Number(vm.startingCash) + Number(vm.ordersBalance);
                 } else {
                     vm.ordersBalance =0;
-                    vm.endOfTheDayBalance = vm.startingCash + vm.ordersBalance;
+                    vm.endOfTheDayBalance = Number(vm.startingCash) + Number(vm.ordersBalance);
                 }
             });
         }
 
         function calcBalance() {
-            vm.endOfTheDayBalance = vm.startingCash + vm.ordersBalance;
-            vm.balanceChange = Math.abs(vm.endOfTheDayBalance - vm.actualCash);
+            vm.endOfTheDayBalance = Number(vm.startingCash) + Number(vm.ordersBalance);
+            vm.balanceChange = Math.abs(Number(vm.endOfTheDayBalance)- Number(vm.actualCash));
         }
 
         /*function getCashDrawerData() {
