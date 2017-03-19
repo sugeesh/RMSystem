@@ -8,13 +8,15 @@
     angular.module('myApp')
         .controller('CashDrawerReportController', CashDrawerReportController);
 
-    CashDrawerReportController.$inject = ['webservice', '$rootScope', '$q'];
+    CashDrawerReportController.$inject = ['webservice', '$rootScope', '$q','$route'];
 
-    function CashDrawerReportController(webservice, $rootScope, $q) {
+    function CashDrawerReportController(webservice, $rootScope, $q,$route) {
         var vm = this;
         $rootScope.baseURL = "http://localhost:8080/rest";
 
-        vm.getCashDrawerData = getCashDrawerData;
+
+        vm.showTable = false;
+        // vm.getCashDrawerData = getCashDrawerData;
         vm.addActualCash = addActualCash;
         vm.addStartingCash = addStartingCash;
         vm.submitCashDrawerReport = submitCashDrawerReport;
@@ -39,9 +41,21 @@
         vm.twentyActual = 0;
         vm.tenActual = 0;
 
+        vm.startingCash = 0;
+        vm.ordersBalance = 0;
+        vm.endOfTheDayBalance = 0;
+        vm.actualCash = 0;
+        vm.balanceChange = 0;
         vm.comment = '';
+        vm.updatFlag = false;
 
-        getCashDrawerData();
+        vm.cashDrawerId = -1;
+        vm.calcBalance = calcBalance;
+
+
+        // getCashDrawerData();
+
+        initForm();
 
         function getCashDrawerDataForDateRange() {
             var startDate = $('#daterangewidget').data('daterangepicker').startDate.format("YYYY-MM-DD");
@@ -49,6 +63,7 @@
 
             webservice.call($rootScope.baseURL + '/cashdrawer/get_cash_drawer_for_date_range/' + startDate + '/' + endDate, 'get').then(function (response) {
                 vm.cashdrawerList = response.data;
+                vm.showTable = true;
             });
 
 
@@ -83,10 +98,19 @@
                 startingCash: sc
             };
 
-            webservice.call($rootScope.baseURL + '/cashdrawer/save_cash_drawer', 'post', cashdrawer).then(function (response) {
-                console.log(response);
-                alert("Entry Added");
-            });
+            if(vm.updatFlag){
+                cashdrawer["id"] = vm.cashDrawerId;
+                webservice.call($rootScope.baseURL + '/cashdrawer/update_cash_drawer', 'put', cashdrawer).then(function (response) {
+                    console.log(response);
+                    alert("Balance Updated");
+                });
+            }else{
+                webservice.call($rootScope.baseURL + '/cashdrawer/save_cash_drawer', 'post', cashdrawer).then(function (response) {
+                    console.log(response);
+                    alert("Entry Added");
+                });
+            }
+
         }
 
         function addStartingCash() {
@@ -106,7 +130,66 @@
             vm.balanceChange = Math.abs(vm.endOfTheDayBalance - vm.actualCash);
         }
 
-        function getCashDrawerData() {
+        function initForm(){
+            webservice.call($rootScope.baseURL + "/cashdrawer/get_cash_drawer_for_today", "get").then(function (response) {
+                if(response.data != ""){
+                    vm.startingCash = response.data.startingCash;
+                    vm.cashDrawerId = response.data.id;
+                    vm.updatFlag = true;
+                }else{
+                    webservice.call($rootScope.baseURL + "/cashdrawer/get_cash_drawer_for_yesterday", "get").then(function (response1) {
+                        if(response1.data != ""){
+                            vm.startingCash = response1.data.actualCash;
+                        }else {
+                            vm.startingCash = 0;
+                        }
+                    });
+
+                }
+                loadOrderDetailsForToday();
+            });
+
+        }
+
+
+
+        function loadOrderDetailsForToday() {
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            var today = yyyy + "-" + mm + "-" + dd;
+
+
+            webservice.call($rootScope.baseURL +"/order/get_all_orders_for_date/" + today, "get").then(function (response) {
+                if (response.data != "") {
+                    var orders = response.data.dataRows;
+                    var oAmount = 0;
+                    angular.forEach(orders, function (order) {
+                        var payment = order.paymentDetails;
+                        oAmount += payment.amount;
+                    });
+                    vm.ordersBalance = oAmount;
+                    vm.endOfTheDayBalance = vm.startingCash + vm.ordersBalance;
+                } else {
+                    vm.ordersBalance =0;
+                    vm.endOfTheDayBalance = vm.startingCash + vm.ordersBalance;
+                }
+            });
+        }
+
+        function calcBalance() {
+            vm.endOfTheDayBalance = vm.startingCash + vm.ordersBalance;
+            vm.balanceChange = Math.abs(vm.endOfTheDayBalance - vm.actualCash);
+        }
+
+        /*function getCashDrawerData() {
             vm.startingCash = 0;
             vm.ordersBalance = 0;
             vm.endOfTheDayBalance = 0;
@@ -199,6 +282,6 @@
                     vm.comment = '';
                 }
             });
-        }
+        }*/
     }
 })();

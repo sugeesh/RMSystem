@@ -1,5 +1,5 @@
 <section class="content">
-    <div class="row">
+    <!--<div class="row">
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
@@ -17,9 +17,9 @@
                                     </div>
                                     <input type="text" class="form-control pull-right" id="datepickerwidget"/>
                                 </div>
-                                <!-- /.input group -->
+                                &lt;!&ndash; /.input group &ndash;&gt;
                             </div>
-                            <!-- /.form group -->
+                            &lt;!&ndash; /.form group &ndash;&gt;
                         </div>
                     </div>
                     <div class="row">
@@ -34,13 +34,13 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
     <div class="row">
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Cash Drawer Report</h3>
+                    <h3 class="box-title">Today Cash Drawer Report</h3>
                 </div>
 
                 <!-- /.box-header -->
@@ -53,12 +53,12 @@
                                 <th>
                                     <div class="input-group">
                                         <!-- /btn-group -->
-                                        <input type="text" id="startingCashText" ng-model="vm.startingCash"
+                                        <input type="text" id="startingCashText" ng-change="vm.calcBalance()" ng-model="vm.startingCash"
                                                class="form-control">
                                         <div class="input-group-btn">
                                             <button type="button" data-target="#addStartingCashModal"
                                                     data-toggle="modal"
-                                                    class="btn btn-info">Change
+                                                    class="btn btn-info" >Change
                                             </button>
                                         </div>
                                     </div>
@@ -66,11 +66,23 @@
                             </tr>
                             <tr>
                                 <td>Orders Balance</td>
-                                <td>{{vm.ordersBalance}}</td>
+                                <td>
+                                    <div class="input-group">
+                                        <!-- /btn-group -->
+                                        <input type="text" value="{{vm.ordersBalance}}"
+                                               class="form-control" disabled>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <th>End of the Day Balance</th>
-                                <th>{{vm.endOfTheDayBalance}}</th>
+                                <th>
+                                    <div class="input-group">
+                                        <!-- /btn-group -->
+                                        <input type="text" value="{{vm.endOfTheDayBalance}}"
+                                               class="form-control" disabled>
+                                    </div>
+                                </th>
                             </tr>
                             <tr>
                                 <td>Actual Cash</td>
@@ -80,7 +92,7 @@
                                     <div class="input-group">
                                         <!-- /btn-group -->
                                         <input type="text" id="actualCashText" ng-model="vm.actualCash"
-                                               class="form-control">
+                                               class="form-control" ng-change="vm.calcBalance()">
                                         <div class="input-group-btn">
                                             <button type="button" data-target="#addActualCashModal" data-toggle="modal"
                                                     class="btn btn-info">Change
@@ -91,7 +103,13 @@
                             </tr>
                             <tr>
                                 <td>Change in the Balance</td>
-                                <td>{{vm.balanceChange}}</td>
+                                <td>
+                                    <div class="input-group">
+                                        <!-- /btn-group -->
+                                        <input type="text" value="{{vm.balanceChange}}"
+                                               class="form-control" disabled>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Comment</td>
@@ -132,7 +150,7 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Select Options</h3>
+                    <h3 class="box-title">Cash Report History</h3>
                 </div>
 
                 <div class="box-body">
@@ -166,7 +184,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" ng-show="vm.showTable==true">
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
@@ -190,12 +208,12 @@
                             </thead>
                             <tbody>
                             <tr ng-repeat="cd in vm.cashdrawerList">
-                                <td>{{cd.Date}}</td>
-                                <td>{{cd.startingCash}}</td>
-                                <td>{{cd.ordersBalance}}</td>
-                                <td>{{cd.endOfTheDayBalance}}</td>
-                                <td>{{cd.actualCash}}</td>
-                                <td>{{cd.balanceChange}}</td>
+                                <td>{{cd.date | date : "yyyy-MM-dd" }}</td>
+                                <td>Rs.{{cd.startingCash}}</td>
+                                <td>Rs.{{cd.ordersBalance}}</td>
+                                <td>Rs.{{cd.endOfTheDayBalance}}</td>
+                                <td>Rs.{{cd.actualCash}}</td>
+                                <td>Rs.{{cd.balanceChange}}</td>
                                 <td>{{cd.comment}}</td>
                             </tr>
                             </tbody>
@@ -228,54 +246,54 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="addItemModalLabel">Define Starting Cash Items</h4>
+                <h4 class="modal-title" id="addItemModalLabel1">Define Starting Cash Items</h4>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="form-group">
                         <label for="fiveThousand" class="control-label">Rs. 5000</label>
                         <input type="text" class="form-control" placeholder="5000"
-                               ng-model="vm.fiveThousandStarting" id="fiveThousand">
+                               ng-model="vm.fiveThousandStarting" id="fiveThousand1">
                     </div>
                     <div class="form-group">
                         <label for="fiveThousand" class="control-label">Rs. 2000</label>
                         <input type="text" class="form-control" placeholder="2000"
-                               ng-model="vm.twoThousandStarting" id="twoThousand">
+                               ng-model="vm.twoThousandStarting" id="twoThousand1">
                     </div>
                     <div class="form-group">
                         <label for="oneThousand" class="control-label">Rs. 1000</label>
                         <input type="text" class="form-control" placeholder="1000"
-                               ng-model="vm.oneThousandStarting" id="oneThousand">
+                               ng-model="vm.oneThousandStarting" id="oneThousand1">
                     </div>
                     <div class="form-group">
                         <label for="fiveHundred" class="control-label">Rs. 500</label>
                         <input type="text" class="form-control" placeholder="500"
-                               ng-model="vm.fiveHundredStarting" id="fiveHundred">
+                               ng-model="vm.fiveHundredStarting" id="fiveHundred1">
                     </div>
                     <div class="form-group">
                         <label for="fiveHundred" class="control-label">Rs. 200</label>
                         <input type="text" class="form-control" placeholder="200"
-                               ng-model="vm.twoHundredStarting" id="twoHundred">
+                               ng-model="vm.twoHundredStarting" id="twoHundred1">
                     </div>
                     <div class="form-group">
                         <label for="oneHundred" class="control-label">Rs. 100</label>
                         <input type="text" class="form-control" placeholder="100"
-                               ng-model="vm.oneHundredStarting" id="oneHundred">
+                               ng-model="vm.oneHundredStarting" id="oneHundred1">
                     </div>
                     <div class="form-group">
                         <label for="fifty" class="control-label">Rs. 50</label>
                         <input type="text" class="form-control" placeholder="50"
-                               ng-model="vm.fiftyStarting" id="fifty">
+                               ng-model="vm.fiftyStarting" id="fifty1">
                     </div>
                     <div class="form-group">
                         <label for="twenty" class="control-label">Rs. 20</label>
                         <input type="text" class="form-control" placeholder="20"
-                               ng-model="vm.twentyStarting" id="twenty">
+                               ng-model="vm.twentyStarting" id="twenty1">
                     </div>
                     <div class="form-group">
                         <label for="ten" class="control-label">Rs. 10</label>
                         <input type="text" class="form-control" placeholder="10"
-                               ng-model="vm.tenStarting" id="ten">
+                               ng-model="vm.tenStarting" id="ten1">
                     </div>
 
                 </form>

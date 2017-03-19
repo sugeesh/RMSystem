@@ -15,4 +15,6 @@ public interface CashDrawerRepository extends CrudRepository<CashDrawer, Integer
     CashDrawer findByDate(Date date);
 
     List<CashDrawer> findByDateBetween(Date startDateObj, Date endDateObj);
+
+    List<CashDrawer> findAllByOrderByDateDesc();
 }
