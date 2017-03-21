@@ -46,7 +46,7 @@ public class UserService {
     }
 
     public Object updateUser(UserResource userResource) {
-//        userRepository.delete(userResource.getId());
+        userRepository.delete(userResource.getId());
 
         User user = new User();
         user.setUserId(userResource.getId());
