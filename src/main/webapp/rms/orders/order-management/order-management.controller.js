@@ -60,6 +60,8 @@
         vm.orderTime = new Date();
         vm.kotNumber = "";
 
+        vm.userName = $cookies.get('userName');
+
         vm.openOrder = false;
 
         initCategoriesList();
@@ -250,7 +252,7 @@
         }
 
         function setServedOrderCount() {
-            webservice.call($rootScope.baseURL + "/order/all_served_orders", "get").then(function (response) {
+            webservice.call($rootScope.baseURL + "/order/all_completed_orders", "get").then(function (response) {
                 vm.servedOrderCount = response.data.dataRows.length;
             });
         }

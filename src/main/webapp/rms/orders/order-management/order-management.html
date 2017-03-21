@@ -17,7 +17,7 @@
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <span class="info-box-icon bg-green"><i class="fa fa-shopping-cart"></i></span>
+                <span class="info-box-icon bg-yellow"><i class="fa fa-beer"></i></span>
 
                 <div class="info-box-content">
                     <span class="info-box-text">Served KOT</span>
@@ -39,13 +39,13 @@
 
         <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
             <div class="info-box">
-                <span class="info-box-icon bg-green"><i class="fa fa-shopping-cart"></i></span>
+                <span class="info-box-icon bg-aqua"><i class="fa fa-tags"></i></span>
 
                 <div class="info-box-content">
                     <span class="info-box-text">Order Type</span>
                     <span class="info-box-number">
                         <input style="margin-top: -5px" type="checkbox" checked data-toggle="toggle" id="ordertoggle"
-                               data-onstyle="primary" data-offstyle="info" data-height="25" />
+                               data-onstyle="primary" data-offstyle="info" data-height="25"/>
 
                     </span>
                 </div>
@@ -87,11 +87,11 @@
                         </div>
 
                         <div ng-repeat="category in vm.categoriesList" class="box">
-                            <div class="box-header with-border">
+                            <div class="box-header with-border" style="background-color: {{category.colorCode}}">
                                 <h4 class="box-title">
                                     <a data-toggle="collapse" data-parent="#accordion"
                                        data-target="{{ '#collapse' + category.categoryId }}"
-                                       href="" style="color:{{category.colorCode}}">
+                                       href="" style="color: white">
                                         {{category.name}}
                                     </a>
                                 </h4>
@@ -290,6 +290,19 @@
                                         <br>
                                     </div>
                                     <!-- /.col -->
+                                    <div class="col-sm-2 invoice-col">
+                                        Cashier Name<br>
+                                        <b>{{ vm.userName }}</b><br>
+                                        <br>
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-2 invoice-col">
+                                        Order Type<br>
+                                        <b ng-if="vm.type == 0">Dine in</b><br>
+                                        <b ng-if="vm.type == 1">Take away</b><br>
+                                        <br>
+                                    </div>
+                                    <!-- /.col -->
                                     <div class="col-sm-2 invoice-col pull-right">
                                         Order ID<br>
                                         <b>{{ vm.kotNumber }}</b> <br>
@@ -345,27 +358,27 @@
                                                 <table class="table">
                                                     <tr>
                                                         <th style="width:80%">Subtotal:</th>
-                                                        <td>{{ vm.subTotal  | number:2  }}</td>
+                                                        <td>{{ vm.subTotal | number:2 }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Tax (%):</th>
-                                                        <td>{{ vm.tax   | number:2 }}</td>
+                                                        <td>{{ vm.tax | number:2 }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Service Charges (%):</th>
-                                                        <td>{{ vm.serviceCharge  | number:2  }}</td>
+                                                        <td>{{ vm.serviceCharge | number:2 }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Discount:</th>
-                                                        <td>{{ vm.discount  | number:2  }}</td>
+                                                        <td>{{ vm.discount | number:2 }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Total:</th>
-                                                        <td>{{ vm.calculateTotal()  | number:2  }}</td>
+                                                        <td>{{ vm.calculateTotal() | number:2 }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Payment:</th>
-                                                        <td>{{ vm.payment  | number:2 }}</td>
+                                                        <td>{{ vm.payment | number:2 }}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>Balance:</th>
@@ -400,7 +413,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- Open Order Modal -->
 <div class="modal fade " id="openOrderModal" role="dialog" aria-labelledby="openOrderModalLabel">
@@ -461,11 +473,11 @@
         });
     });
 
-    $(function() {
-        $('#ordertoggle').change(function() {
-            if($('#ordertoggle').prop('checked')) {
+    $(function () {
+        $('#ordertoggle').change(function () {
+            if ($('#ordertoggle').prop('checked')) {
                 angular.element('#ordertoggle').scope().vm.changeType(0);
-            }else{
+            } else {
                 angular.element('#ordertoggle').scope().vm.changeType(1);
             }
             angular.element('#ordertoggle').scope().$apply();

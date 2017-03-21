@@ -26,15 +26,23 @@ public class User {
     @Column(name = "Name")
     private String name;
 
+    @Column(name = "Nic")
+    private String nic;
+
+    @Column(name = "Telephone")
+    private String telephone;
+
     public User() {
 
     }
 
-    public User(String username, String password, Integer type, String name) {
+    public User(String username, String password, Integer type, String name, String nic, String telephone) {
         this.username = username;
         this.password = password;
         this.type = type;
         this.name = name;
+        this.nic = nic;
+        this.telephone = telephone;
     }
 
     public Integer getUserId() {
@@ -77,4 +85,19 @@ public class User {
         this.name = name;
     }
 
+    public String getNic() {
+        return nic;
+    }
+
+    public void setNic(String nic) {
+        this.nic = nic;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
 }

@@ -52,4 +52,29 @@ public class UserController extends AbstractController {
         }
     }
 
+    @POST
+    @Path("/update_user")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateUser(UserResource userResource) {
+        try {
+            return sendSuccessResponse(userService.updateUser(userResource));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return handleServiceException(e);
+        }
+    }
+
+    @GET
+    @Path("/get_all_users")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllUsers() {
+        try {
+            return sendSuccessResponse(userService.getAllUsers());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return handleServiceException(e);
+        }
+    }
+
 }

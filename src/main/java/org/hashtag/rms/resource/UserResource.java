@@ -6,18 +6,33 @@ package org.hashtag.rms.resource;
 public class UserResource {
 
     private String username;
+    private int id;
     private String password;
     private String name;
     private int type;
+    private String nic;
+    private String telephone;
 
     public UserResource() {
     }
 
-    public UserResource(String username, String password, String name, int type) {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public UserResource(int id, String username, String password, String name, int type, String nic, String telephone) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.name = name;
         this.type = type;
+        this.nic = nic;
+        this.telephone = telephone;
+
     }
 
     public String getUsername() {
@@ -50,5 +65,21 @@ public class UserResource {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getNic() {
+        return nic;
+    }
+
+    public void setNic(String nic) {
+        this.nic = nic;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 }

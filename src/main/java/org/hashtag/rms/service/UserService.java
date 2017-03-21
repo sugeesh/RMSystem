@@ -25,6 +25,8 @@ public class UserService {
         user.setName(userResource.getName());
         user.setPassword(userResource.getPassword());
         user.setType(userResource.getType());
+        user.setNic(userResource.getNic());
+        user.setTelephone(userResource.getTelephone());
 
         User save = userRepository.save(user);
         return save;
@@ -35,8 +37,27 @@ public class UserService {
         return user;
     }
 
-
-    public User getUserByUserId(String id){
+    public User getUserByUserId(String id) {
         return userRepository.findByUserId(Integer.parseInt(id));
+    }
+
+    public Object getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public Object updateUser(UserResource userResource) {
+//        userRepository.delete(userResource.getId());
+
+        User user = new User();
+        user.setUserId(userResource.getId());
+        user.setName(userResource.getName());
+        user.setPassword(userResource.getPassword());
+        user.setTelephone(user.getTelephone());
+        user.setNic(userResource.getNic());
+        user.setUsername(userResource.getUsername());
+        user.setType(userResource.getType());
+
+        User save = userRepository.save(user);
+        return save;
     }
 }

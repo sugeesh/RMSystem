@@ -44,10 +44,22 @@
                                 <option value="4">Kitchen User</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label>NIC</label>
+                            <input type="text" class="form-control" ng-model="nic"
+                                   id="nic">
+                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Telephone</label>
+                            <input type="text" class="form-control" ng-model="telephone"
+                                   id="telephone">
+                            <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
+                        </div>
 
                         <div class="row">
                             <div class="col-xs-3 pull-right">
-                                <button data-ng-click="vm.createUser(this.username, this.password, this.retypepassword, this.name, this.type)"
+                                <button data-ng-click="vm.createUser(this.username, this.password, this.retypepassword, this.name, this.type, this.nic, this.telephone)"
                                         class="btn btn-primary btn-block btn-flat">Register
                                 </button>
                             </div>
@@ -66,7 +78,10 @@
 
                 <!-- /.box-header -->
                 <div class="box-body">
-                    Existing users list
+                    <div ng-repeat="user in vm.usersList">
+                        <p><a data-toggle="modal" data-target="#openOrderModal" data-ng-click="vm.openUserModal(user)"
+                              style="cursor: pointer">{{user.name}}<br/></a></p>
+                    </div>
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -76,3 +91,57 @@
     <!-- /.row -->
 </section>
 <!-- /.content -->
+
+<!-- Open Order Modal -->
+<div class="modal fade " id="openOrderModal" role="dialog" aria-labelledby="openOrderModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="openOrderModalLabel">Update User</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="selectedName" class="control-label">Name</label>
+                        <input type="text" class="form-control" placeholder="Name"
+                               ng-model="vm.selectedName" id="selectedName">
+                    </div>
+                    <div class="form-group">
+                        <label for="selectedUserame" class="control-label">Username</label>
+                        <input type="text" class="form-control" placeholder="Username"
+                               ng-model="vm.selectedUserame" id="selectedUserame">
+                    </div>
+                    <div class="form-group">
+                        <label for="selectedPassword" class="control-label">Password</label>
+                        <input type="password" class="form-control" placeholder="Password"
+                               ng-model="vm.selectedPassword" id="selectedPassword">
+                    </div>
+                    <div class="form-group">
+                        <label for="selectedRetypePassword" class="control-label">Retype Password</label>
+                        <input type="password" class="form-control" placeholder="Retype Password"
+                               ng-model="vm.selectedRetypePassword" id="selectedRetypePassword">
+                    </div>
+                    <div class="form-group">
+                        <label for="selectedNic" class="control-label">Nic</label>
+                        <input type="text" class="form-control" placeholder="Nic"
+                               ng-model="vm.selectedNic" id="selectedNic">
+                    </div>
+                    <div class="form-group">
+                        <label for="selectedTelephone" class="control-label">Telephone</label>
+                        <input type="text" class="form-control" placeholder="Telephone"
+                               ng-model="vm.selectedTelephone" id="selectedTelephone">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        data-ng-click="vm.updateUser()">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

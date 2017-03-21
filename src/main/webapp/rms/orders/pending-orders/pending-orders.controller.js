@@ -45,17 +45,22 @@
 
 
         function voidOrder() {
-            var sendObj = {
-                "orderId": vm.voidkotNumber,
-                "voidOrder": true,
-                "state": "WAITING",
-                "comment": vm.voidReason
-            };
+            // console.log(vm.voidReason);
+            if (vm.voidReason != '') {
+                var sendObj = {
+                    "orderId": vm.voidkotNumber,
+                    "voidOrder": true,
+                    "state": "WAITING",
+                    "comment": vm.voidReason
+                };
 
-            webservice.call($rootScope.baseURL + "/order/update_void_order/", "put", sendObj).then(function (response) {
-                $state.go("waiting_orders");
-                alert("Order Voided.");
-            });
+                webservice.call($rootScope.baseURL + "/order/update_void_order/", "put", sendObj).then(function (response) {
+                    $state.go("waiting_orders");
+                    alert("Order Voided.");
+                });
+            } else {
+                alert("Please enter a message before voiding the order.");
+            }
         }
 
 

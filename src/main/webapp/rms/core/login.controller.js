@@ -38,6 +38,7 @@
                         $cookies.put('userType', 'KITCHEN');
                     }
                     $cookies.put('userId', response.data.userId);
+                    $cookies.put('userName', response.data.name);
                     $state.go('dashboard');
                 } else {
                     // alert("Username or Password is wrong.");
