@@ -58,63 +58,91 @@
     <div class="row">
         <!-- Right col-->
         <div class="col-md-4">
+
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Menu</h3>
+                    <h3 class="box-title">Order Information</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <div class="input-group" style="margin-bottom: 10px">
-                        <input type="text" class="form-control" placeholder="Enter SKU Code" ng-model="newitemid"
-                               id="newitemid">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-info btn-flat" id="newItemIdButton"
-                                    data-ng-click="vm.addItemByCode(this.newitemid)">Add</button>
-                            </span>
-                    </div>
-                    <div class="box-group" id="accordion">
-                        <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
-
-                        <div class="box">
-                            <div class="box-header with-border">
-                                <h4 class="box-title">
-                                    <a data-toggle="modal" data-parent="#accordion" href=""
-                                       data-target="#openOrderModal">
-                                        Open Order
-                                    </a>
-                                </h4>
-                            </div>
+                    <div role="form">
+                        <div class="form-group">
+                            <label for="customername">Customer Name</label>
+                            <input type="text" class="form-control" id="customername" placeholder="Customer Name"
+                                   ng-model="vm.customerName">
                         </div>
-
-                        <div ng-repeat="category in vm.categoriesList" class="box">
-                            <div class="box-header with-border" style="background-color: {{category.colorCode}}">
-                                <h4 class="box-title">
-                                    <a data-toggle="collapse" data-parent="#accordion"
-                                       data-target="{{ '#collapse' + category.categoryId }}"
-                                       href="" style="color: white">
-                                        {{category.name}}
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="{{ 'collapse' + category.categoryId }}" class="panel-collapse collapse">
-                                <div class="box-body">
-                                    <ul class="products-list product-list-in-box">
-                                        <li class="item"
-                                            ng-repeat="item in category.itemResourceList | orderBy:'priority'"
-                                            ng-click='vm.addToTable(item)' ng-if="item.active!=0"><a
-                                                style="color:{{category.colorCode}}" href="">{{item.skuCode + ' - ' +
-                                            item.name +'('+item.portion+')'}}</a>
-                                        </li>
-                                    </ul>
-                                    <!--<div >  <a  >{{item.name}}</a><br/></div>-->
-                                </div>
-                            </div>
+                        <div class="form-group" ng-show="vm.type==0">
+                            <label for="table">Table</label>
+                            <input type="text" class="form-control" id="table"
+                                   placeholder="Table" ng-model="vm.tableId">
                         </div>
-
+                        <div class="form-group">
+                            <label for="table">Comment</label>
+                            <input type="text" class="form-control" id="comment" placeholder="Comment"
+                                   ng-model="vm.comment">
+                        </div>
+                        <!-- /.box-body -->
                     </div>
                 </div>
-                <!-- /.box-body -->
             </div>
+
+            <!--<div class="box box-info">-->
+            <!--<div class="box-header with-border">-->
+            <!--<h3 class="box-title">Menu</h3>-->
+            <!--</div>-->
+            <!--&lt;!&ndash; /.box-header &ndash;&gt;-->
+            <!--<div class="box-body">-->
+            <!--<div class="input-group" style="margin-bottom: 10px">-->
+            <!--<input type="text" class="form-control" placeholder="Enter SKU Code" ng-model="newitemid"-->
+            <!--id="newitemid">-->
+            <!--<span class="input-group-btn">-->
+            <!--<button type="button" class="btn btn-info btn-flat" id="newItemIdButton"-->
+            <!--data-ng-click="vm.addItemByCode(this.newitemid)">Add</button>-->
+            <!--</span>-->
+            <!--</div>-->
+            <!--<div class="box-group" id="accordion">-->
+            <!--&lt;!&ndash; we are adding the .panel class so bootstrap.js collapse plugin detects it &ndash;&gt;-->
+
+            <!--<div class="box">-->
+            <!--<div class="box-header with-border">-->
+            <!--<h4 class="box-title">-->
+            <!--<a data-toggle="modal" data-parent="#accordion" href=""-->
+            <!--data-target="#openOrderModal">-->
+            <!--Open Order-->
+            <!--</a>-->
+            <!--</h4>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <!--<div ng-repeat="category in vm.categoriesList" class="box">-->
+            <!--<div class="box-header with-border" style="background-color: {{category.colorCode}}">-->
+            <!--<h4 class="box-title">-->
+            <!--<a data-toggle="collapse" data-parent="#accordion"-->
+            <!--data-target="{{ '#collapse' + category.categoryId }}"-->
+            <!--href="" style="color: white">-->
+            <!--{{category.name}}-->
+            <!--</a>-->
+            <!--</h4>-->
+            <!--</div>-->
+            <!--<div id="{{ 'collapse' + category.categoryId }}" class="panel-collapse collapse">-->
+            <!--<div class="box-body">-->
+            <!--<ul class="products-list product-list-in-box">-->
+            <!--<li class="item"-->
+            <!--ng-repeat="item in category.itemResourceList | orderBy:'priority'"-->
+            <!--ng-click='vm.addToTable(item)' ng-if="item.active!=0"><a-->
+            <!--style="color:{{category.colorCode}}" href="">{{item.skuCode + ' - ' +-->
+            <!--item.name +'('+item.portion+')'}}</a>-->
+            <!--</li>-->
+            <!--</ul>-->
+            <!--&lt;!&ndash;<div >  <a>{{item.name}}</a><br/></div>&ndash;&gt;-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+
+            <!--</div>-->
+            <!--</div>-->
+            <!--&lt;!&ndash; /.box-body &ndash;&gt;-->
+            <!--</div>-->
             <!-- /.box -->
         </div>
         <!-- Left col -->
@@ -122,10 +150,29 @@
             <!-- TABLE: LATEST ORDERS -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Kitchen Order Ticket</h3>
+                    <h3 class="box-title">Kitchen Order Ticket Details</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
+
+                    <ul class="nav nav-tabs" style="border: none; margin-top: 10px; margin-bottom: 20px">
+                        <li class="dropdown" ng-repeat="category in vm.categoriesList"
+                            style="background-color: {{category.colorCode}}">
+                            <a class="dropdown-toggle menu-category" data-toggle="dropdown" href="">
+                                {{category.name}}<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li role="presentation"
+                                    ng-repeat="item in category.itemResourceList | orderBy:'priority'"
+                                    ng-click="vm.addToTable(item)" ng-if="item.active!=0">
+                                    <a role="menuitem" tabindex="-1" href="">
+                                        {{item.name}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
                     <div class="table-responsive">
                         <table class="table no-margin">
                             <thead>
@@ -204,42 +251,15 @@
                 <div class="box-footer clearfix">
                     <a data-ng-click="vm.removeAllItems()" class="btn btn-danger btn-flat pull-right">Clear
                         KOT</a>
+
+                    <a class="btn btn-flat btn-success pull-left" data-ng-click="vm.placeKOT()">
+                        Place KOT
+                    </a>
                 </div>
                 <!-- /.box-footer -->
             </div>
             <!-- /.box -->
 
-            <div class="box box-info">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Order Information</h3>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <div role="form">
-                        <div class="form-group">
-                            <label for="customername">Customer Name</label>
-                            <input type="text" class="form-control" id="customername" placeholder="Customer Name"
-                                   ng-model="vm.customerName">
-                        </div>
-                        <div class="form-group" ng-show="vm.type==0">
-                            <label for="table">Table</label>
-                            <input type="text" class="form-control" id="table"
-                                   placeholder="Table" ng-model="vm.tableId">
-                        </div>
-                        <div class="form-group">
-                            <label for="table">Comment</label>
-                            <input type="text" class="form-control" id="comment" placeholder="Comment"
-                                   ng-model="vm.comment">
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                </div>
-                <div class="box-footer clearfix">
-                    <a class="btn btn-flat btn-success" data-ng-click="vm.placeKOT()">
-                        Place KOT
-                    </a>
-                </div>
-            </div>
         </div>
         <!-- /.col -->
 
