@@ -4,7 +4,7 @@
     angular.module('myApp', [
         'myApp.services',
         'ui.router',
-        'chart.js', 'ngCookies', 'angular-page-loader','ngRoute'
+        'chart.js', 'ngCookies', 'angular-page-loader', 'ngRoute'
     ]).config(['$stateProvider', '$urlRouterProvider', 'ChartJsProvider', function ($stateProvider, $urlRouterProvider, ChartJsProvider) {
 
         ChartJsProvider.setOptions({colors: ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360']});
@@ -61,13 +61,23 @@
                     controllerAs: 'vm'
                 }
             }
-        }).state('menu', {
+        }).state('menu_management', {
             parent: 'default',
-            url: '/menu',
+            url: '/menu_management',
             views: {
                 "view@default": {
                     templateUrl: 'rms/menu/menu-management/menu-management.html',
                     controller: 'MenuManagementController',
+                    controllerAs: 'vm'
+                }
+            }
+        }).state('menu_relations', {
+            parent: 'default',
+            url: '/menu_relations',
+            views: {
+                "view@default": {
+                    templateUrl: 'rms/menu/menu-relations/menu-relations.html',
+                    controller: 'MenuRelationsController',
                     controllerAs: 'vm'
                 }
             }

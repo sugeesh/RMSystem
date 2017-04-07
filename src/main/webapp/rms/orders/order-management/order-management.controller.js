@@ -76,7 +76,6 @@
                 console.log(response.data.dataRows[0].categoryId);
 
             });
-
         }
 
         function setKOTNumber() {
