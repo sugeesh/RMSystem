@@ -41,20 +41,23 @@ public class OrderDetail {
 //    @JsonBackReference
     private Order order;
 
-
-    // This is for the
     @Column(name = "comment")
     private String comment;
+
+    @Column(name = "isServed")
+    private Boolean isServed;
 
     public OrderDetail() {
     }
 
-    public OrderDetail(Double quantity, Double price, String itemName, Item item, String comment) {
+    public OrderDetail(Double quantity, Double price, String itemName, Item item, Order order, String comment, Boolean isServed) {
         this.quantity = quantity;
         this.price = price;
         this.itemName = itemName;
         this.item = item;
+        this.order = order;
         this.comment = comment;
+        this.isServed = isServed;
     }
 
     public Integer getId() {
@@ -111,5 +114,13 @@ public class OrderDetail {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Boolean getServed() {
+        return isServed;
+    }
+
+    public void setServed(Boolean served) {
+        isServed = served;
     }
 }

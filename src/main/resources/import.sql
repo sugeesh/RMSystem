@@ -20,4 +20,5 @@ INSERT INTO `OrderDetail` (`OrderDetailID`, `UnitPrice`, `Quantity`, `ItemID`, `
 INSERT INTO `Payment` (`PaymentID`, `Amount`, `Date`, `Type`) VALUES (1, 3400, '2017-02-14 00:00:00', 1);
 INSERT INTO `Payment` (`PaymentID`, `Amount`, `Date`, `Type`) VALUES (2, 4500, '2017-02-17 00:00:00', 1);
 
-
+INSERT INTO rms.User (Name, Nic, Password, Telephone, Type, Username) VALUES ('admin', null, 'admin', null, 1, 'admin');
+INSERT INTO rms.User (Name, Nic, Password, Telephone, Type, Username) VALUES ('cashier', null, 'cashier', null, 2, 'cashier');

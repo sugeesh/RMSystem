@@ -62,6 +62,18 @@ public class OrderController extends AbstractController {
         }
     }
 
+    @GET
+    @Path("/all_pending_orders/{kid}/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllPendingOrders(@PathParam("kid") int kid) {
+        try {
+            return sendSuccessResponse(orderService.getPendingOrdersForKichen(kid));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return handleServiceException(e);
+        }
+    }
+
     // Get all waiting orders for view Pending orders.
     @GET
     @Path("/all_waiting_orders")
@@ -94,6 +106,18 @@ public class OrderController extends AbstractController {
     public Response getOrderById(@PathParam("id") int id) {
         try {
             return sendSuccessResponse(orderService.getOrder(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return handleServiceException(e);
+        }
+    }
+
+    @GET
+    @Path("/get_order_from_id_kitchen/{id}/{kId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOrderById(@PathParam("id") int id, @PathParam("kId") int kId) {
+        try {
+            return sendSuccessResponse(orderService.getOrderForKitchen(id,kId));
         } catch (Exception e) {
             e.printStackTrace();
             return handleServiceException(e);
@@ -147,6 +171,19 @@ public class OrderController extends AbstractController {
     public Response updateOrderState(OrderResource orderResource) {
         try {
             orderService.updateOrderState(orderResource);
+            return sendSuccessResponse(orderResource);
+        } catch (ServiceException e) {
+            return handleServiceException(e);
+        }
+    }
+
+    @PUT
+    @Path("/complete_order/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response completeOrder(OrderResource orderResource) throws ParseException {
+        try {
+            orderService.completeOrder(orderResource);
             return sendSuccessResponse(orderResource);
         } catch (ServiceException e) {
             return handleServiceException(e);

@@ -32,6 +32,7 @@
         vm.itemList = [];
 
         loadCategories();
+        loadKitchen();
 
         function loadCategories() {
             $rootScope.isLoading = true;
@@ -41,7 +42,19 @@
                 vm.itemList = vm.categoryList[0].itemResourceList;
 
                 $rootScope.isLoading = false;
-            }).catch(function(){
+            }).catch(function () {
+                $rootScope.isLoading = false;
+            });
+        }
+
+        function loadKitchen() {
+            $rootScope.isLoading = true;
+            webservice.call($rootScope.baseURL + "/kitchen/all_kitchen", "get", {}).then(function (response) {
+                console.log(response.data);
+                vm.kitchenList = response.data;
+
+                $rootScope.isLoading = false;
+            }).catch(function () {
                 $rootScope.isLoading = false;
             });
         }
@@ -92,9 +105,9 @@
             });
         }
 
-        function addItemToList(newItemName, newItemCategory, newItemPortion, newItemPrice, newItemSKUCode, newItemTAXCode, newItemComment) {
+        function addItemToList(newItemName, newItemCategory, newItemPortion, newItemPrice, newItemSKUCode, newItemTAXCode, newItemComment, newItemKitchen) {
 
-            if (newItemName != undefined && newItemCategory != undefined && newItemPrice != undefined) {
+            if (newItemName != undefined && newItemCategory != undefined && newItemPrice != undefined && newItemKitchen != undefined) {
                 var newItem = {
                     name: newItemName,
                     portion: newItemPortion,
@@ -102,7 +115,8 @@
                     price: newItemPrice,
                     skuCode: newItemSKUCode,
                     taxCode: newItemTAXCode,
-                    comment: newItemComment
+                    comment: newItemComment,
+                    kitchenId: newItemKitchen
                 };
 
                 webservice.call($rootScope.baseURL + "/item/save_item", "post", newItem).then(function (response) {
@@ -219,7 +233,6 @@
             webservice.call($rootScope.baseURL + "/category/update_category", "put", request).then(function (response) {
                 loadCategories();
             });
-
         }
 
         function loadUpdateForm(category) {

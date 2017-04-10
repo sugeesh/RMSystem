@@ -1,8 +1,6 @@
 package org.hashtag.rms.service;
 
-import org.hashtag.rms.model.Category;
-import org.hashtag.rms.model.Order;
-import org.hashtag.rms.model.User;
+import org.hashtag.rms.model.*;
 import org.hashtag.rms.repository.ItemRepository;
 import org.hashtag.rms.repository.OrderDetailRepository;
 import org.hashtag.rms.repository.OrderRepository;
@@ -43,6 +41,9 @@ public class OrderService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ItemService itemService;
 
     /**
      * This method is for insert normal order for the table.
@@ -164,7 +165,7 @@ public class OrderService {
             orderResource.setOpenOrder(order.getOpenOrder());
             orderResource.setType(order.getType());
             orderResource.setAmount(order.getAmount());
-            orderResource.setItemResourceList(orderResource.getItemResourceList());
+//            orderResource.setItemResourceList(orderResource.getItemResourceList());
             orderResource.setUserId(String.valueOf(order.getUser().getUserId()));
             orderResource.setUserName(order.getUser().getUsername());
             orderList.add(orderResource);
@@ -174,6 +175,47 @@ public class OrderService {
         return response;
     }
 
+
+    /**
+     * This method will return the all "PENDING" status orders only.
+     *
+     * @return DataTableResponseObject
+     */
+    public DataTableResponse<OrderResource> getPendingOrdersForKichen(int kid) {
+        DataTableResponse<OrderResource> response = new DataTableResponse<>();
+        List<OrderResource> orderList = new ArrayList<>();
+        for (Order order : orderRepository.findByStatus("PENDING")) {
+            boolean checker = false;
+            for (OrderDetail orderDetail : order.getOrderDetailList()) {
+                if (!orderDetail.getServed()) {
+                    if (orderDetail.getItem().getKitchen().getKitchenId() == kid) {
+                        checker = true;
+                    }
+                }
+            }
+
+            if (checker) {
+                OrderResource orderResource = new OrderResource();
+                orderResource.setOrderId(order.getOrderId());
+                orderResource.setTableId(order.getTableId());
+                orderResource.setCustomerName(order.getCustomerName());
+                orderResource.setOrderTime(order.getOrderTime());
+                orderResource.setKotNumber(order.getKotNumber());
+                orderResource.setComment(order.getComment());
+                orderResource.setVoidOrder(order.getVoidOrder());
+                orderResource.setOpenOrder(order.getOpenOrder());
+                orderResource.setType(order.getType());
+                orderResource.setAmount(order.getAmount());
+//            orderResource.setItemResourceList(orderResource.getItemResourceList());
+                orderResource.setUserId(String.valueOf(order.getUser().getUserId()));
+                orderResource.setUserName(order.getUser().getUsername());
+                orderList.add(orderResource);
+            }
+        }
+        response.setDataRows(orderList);
+        response.setEntries(orderList.size());
+        return response;
+    }
 
     /**
      * This method is for get all "WAITING" state Orders
@@ -261,6 +303,48 @@ public class OrderService {
         return orderResource;
     }
 
+    public OrderResource getOrderForKitchen(int id, int kId) {
+        OrderResource orderResource = new OrderResource();
+        Order orderNew = getPlainOrderObject(id);
+        orderResource.setOrderId(orderNew.getOrderId());
+        orderResource.setTableId(orderNew.getTableId());
+        orderResource.setAmount(orderNew.getAmount());
+        orderResource.setOrderTime(orderNew.getOrderTime());
+        orderResource.setKotNumber(orderNew.getKotNumber());
+        orderResource.setCustomerName(orderNew.getCustomerName());
+        orderResource.setComment(orderNew.getComment());
+        orderResource.setType(orderNew.getType());
+        orderResource.setVoidOrder(orderNew.getVoidOrder());
+        orderResource.setOpenOrder(orderNew.getOpenOrder());
+        orderResource.setUserId(String.valueOf(orderNew.getUser().getUserId()));
+        orderResource.setUserName(orderNew.getUser().getUsername());
+        List<ItemResource> itemResourceList = new ArrayList<>();
+        orderNew.getOrderDetailList().stream().forEach(orderDetail -> {
+            if (orderDetail.getItem() == null || (orderDetail.getItem().getKitchen().getKitchenId() == kId)) {
+                ItemResource itemResource = new ItemResource();
+                //TODO Add Kitchen for the open order
+                if (orderDetail.getItem() != null) {
+                    itemResource.setItemId(orderDetail.getItem().getItemId());
+                    itemResource.setTaxCode(orderDetail.getItem().getTaxCode());
+                    itemResource.setComment(orderDetail.getItem().getComment());
+                    itemResource.setPortion(orderDetail.getItem().getPortion());
+                    itemResource.setSkuCode(orderDetail.getItem().getSkuCode());
+                    itemResource.setComment(orderDetail.getItem().getComment());
+                } else {
+                    itemResource.setItemId(-1);
+                    itemResource.setComment(orderDetail.getComment());
+                }
+                itemResource.setPrice(orderDetail.getPrice());
+                itemResource.setQuantity(orderDetail.getQuantity());
+                itemResource.setName(orderDetail.getItemName());
+                itemResourceList.add(itemResource);
+            }
+        });
+        orderResource.setItemResourceList(itemResourceList);
+        return orderResource;
+
+    }
+
 
     /**
      * This method is for updating the order, This will no longer required.
@@ -308,6 +392,27 @@ public class OrderService {
     public int updateOrderState(OrderResource orderResource) {
         return updateState(orderResource.getOrderId(), orderResource.getState());
     }
+
+
+    public void completeOrder(OrderResource orderResource) {
+        int kitchenId = orderResource.getkId();
+        Order order = orderRepository.findByOrderId(orderResource.getOrderId());
+
+        int numOfKitchen = orderDetailService.getNumberofKitchens(order);
+        int numOfServedKitchen = orderDetailService.getNumberofServedKitchens(order);
+
+        if (numOfKitchen == numOfServedKitchen + 1) {
+            updateState(orderResource.getOrderId(), orderResource.getState());
+        } else {
+            List<OrderDetail> byOrder = orderDetailService.findByOrder(order);
+            for (OrderDetail orderDetail : byOrder) {
+                if (orderDetail.getItem().getKitchen().getKitchenId() == kitchenId) {
+                    orderDetailService.updateOrderServed(orderDetail.getId());
+                }
+            }
+        }
+    }
+
 
     /**
      * This method is for updating the state.

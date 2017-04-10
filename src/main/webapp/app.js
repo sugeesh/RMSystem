@@ -164,7 +164,7 @@
             }
         }).state('token_management', {
             parent: 'default',
-            url: '/token_management',
+            url: '/token_management/:kId',
             views: {
                 "view@default": {
                     templateUrl: 'rms/tokens/token-management/token-management.html',
@@ -215,7 +215,7 @@
             }
         }).state('token_details', {
             parent: 'default',
-            url: '/token_details/:tokenId',
+            url: '/token_details/:kId/:tokenId',
             views: {
                 "view@default": {
                     templateUrl: 'rms/tokens/token-details/token-details.html',

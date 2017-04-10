@@ -36,6 +36,7 @@
                         $cookies.put('userType', 'WAITER');
                     } else if (response.data.type == 4) {
                         $cookies.put('userType', 'KITCHEN');
+
                     }
                     $cookies.put('userId', response.data.userId);
                     $cookies.put('userName', response.data.name);

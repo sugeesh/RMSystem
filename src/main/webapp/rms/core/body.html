@@ -109,7 +109,7 @@
                         </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a ui-sref="token_management"><i class="fa fa-circle-o"></i> Token Management</a></li>
+                    <li ng-repeat="kitchen in vm.kitchenList" data-ng-click="vm.routeToKitchen(kitchen.kitchenId)"><a ><i class="fa fa-circle-o"></i>{{kitchen.name}}</a></li>
                     <!--<li><a ui-sref="tokens_history"><i class="fa fa-circle-o"></i> Tokens History</a></li>-->
                 </ul>
             </li>

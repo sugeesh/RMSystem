@@ -28,6 +28,8 @@ public class OrderResource {
     private String userId;
     private String userName;
 
+    private int kId;
+
     public OrderResource() {
     }
 
@@ -247,5 +249,13 @@ public class OrderResource {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public int getkId() {
+        return kId;
+    }
+
+    public void setkId(int kId) {
+        this.kId = kId;
     }
 }

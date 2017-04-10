@@ -95,3 +95,22 @@
 
 </section>
 <!-- /.content -->
+
+
+<div class="modal hide" id="kitchenModal">
+    <div class="modal-header">
+        <h3>Please select your kitchen</h3>
+    </div>
+    <div class="modal-body">
+        <p><select class="form-control select2" id="kitchenSelect" ng-model="newItemKitchen">
+            <option ng-repeat="kitchen in vm.kitchenList" ng-value="kitchen.kitchenId">
+                {{kitchen.name}}
+            </option>
+        </select></p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="vm.addKitchen(newItemKitchen)">
+            Select
+        </button>
+    </div>
+</div>

@@ -8,9 +8,9 @@
     angular.module('myApp')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['webservice', '$rootScope', '$state', '$interval'];
+    DashboardController.$inject = ['webservice', '$rootScope', '$state', '$interval','$cookies'];
 
-    function DashboardController(webservice, $rootScope, $state, $interval) {
+    function DashboardController(webservice, $rootScope, $state, $interval,$cookies) {
         var vm = this;
 
         $rootScope.baseURL = "http://localhost:8080/rest";
@@ -23,9 +23,24 @@
         vm.bestDeals = [];
         vm.bestDealsLabels = [];
         vm.bestDealsData = [];
+        vm.addKitchen = addKitchen;
 
         setDateTime();
+        loadKitchen();
         loadOrderDetails();
+
+
+        function loadKitchen(){
+            $rootScope.isLoading = true;
+            webservice.call($rootScope.baseURL + "/kitchen/all_kitchen", "get", {}).then(function (response) {
+                console.log(response.data);
+                vm.kitchenList = response.data.dataRows;
+
+                $rootScope.isLoading = false;
+            }).catch(function(){
+                $rootScope.isLoading = false;
+            });
+        }
 
         function loadOrderDetails() {
             var today = new Date();
@@ -107,6 +122,10 @@
             };
             tick();
             $interval(tick, 1000);
+        }
+
+        function addKitchen(kitchenId) {
+            $cookies.put('kitchenType', kitchenId);
         }
     }
 })();

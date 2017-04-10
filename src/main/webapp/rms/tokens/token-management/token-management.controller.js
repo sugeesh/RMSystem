@@ -8,9 +8,9 @@
     angular.module('myApp')
         .controller('TokenManagementController', TokenManagementController);
 
-    TokenManagementController.$inject = ['webservice', '$rootScope', '$state', '$interval'];
+    TokenManagementController.$inject = ['webservice', '$stateParams', '$rootScope', '$state', '$interval'];
 
-    function TokenManagementController(webservice, $rootScope, $state, $interval) {
+    function TokenManagementController(webservice, $stateParams, $rootScope, $state, $interval) {
         var vm = this;
 
         $rootScope.appURL = "http://localhost:8080";
@@ -25,7 +25,7 @@
         $interval(tick, 1000 * 60);
 
         function initOrderList() {
-            webservice.call($rootScope.baseURL + "/order/all_pending_orders", "get").then(function (response) {
+            webservice.call($rootScope.baseURL + "/order/all_pending_orders/"+$stateParams.kId, "get").then(function (response) {
                 vm.pendingTokens = response.data.dataRows;
 
                 var now = new Date();
@@ -41,7 +41,7 @@
         }
 
         function routeToToken(token) {
-            $state.go("token_details", {'tokenId': token.orderId});
+            $state.go("token_details", {'tokenId': token.orderId,'kId': $stateParams.kId});
         }
     }
 })();

@@ -3,6 +3,7 @@ package org.hashtag.rms.service;
 
 import org.hashtag.rms.model.Category;
 import org.hashtag.rms.model.Item;
+import org.hashtag.rms.model.Kitchen;
 import org.hashtag.rms.repository.ItemRepository;
 import org.hashtag.rms.resource.CategoryResource;
 import org.hashtag.rms.resource.ItemResource;
@@ -33,6 +34,9 @@ public class ItemService {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private KitchenService kitchenService;
 
     public DataTableResponse<ItemResource> getAllItems(String search, int page, int size, Boolean asc, String column) throws ServiceException {
         List<ItemResource> itemList = new ArrayList<>();
@@ -66,6 +70,7 @@ public class ItemService {
         item.setName(itemResource.getName());
 
         Category category = categoryService.getCategoryById(itemResource.getCategoryId());
+        Kitchen kitchen = kitchenService.getKitchenById(itemResource.getKitchenId());
 
         item.setName(itemResource.getName());
         item.setPortion(itemResource.getPortion());
@@ -76,6 +81,7 @@ public class ItemService {
         item.setActive(true);
         item.setPriority(category.getItemList().size());
         item.setCategory(category);
+        item.setKitchen(kitchen);
 
         Item save = itemRepository.save(item);
         return itemResource;
