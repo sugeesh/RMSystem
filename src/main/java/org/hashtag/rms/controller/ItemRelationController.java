@@ -44,17 +44,17 @@ public class ItemRelationController extends AbstractController {
         }
     }
 
-//    @DELETE
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Path("/remove_item_relation/{itemId}/{childId}")
-//    public Response removeItemRelation(@PathParam("itemId") Integer itemId, @PathParam("childId") Integer childId) throws ParseException {
-//        try {
-//            return sendSuccessResponse(itemRelationService.removeItemRelation(itemId, childId));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return handleServiceException(e);
-//        }
-//    }
+    @DELETE
+    @Path("/remove_item_relation/{itemId}/{childId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response removeItemRelation(@PathParam("itemId") Integer itemId, @PathParam("childId") Integer childId) throws ParseException {
+        try {
+            return sendSuccessResponse(itemRelationService.removeItemRelation(itemId, childId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return handleServiceException(e);
+        }
+    }
 }
 
 

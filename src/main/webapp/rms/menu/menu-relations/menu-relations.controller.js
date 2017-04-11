@@ -22,27 +22,28 @@
         vm.removeItemFromRelation = removeItemFromRelation;
 
         vm.mainList = [];
-        // vm.primaryItemsList = [];
+        vm.primaryItemsList = [];
 
         initCategoriesList();
 
         function removeItemFromRelation() {
             var selectedPrimary = JSON.parse(vm.selectedPrimaryItem);
-
-            if(selectedPrimary == undefined){
+            console.log("CCC:"+selectedPrimary.itemId);
+            if (selectedPrimary == undefined) {
                 alert("Please select an item first");
-            }else{
-            // webservice.call($rootScope.baseURL + "/itemrelation/remove_item_relation/" + vm.mItem.itemId + "/" + selectedPrimary.itemId, "delete").then(function (response) {
-            //     var temp = [];
-            //
-            //     for (var i = 0; i < Object.keys(vm.primaryItemsList).length; i++) {
-            //         if (vm.primaryItemsList[i].itemId != selectedPrimary.itemId) {
-            //             temp.push(vm.primaryItemsList[i]);
-            //         }
-            //     }
-            //
-            //     vm.primaryItemsList = temp;
-            // });
+            } else {
+                webservice.call($rootScope.baseURL + "/itemrelation/remove_item_relation/" + vm.mItem.itemId + "/" + selectedPrimary.itemId, "delete","").then(function (response) {
+                    loadMainListForItem();
+                    // var temp = [];
+                    //
+                    // for (var i = 0; i < Object.keys(vm.primaryItemsList).length; i++) {
+                    //     if (vm.primaryItemsList[i].itemId != selectedPrimary.itemId) {
+                    //         temp.push(vm.primaryItemsList[i]);
+                    //     }
+                    // }
+                    //
+                    // vm.primaryItemsList = temp;
+                });
             }
         }
 
@@ -52,19 +53,20 @@
             } else {
                 var selectedSecondary = JSON.parse(vm.selectedSecondaryItem);
 
-                var itemExists = true;
+                var itemExists = false;
 
                 for (var i = 0; i < Object.keys(vm.primaryItemsList).length; i++) {
                     if (vm.primaryItemsList[i].itemId == selectedSecondary.itemId) {
                         itemExists = true;
                         break;
                     }
-                    itemExists = false;
+                    // itemExists = false;
                 }
 
                 if (itemExists == false) {
                     webservice.call($rootScope.baseURL + "/itemrelation/add_new_item_relation/" + vm.mItem.itemId + "/" + selectedSecondary.itemId, "post").then(function (response) {
-                        vm.primaryItemsList.push(selectedSecondary);
+                        // vm.primaryItemsList.push(selectedSecondary);
+                        loadMainListForItem();
                     });
                 } else {
                     alert("The item already exists.");
@@ -75,6 +77,7 @@
         function initCategoriesList() {
             webservice.call($rootScope.baseURL + "/category/all_categories_with_items", "get").then(function (response) {
                 vm.categoriesList = response.data.dataRows;
+
                 console.log(response.data.dataRows[0].categoryId);
             });
         }
