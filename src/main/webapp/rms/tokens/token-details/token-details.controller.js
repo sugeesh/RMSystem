@@ -25,7 +25,7 @@
 
         function initTokenDetails(tokenId) {
             vm.menu = [];
-            webservice.call($rootScope.baseURL + "/order/get_order_from_id/" + tokenId, "get").then(function (response) {
+            webservice.call($rootScope.baseURL + "/order/get_order_from_id_kitchen/" + tokenId+"/"+$stateParams.kId, "get").then(function (response) {
                 vm.backendData = response.data;
                 vm.tableId = vm.backendData.tableId;
                 vm.customerName = vm.backendData.customerName;
@@ -54,9 +54,23 @@
 
         function serveOrder() {
             var sendObj = {"orderId":vm.orderId,"state":"COMPLETED"};
-
-            webservice.call($rootScope.baseURL + "/order/update_status_order/", "put",sendObj).then(function (response) {
-                $state.go("token_management");
+            var itemResourceList = [];
+            angular.forEach(vm.menu, function (value) {
+                var item = {};
+                item.itemId = value.id;
+                if (value.id == -1) {
+                    sendObj.openOrder = true;
+                }
+                item.name = value.name;
+                item.quantity = value.quantity;
+                item.price = value.price;
+                item.comment = value.comment;
+                itemResourceList.push(item);
+            });
+            sendObj.itemResourceList1 = itemResourceList;
+            sendObj.kId = $stateParams.kId;
+            webservice.call($rootScope.baseURL + "/order/complete_order/","put",sendObj).then(function (response) {
+                $state.go("token_management",{'kId': $stateParams.kId});
                 alert("Order Served.");
             });
         }

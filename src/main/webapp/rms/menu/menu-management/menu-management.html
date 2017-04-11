@@ -19,7 +19,8 @@
             <div class="info-box bg-aqua">
                 <span class="info-box-icon"><i class="fa fa-list"></i></span>
 
-                <div class="info-box-content" data-toggle="modal" data-target="#addCategoryModal" style="cursor: pointer">
+                <div class="info-box-content" data-toggle="modal" data-target="#addCategoryModal"
+                     style="cursor: pointer">
                     <span class="info-box-text">Add</span>
                     <span class="info-box-number">CATEGORY</span>
                 </div>
@@ -277,15 +278,23 @@
                     <div class="form-group">
                         <label for="newItemComment" class="control-label">Comment</label>
                         <input type="textarea" class="form-control" placeholder="Enter Comment"
-                               ng-model="newItemComment" id="newItemComment" >
+                               ng-model="newItemComment" id="newItemComment">
                     </div>
-
+                    <div class="form-group">
+                        <label for="kitchenSelect" class="control-label">Kitchen</label>
+                        <select class="form-control select2" id="kitchenSelect" ng-model="newItemKitchen">
+                            <option ng-repeat="kitchen in vm.kitchenList" ng-value="kitchen.kitchenId">
+                                {{kitchen.name}}
+                            </option>
+                        </select>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="vm.addItemToList(this.newItemName,this.newItemCategory,
-                this.newItemPortion,this.newItemPrice,this.newItemSKUCode,this.newItemTAXCode,this.newItemComment)">Add
+                this.newItemPortion,this.newItemPrice,this.newItemSKUCode,this.newItemTAXCode,this.newItemComment, this.newItemKitchen)">
+                    Add
                     Item
                 </button>
             </div>

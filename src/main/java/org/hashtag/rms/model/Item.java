@@ -56,11 +56,19 @@ public class Item {
 //    @JsonManagedReference
     private Collection<OrderDetail> orderDetailList;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "KitchenID",
+            referencedColumnName = "KitchenID",
+            foreignKey = @ForeignKey(name = "ITEM_KITCHEN_FK")
+    )
+    private Kitchen kitchen;
+
+
 
     public Item() {
     }
 
-    public Item(String skuCode, String name, Integer taxCode, Double price, String portion, String comment, Integer priority, Boolean active, Category category) {
+    public Item(String skuCode, String name, Integer taxCode, Double price, String portion, String comment, Integer priority, Boolean active, Category category, Kitchen kitchen) {
         this.skuCode = skuCode;
         this.name = name;
         this.taxCode = taxCode;
@@ -70,6 +78,7 @@ public class Item {
         this.priority = priority;
         this.active = active;
         this.category = category;
+        this.kitchen = kitchen;
     }
 
     public Integer getItemId() {
@@ -150,6 +159,14 @@ public class Item {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Kitchen getKitchen() {
+        return kitchen;
+    }
+
+    public void setKitchen(Kitchen kitchen) {
+        this.kitchen = kitchen;
     }
 
     public Collection<OrderDetail> getOrderDetailList() {

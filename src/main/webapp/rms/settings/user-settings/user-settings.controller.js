@@ -63,7 +63,7 @@
             vm.selectedRetypePassword = user.password;
             vm.selectedType = user.type;
 
-            $('#openOrderModal').openModal();
+            // $('#openOrderModal').openModal();
         }
 
         function getAllUserDetails() {

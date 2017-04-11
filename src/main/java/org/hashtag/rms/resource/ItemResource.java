@@ -21,6 +21,7 @@ public class ItemResource {
     private double quantity;
     private boolean active;
     private Item item;
+    private int kitchenId;
 
 
     public ItemResource() {
@@ -136,6 +137,14 @@ public class ItemResource {
         this.categoryId = categoryId;
     }
 
+    public int getKitchenId() {
+        return kitchenId;
+    }
+
+    public void setKitchenId(int kitchenId) {
+        this.kitchenId = kitchenId;
+    }
+
     public static ItemResource createResource(Item item) {
         ItemResource itemResource = new ItemResource();
         itemResource.setItemId(item.getItemId());
@@ -147,6 +156,7 @@ public class ItemResource {
         itemResource.setTaxCode(item.getTaxCode());
         itemResource.setActive(item.getActive());
         itemResource.setPriority(item.getPriority());
+        itemResource.setKitchenId(item.getKitchen().getKitchenId());
         return itemResource;
     }
 

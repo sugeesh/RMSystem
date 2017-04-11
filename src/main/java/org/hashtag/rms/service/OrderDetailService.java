@@ -13,6 +13,9 @@ import org.springframework.dao.DataAccessException;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Sugeesh Chandraweera
@@ -33,7 +36,7 @@ public class OrderDetailService {
         orderDetail.setOrder(ordersaved);
         orderDetail.setPrice(itemResource.getPrice());
         orderDetail.setQuantity(itemResource.getQuantity());
-
+        orderDetail.setServed(false);
         orderDetailRepository.save(orderDetail);
     }
 
@@ -44,8 +47,42 @@ public class OrderDetailService {
         orderDetail.setPrice(itemResource.getPrice());
         orderDetail.setQuantity(itemResource.getQuantity());
         orderDetail.setComment(itemResource.getComment());
+        orderDetail.setServed(false);
         orderDetailRepository.save(orderDetail);
     }
 
+
+    public void updateOrderServed(int orderDetailId){
+        orderDetailRepository.updateOrderState(orderDetailId,true);
+    }
+
+    public List<OrderDetail> findByItem(Item item) {
+        List<OrderDetail> allByItem = orderDetailRepository.findAllByItem(item);
+        return allByItem;
+    }
+
+    public List<OrderDetail> findByOrder(Order order) {
+        List<OrderDetail> allByOrder = orderDetailRepository.findAllByOrder(order);
+        return allByOrder;
+    }
+
+    public int getNumberofKitchens(Order order){
+        List<OrderDetail> allByOrder = orderDetailRepository.findAllByOrder(order);
+        Set<Integer> set = new HashSet<Integer>();
+        for(OrderDetail orderDetail : allByOrder){
+            set.add(orderDetail.getItem().getKitchen().getKitchenId());
+        }
+        return set.size();
+    }
+
+    public int getNumberofServedKitchens(Order order){
+        List<OrderDetail> allByOrder = orderDetailRepository.findAllByOrder(order);
+        int count = 0;
+        for(OrderDetail orderDetail : allByOrder){
+            if(orderDetail.getServed())
+                count++;
+        }
+        return count;
+    }
 
 }

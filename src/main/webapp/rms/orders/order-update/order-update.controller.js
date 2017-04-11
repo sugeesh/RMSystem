@@ -40,7 +40,7 @@
         vm.pendingOrderCount = 0;
         vm.servedOrderCount = 0;
 
-         initCategoriesList();
+        initCategoriesList();
         setPendingOrderCount();
         setServedOrderCount();
         initOrderTable($stateParams.orderId);
