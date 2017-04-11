@@ -14,4 +14,6 @@ import java.util.List;
 public interface ItemRelationRepository extends CrudRepository<ItemRelation, Integer> {
 
     List<ItemRelation> findAllByParentItem(Item item);
+
+//    void deleteItemRelationByParentIdAndChildId(Integer itemId, Integer childId);
 }

@@ -33,17 +33,17 @@
                             <div class="form-group">
                                 <label>Existing child items</label>
                                 <select multiple class="form-control" ng-model="vm.selectedPrimaryItem">
-                                    <options ng-repeat="item in vm.primaryItemsList" value="{{item}}">
+                                    <option ng-repeat="item in vm.primaryItemsList" value="{{item}}">
                                         {{item.name}}&nbsp;{{item.portion}}
-                                    </options>
+                                    </option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="input-group" style="margin-bottom: 10px">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-success btn-flat pull-right"
-                                    data-ng-click="vm.updateChildItems()">Update</button>
+                            <button type="button" class="btn btn-info btn-flat"
+                                    data-ng-click="vm.removeItemFromRelation()">Remove</button>
                                 </span>
                     </div>
                 </div>
@@ -72,8 +72,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Existing child items</label>
-                                <select multiple class="form-control" ng-model="selectedSecondaryItem">
+                                <label>Select item</label>
+                                <select multiple class="form-control" ng-model="vm.selectedSecondaryItem">
                                     <option ng-repeat="item in vm.childItemsList" value="{{item}}">
                                         {{item.name}}&nbsp;{{item.portion}}
                                     </option>
@@ -84,7 +84,7 @@
                     <div class="input-group" style="margin-bottom: 10px">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info btn-flat"
-                                    data-ng-click="vm.updateCategoryOrder()">Add</button>
+                                    data-ng-click="vm.addItemToRelation()">Add</button>
                                 </span>
                     </div>
                 </div>
