@@ -42,6 +42,8 @@
         vm.setKOTNumber = setKOTNumber;
         vm.printOrder = printOrder;
         vm.placeKOT = placeKOT;
+        vm.openPaymentMethodModal = openPaymentMethodModal;
+        vm.setSelectedPaymentMethod = setSelectedPaymentMethod;
 
 
         vm.menu = [];
@@ -59,6 +61,7 @@
         vm.payment = 0;
         vm.orderTime = new Date();
         vm.kotNumber = "";
+        vm.paymentMethod = "Cash";
 
         vm.userName = $cookies.get('userName');
 
@@ -366,6 +369,14 @@
             } else {
                 alert("Please correctly fill the details.");
             }
+        }
+
+        function openPaymentMethodModal() {
+            $("#paymentMethodModal").modal()
+        }
+
+        function setSelectedPaymentMethod() {
+
         }
     }
 })();

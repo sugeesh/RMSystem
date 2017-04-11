@@ -235,7 +235,9 @@
                                     <td>{{ vm.calculateTotal() | number:2}}</td>
                                 </tr>
                                 <tr>
-                                    <th style="width:75%">Payment:</th>
+                                    <th style="width:75%">Payment: (<a data-ng-click="vm.openPaymentMethodModal()"
+                                                                       style="cursor: pointer">Cash</a>)
+                                    </th>
                                     <td><input type="number" ng-value="vm.payment" ng-model="vm.payment"
                                                ng-change="vm.calculateBalance()"></td>
                                 </tr>
@@ -268,6 +270,44 @@
 </section>
 <!-- /.content -->
 
+<div class="modal fade bs-example-modal-sm" id="paymentMethodModal" tabindex="-1" role="dialog"
+     aria-labelledby="paymentMethodModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="paymentMethodModalLabel">Select Payment Method</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                            Cash
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" disabled>
+                            Debit Card
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled>
+                            Credit Card
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        data-ng-click="vm.setSelectedPaymentMethod()">Select
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Submit Order Modal -->
 <div class="modal fade bs-example-modal-lg" id="submitOrderModal" tabindex="-1" role="dialog"
@@ -397,7 +437,7 @@
                                                         <td>{{ vm.calculateTotal() | number:2 }}</td>
                                                     </tr>
                                                     <tr>
-                                                        <th>Payment:</th>
+                                                        <th>Payment ({{vm.paymentMethod}}):</th>
                                                         <td>{{ vm.payment | number:2 }}</td>
                                                     </tr>
                                                     <tr>
