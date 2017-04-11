@@ -71,9 +71,11 @@ public class ItemRelationService {
         return save;
     }
 
-//    @Transactional(propagation = Propagation.REQUIRED)
-//    public Object removeItemRelation(Integer itemId, Integer childId) {
-//        itemRelationRepository.deleteItemRelationByParentIdAndChildId(itemId, childId);
-//        return new ItemRelationResource();
-//    }
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Object removeItemRelation(Integer itemId, Integer childId) {
+        Item parent = itemRepository.findByItemId(itemId);
+        Item child = itemRepository.findByItemId(childId);
+        itemRelationRepository.deleteItemRelationByParentItemAndChildItem(parent,child);
+        return new ItemRelationResource();
+    }
 }

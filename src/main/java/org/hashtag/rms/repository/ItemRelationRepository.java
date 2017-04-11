@@ -15,5 +15,5 @@ public interface ItemRelationRepository extends CrudRepository<ItemRelation, Int
 
     List<ItemRelation> findAllByParentItem(Item item);
 
-//    void deleteItemRelationByParentIdAndChildId(Integer itemId, Integer childId);
+    void deleteItemRelationByParentItemAndChildItem(Item parent, Item child);
 }

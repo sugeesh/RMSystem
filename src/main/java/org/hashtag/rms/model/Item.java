@@ -49,7 +49,7 @@ public class Item {
             referencedColumnName = "CategoryID",
             foreignKey = @ForeignKey(name = "ITEM_CATEGORY_FK")
     )
-//    @JsonBackReference
+    @JsonBackReference
     private Category category;
 
     @OneToMany(mappedBy = "item", fetch = FetchType.LAZY,orphanRemoval = false)
