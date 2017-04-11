@@ -32,4 +32,6 @@ public interface ItemRepository extends CrudRepository<Item, Integer> {
     List<Item> findAllByOrderByPriority();
 
     void deleteItemByItemId(int id);
+
+    Item findByItemId(Integer id);
 }

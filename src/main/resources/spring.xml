@@ -66,6 +66,7 @@
     <bean id="userService" class="org.hashtag.rms.service.UserService"/>
     <bean id="cashDrawerService" class="org.hashtag.rms.service.CashDrawerService"/>
     <bean id="kitchenService" class="org.hashtag.rms.service.KitchenService"/>
+    <bean id="itemRelationService" class="org.hashtag.rms.service.ItemRelationService"/>
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>
     <context:component-scan base-package="org.hashtag.rms.controller"/>

@@ -128,15 +128,25 @@
                 </ul>
             </li>
             <li ng-if="vm.userType==='ADMIN'">
-                <a ui-sref="menu" id="menu">
+                <a href="" id="menu">
                     <i class="fa fa-book"></i>
                     <span>Menu</span>
+                    <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                 </a>
+                <ul class="treeview-menu">
+                    <li><a ui-sref="menu_management"><i class="fa fa-circle-o"></i>Menu management</a></li>
+                    <li><a ui-sref="menu_relations"><i class="fa fa-circle-o"></i>Menu Relations</a></li>
+                </ul>
             </li>
             <li ng-if="vm.userType==='ADMIN'">
                 <a href="" id="settings">
                     <i class="fa fa-gears"></i>
                     <span>Settings</span>
+                    <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                 </a>
                 <ul class="treeview-menu">
                     <li><a ui-sref="user_settings"><i class="fa fa-circle-o"></i>User Settings</a></li>
