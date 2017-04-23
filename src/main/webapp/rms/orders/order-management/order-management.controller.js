@@ -76,8 +76,7 @@
         function initCategoriesList() {
             webservice.call($rootScope.baseURL + "/category/all_categories_with_items", "get").then(function (response) {
                 vm.categoriesList = response.data.dataRows;
-                console.log(response.data.dataRows[0].categoryId);
-
+                console.log(vm.categoriesList);
             });
         }
 
@@ -260,8 +259,12 @@
             calculateAmountAndSubTotal();
         }
 
-        function changeType(type) {
+        function changeType(type) { // dinein = 0; takeaway = 1
             vm.type = type;
+
+            console.log("type: " + type);
+
+
         }
 
         function setPendingOrderCount() {
@@ -344,13 +347,40 @@
                 } else {
                     webservice.call($rootScope.baseURL + "/order", "post", sendObj).then(function (response) {
                         alert("KOT issued with KOT number  " + response.data.kotNumber);
-                        $window.location.reload();
                         var printContents = document.getElementById('printContent').innerHTML;
-                        var originalContents = document.body.innerHTML;
+                        // var originalContents = document.body.innerHTML;
+                        //
+                        // document.body.innerHTML = printContents;
+                        // window.print();
+                        // document.body.innerHTML = originalContents;
 
-                        document.body.innerHTML = printContents;
-                        window.print();
-                        document.body.innerHTML = originalContents;
+                        qz.websocket.connect().then(function () {
+                            console.log("Connected to tehe qz service.");
+
+                            qz.printers.find("Canon").then(function (printer) {
+                                console.log("Printer with name " + printer + " found.");
+
+                                var config = qz.configs.create(printer, {
+                                    size: {width: 3, height: 5},
+                                    units: 'in',
+                                    orientation: 'portrait'
+                                });
+                                var data = [{
+                                    type: 'html',
+                                    format: 'plain',
+                                    data: printContents
+                                }];
+
+                                qz.print(config, data).then(function (response) {
+                                    console.log(response);
+                                    console.log("Print Command Issued!");
+                                    $window.location.reload();
+                                }).catch(function (e) {
+                                    console.error(e);
+                                });
+
+                            });
+                        });
                     });
                 }
             }
