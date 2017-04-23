@@ -63,12 +63,13 @@ public class Item {
     )
     private Kitchen kitchen;
 
-
+    @Column(name = "isTakeAway")
+    private Boolean isTakeAway;
 
     public Item() {
     }
 
-    public Item(String skuCode, String name, Integer taxCode, Double price, String portion, String comment, Integer priority, Boolean active, Category category, Kitchen kitchen) {
+    public Item(String skuCode, String name, Integer taxCode, Double price, String portion, String comment, Integer priority, Boolean active, Category category, Kitchen kitchen, Boolean isTakeAway) {
         this.skuCode = skuCode;
         this.name = name;
         this.taxCode = taxCode;
@@ -79,6 +80,7 @@ public class Item {
         this.active = active;
         this.category = category;
         this.kitchen = kitchen;
+        this.isTakeAway = isTakeAway;
     }
 
     public Integer getItemId() {
@@ -177,5 +179,11 @@ public class Item {
         this.orderDetailList = orderDetailList;
     }
 
+    public Boolean getTakeAway() {
+        return isTakeAway;
+    }
 
+    public void setTakeAway(Boolean takeAway) {
+        isTakeAway = takeAway;
+    }
 }

@@ -82,6 +82,11 @@ public class ItemService {
         item.setPriority(category.getItemList().size());
         item.setCategory(category);
         item.setKitchen(kitchen);
+        if(itemResource.getIsTakeAway()==0){
+            item.setTakeAway(false);
+        }else {
+            item.setTakeAway(true);
+        }
 
         Item save = itemRepository.save(item);
         return itemResource;

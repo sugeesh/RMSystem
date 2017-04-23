@@ -1,7 +1,7 @@
 package org.hashtag.rms.resource;
 
+
 import org.hashtag.rms.model.Item;
-import org.springframework.data.jpa.repository.Query;
 
 /**
  * ItemResource is for sending the item details to the frontend.
@@ -22,6 +22,7 @@ public class ItemResource {
     private boolean active;
     private Item item;
     private int kitchenId;
+    private int isTakeAway;
 
 
     public ItemResource() {
@@ -43,6 +44,7 @@ public class ItemResource {
         this.comment = comment;
         this.priority = priority;
     }
+
 
     public ItemResource(int id) {
         this.itemId = id;
@@ -144,6 +146,21 @@ public class ItemResource {
     public void setKitchenId(int kitchenId) {
         this.kitchenId = kitchenId;
     }
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public int getIsTakeAway() {
+        return isTakeAway;
+    }
+
+    public void setIsTakeAway(int isTakeAway) {
+        this.isTakeAway = isTakeAway;
+    }
 
     public static ItemResource createResource(Item item) {
         ItemResource itemResource = new ItemResource();
@@ -157,10 +174,14 @@ public class ItemResource {
         itemResource.setActive(item.getActive());
         itemResource.setPriority(item.getPriority());
         itemResource.setKitchenId(item.getKitchen().getKitchenId());
+        if(item.getTakeAway()){
+            itemResource.setIsTakeAway(1);
+        }else {
+            itemResource.setIsTakeAway(0);
+        }
+
         return itemResource;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
-    }
+
 }

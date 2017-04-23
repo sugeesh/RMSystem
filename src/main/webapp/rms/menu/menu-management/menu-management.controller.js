@@ -105,7 +105,7 @@
             });
         }
 
-        function addItemToList(newItemName, newItemCategory, newItemPortion, newItemPrice, newItemSKUCode, newItemTAXCode, newItemComment, newItemKitchen) {
+        function addItemToList(newItemName, newItemCategory, newItemPortion, newItemPrice, newItemSKUCode, newItemTAXCode, newItemComment, newItemKitchen,newItemTakeAway) {
 
             if (newItemName != undefined && newItemCategory != undefined && newItemPrice != undefined && newItemKitchen != undefined) {
                 var newItem = {
@@ -116,7 +116,9 @@
                     skuCode: newItemSKUCode,
                     taxCode: newItemTAXCode,
                     comment: newItemComment,
-                    kitchenId: newItemKitchen
+                    kitchenId: newItemKitchen,
+                    isTakeAway: newItemTakeAway
+
                 };
 
                 webservice.call($rootScope.baseURL + "/item/save_item", "post", newItem).then(function (response) {
