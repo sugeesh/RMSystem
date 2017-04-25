@@ -56,40 +56,9 @@
 
     <!-- Main row -->
     <div class="row">
-        <!-- Right col-->
-        <div class="col-md-4">
-
-            <div class="box box-info">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Order Information</h3>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <div role="form">
-                        <div class="form-group">
-                            <label for="customername">Customer Name</label>
-                            <input type="text" class="form-control" id="customername" placeholder="Customer Name"
-                                   ng-model="vm.customerName">
-                        </div>
-                        <div class="form-group" ng-show="vm.type==0">
-                            <label for="table">Table</label>
-                            <input type="text" class="form-control" id="table"
-                                   placeholder="Table" ng-model="vm.tableId">
-                        </div>
-                        <div class="form-group">
-                            <label for="table">Comment</label>
-                            <input type="text" class="form-control" id="comment" placeholder="Comment"
-                                   ng-model="vm.comment">
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Left col -->
         <div class="col-md-8">
             <!-- TABLE: LATEST ORDERS -->
-            <div class="box box-info">
+            <div class="box box-info" style="height: 100%">
                 <div class="box-header with-border">
                     <h3 class="box-title">Kitchen Order Ticket Details</h3>
                 </div>
@@ -106,7 +75,8 @@
                                     <li role="presentation"
                                         ng-repeat="item in category.itemResourceList | orderBy:'priority'"
                                         ng-click="vm.addToTable(item)" ng-if="item.active!=0">
-                                        <a role="menuitem" tabindex="-1" href="" ng-if="item.isTakeAway == 0" style="margin-left: 15px">
+                                        <a role="menuitem" tabindex="-1" href="" ng-if="item.isTakeAway == 0"
+                                           style="margin-left: 15px">
                                             {{item.name}}
                                         </a>
                                     </li>
@@ -115,7 +85,8 @@
                                     <li role="presentation"
                                         ng-repeat="item in category.itemResourceList | orderBy:'priority'"
                                         ng-click="vm.addToTable(item)" ng-if="item.active!=0">
-                                        <a role="menuitem" tabindex="-1" href="" ng-if="item.isTakeAway == 1" style="margin-left: 15px">
+                                        <a role="menuitem" tabindex="-1" href="" ng-if="item.isTakeAway == 1"
+                                           style="margin-left: 15px">
                                             {{item.name}}
                                         </a>
                                     </li>
@@ -156,9 +127,30 @@
                         </table>
                     </div>
                     <!-- /.table-responsive -->
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer clearfix">
+                    <a data-ng-click="vm.removeAllItems()" class="btn btn-danger btn-flat pull-right">Clear
+                        KOT</a>
 
+                    <a class="btn btn-flat btn-success pull-left" data-ng-click="vm.placeKOT()">
+                        Place KOT
+                    </a>
+                </div>
+                <!-- /.box-footer -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+        <div class="col-md-4">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Payment Information</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
                     <div style="margin-top: 20px">
-                        <!--<p class="lead">Total</p>-->
 
                         <div class="table-responsive">
                             <table class="table">
@@ -200,22 +192,36 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.box-body -->
-                <div class="box-footer clearfix">
-                    <a data-ng-click="vm.removeAllItems()" class="btn btn-danger btn-flat pull-right">Clear
-                        KOT</a>
-
-                    <a class="btn btn-flat btn-success pull-left" data-ng-click="vm.placeKOT()">
-                        Place KOT
-                    </a>
-                </div>
-                <!-- /.box-footer -->
             </div>
-            <!-- /.box -->
 
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Order Information</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div role="form">
+                        <div class="form-group">
+                            <label for="customername">Customer Name</label>
+                            <input type="text" class="form-control" id="customername"
+                                   placeholder="Customer Name"
+                                   ng-model="vm.customerName">
+                        </div>
+                        <div class="form-group" ng-show="vm.type==0">
+                            <label for="table">Table</label>
+                            <input type="text" class="form-control" id="table"
+                                   placeholder="Table" ng-model="vm.tableId">
+                        </div>
+                        <div class="form-group">
+                            <label for="table">Comment</label>
+                            <input type="text" class="form-control" id="comment" placeholder="Comment"
+                                   ng-model="vm.comment">
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- /.col -->
-
     </div>
     <!-- /.row -->
 </section>
