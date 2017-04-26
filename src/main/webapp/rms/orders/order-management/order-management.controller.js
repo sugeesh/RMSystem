@@ -71,12 +71,27 @@
         setPendingOrderCount();
         setServedOrderCount();
         setKOTNumber();
+        loadKitchen();
+
 
         /** This function will get all the categories and their items */
         function initCategoriesList() {
             webservice.call($rootScope.baseURL + "/category/all_categories_with_items", "get").then(function (response) {
                 vm.categoriesList = response.data.dataRows;
                 console.log(vm.categoriesList);
+                $("#openOrderModal").modal();
+            });
+        }
+
+        function loadKitchen() {
+            $rootScope.isLoading = true;
+            webservice.call($rootScope.baseURL + "/kitchen/all_kitchen", "get", {}).then(function (response) {
+                console.log(response.data);
+                vm.kitchenList = response.data;
+
+                $rootScope.isLoading = false;
+            }).catch(function () {
+                $rootScope.isLoading = false;
             });
         }
 
@@ -126,7 +141,8 @@
                         "name": item.name,
                         "price": item.price,
                         "quantity": 1,
-                        "amount": item.price
+                        "amount": item.price,
+                        "kitchenId": item.kitchenId
                     };
 
                     vm.menu.push(menuItem);
@@ -139,7 +155,8 @@
                             "name": childItems[i].name,
                             "price": childItems[i].price,
                             "quantity": 1,
-                            "amount": childItems[i].price
+                            "amount": childItems[i].price,
+                            "kitchenId": childItems[i].kitchenId
                         };
                         vm.menu.push(childItem);
                     }
@@ -152,8 +169,8 @@
             }
         }
 
-        function addOpenOrderToTable(newItemName, newUnitPrice, newQuantity, newItemComment) {
-            if (newItemName != undefined && newQuantity != undefined && newUnitPrice != undefined) {
+        function addOpenOrderToTable(newItemName, newUnitPrice, newQuantity, newItemComment, newItemKitchen) {
+            if (newItemName != undefined && newQuantity != undefined && newUnitPrice != undefined && newItemKitchen!=undefined) {
                 var amount = Number(newUnitPrice) * (newQuantity);
                 var menuItem = {
                     "id": -1,
@@ -162,7 +179,8 @@
                     "price": newUnitPrice,
                     "quantity": newQuantity,
                     "amount": amount,
-                    "comment": newItemComment
+                    "comment": newItemComment,
+                    "kitchenId": newItemKitchen
                 };
                 vm.menu.push(menuItem);
                 vm.calculateAmountAndSubTotal();
@@ -203,6 +221,7 @@
                 angular.forEach(vm.menu, function (value) {
                     var item = {};
                     item.itemId = value.id;
+                    item.kitchenId = value.kitchenId;
                     if (value.id == -1) {
                         checkOpen = true;
                         sendObj.openOrder = true;

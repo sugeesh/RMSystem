@@ -104,6 +104,7 @@
             vm.newItemName = menuItem.name;
             vm.newItemPrice = menuItem.price;
             loadCategories();
+            loadKitchen();
             $("#addItemModal").modal();
         }
 
@@ -113,10 +114,22 @@
             });
         }
 
+        function loadKitchen() {
+            $rootScope.isLoading = true;
+            webservice.call($rootScope.baseURL + "/kitchen/all_kitchen", "get", {}).then(function (response) {
+                console.log(response.data);
+                vm.kitchenList = response.data;
 
-        function addItem(newItemName, newItemCategory, newItemPortion, newItemPrice, newItemSKUCode, newItemTAXCode, newItemComment) {
+                $rootScope.isLoading = false;
+            }).catch(function () {
+                $rootScope.isLoading = false;
+            });
+        }
 
-            if (newItemName != undefined && newItemCategory != undefined && newItemPrice != undefined) {
+        function addItem(newItemName, newItemCategory, newItemPortion, newItemPrice, newItemSKUCode, newItemTAXCode, newItemComment, newItemKitchen,newItemTakeAway, newItemDineIn) {
+
+            if (newItemName != undefined && newItemCategory != undefined && newItemPrice != undefined && newItemKitchen != undefined && (newItemTakeAway==true || newItemDineIn==true)) {
+
                 var newItem = {
                     name: newItemName,
                     portion: newItemPortion,
@@ -124,29 +137,66 @@
                     price: newItemPrice,
                     skuCode: newItemSKUCode,
                     taxCode: newItemTAXCode,
-                    comment: newItemComment
+                    comment: newItemComment,
+                    kitchenId: newItemKitchen
                 };
 
-                webservice.call($rootScope.baseURL + "/item/save_item", "post", newItem).then(function (response) {
-                    alert("Item Saved.");
-                    vm.menu = [];
+                if(newItemTakeAway) {
+                    newItem.isTakeAway = 1;
+                }else {
+                    newItem.isTakeAway = 0;
+                }
 
-                    for (var i = 0; i < Object.keys(vm.backendData.itemResourceList).length; i++) {
-                        var item = vm.backendData.itemResourceList[i];
-                        if(item.itemId == -1){
-                            item.itemId = -2;
+                if(newItemTakeAway) {
+                    webservice.call($rootScope.baseURL + "/item/save_item", "post", newItem).then(function (response) {
+                        loadCategories();
+                        console.log(response);
+                        alert("Item Saved.");
+                        vm.menu = [];
+
+                        for (var i = 0; i < Object.keys(vm.backendData.itemResourceList).length; i++) {
+                            var item = vm.backendData.itemResourceList[i];
+                            if(item.itemId == -1){
+                                item.itemId = -2;
+                            }
+                            var menuItem = {
+                                "id": item.itemId,
+                                "skuCode": item.skuCode,
+                                "name": item.name,
+                                "price": item.price,
+                                "quantity": item.quantity,
+                                "amount": item.price * item.quantity
+                            };
+                            vm.menu.push(menuItem);
                         }
-                        var menuItem = {
-                            "id": item.itemId,
-                            "skuCode": item.skuCode,
-                            "name": item.name,
-                            "price": item.price,
-                            "quantity": item.quantity,
-                            "amount": item.price * item.quantity
-                        };
-                        vm.menu.push(menuItem);
-                    }
-                });
+                    });
+                }
+                if(newItemDineIn){
+                    var newItemObj = jQuery.extend({}, newItem);
+                    newItemObj.isTakeAway = 0;
+                    webservice.call($rootScope.baseURL + "/item/save_item", "post", newItemObj).then(function (response) {
+                        loadCategories();
+                        console.log(response);
+                        alert("Item Saved.");
+                        vm.menu = [];
+
+                        for (var i = 0; i < Object.keys(vm.backendData.itemResourceList).length; i++) {
+                            var item = vm.backendData.itemResourceList[i];
+                            if(item.itemId == -1){
+                                item.itemId = -2;
+                            }
+                            var menuItem = {
+                                "id": item.itemId,
+                                "skuCode": item.skuCode,
+                                "name": item.name,
+                                "price": item.price,
+                                "quantity": item.quantity,
+                                "amount": item.price * item.quantity
+                            };
+                            vm.menu.push(menuItem);
+                        }
+                    });
+                }
             } else {
                 alert("Please correctly fill the form");
             }

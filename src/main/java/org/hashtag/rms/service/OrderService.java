@@ -188,7 +188,7 @@ public class OrderService {
             boolean checker = false;
             for (OrderDetail orderDetail : order.getOrderDetailList()) {
                 if (!orderDetail.getServed()) {
-                    if (orderDetail.getItem().getKitchen().getKitchenId() == kid) {
+                    if (orderDetail.getKitchen().getKitchenId() == kid) {
                         checker = true;
                     }
                 }
@@ -406,7 +406,7 @@ public class OrderService {
         } else {
             List<OrderDetail> byOrder = orderDetailService.findByOrder(order);
             for (OrderDetail orderDetail : byOrder) {
-                if (orderDetail.getItem().getKitchen().getKitchenId() == kitchenId) {
+                if (orderDetail.getKitchen().getKitchenId() == kitchenId) {
                     orderDetailService.updateOrderServed(orderDetail.getId());
                 }
             }

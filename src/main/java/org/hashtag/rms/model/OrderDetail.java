@@ -41,6 +41,13 @@ public class OrderDetail {
 //    @JsonBackReference
     private Order order;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "KitchenID",
+            referencedColumnName = "KitchenID",
+            foreignKey = @ForeignKey(name = "ORDERDETAIL_KITCHEN_FK")
+    )
+    private Kitchen kitchen;
+
     @Column(name = "comment")
     private String comment;
 
@@ -50,12 +57,13 @@ public class OrderDetail {
     public OrderDetail() {
     }
 
-    public OrderDetail(Double quantity, Double price, String itemName, Item item, Order order, String comment, Boolean isServed) {
+    public OrderDetail(Double quantity, Double price, String itemName, Item item, Order order, Kitchen kitchen, String comment, Boolean isServed) {
         this.quantity = quantity;
         this.price = price;
         this.itemName = itemName;
         this.item = item;
         this.order = order;
+        this.kitchen = kitchen;
         this.comment = comment;
         this.isServed = isServed;
     }
@@ -122,5 +130,13 @@ public class OrderDetail {
 
     public void setServed(Boolean served) {
         isServed = served;
+    }
+
+    public Kitchen getKitchen() {
+        return kitchen;
+    }
+
+    public void setKitchen(Kitchen kitchen) {
+        this.kitchen = kitchen;
     }
 }
