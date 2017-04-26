@@ -292,12 +292,16 @@
                         <label for="tkSelect" class="control-label">Take Away</label>
                         <input id="tkSelect" ng-model = "newItemTakeAway" type="checkbox">
                     </div>
+                    <div class="form-group">
+                        <label for="dnSelect" class="control-label">Dine In</label>
+                        <input id="dnSelect" ng-model = "newItemDineIn" type="checkbox">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="vm.addItemToList(this.newItemName,this.newItemCategory,
-                this.newItemPortion,this.newItemPrice,this.newItemSKUCode,this.newItemTAXCode,this.newItemComment, this.newItemKitchen, this.newItemTakeAway)">
+                this.newItemPortion,this.newItemPrice,this.newItemSKUCode,this.newItemTAXCode,this.newItemComment, this.newItemKitchen, this.newItemTakeAway, this.newItemDineIn)">
                     Add Item
                 </button>
             </div>

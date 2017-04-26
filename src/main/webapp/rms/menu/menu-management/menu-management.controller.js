@@ -105,9 +105,10 @@
             });
         }
 
-        function addItemToList(newItemName, newItemCategory, newItemPortion, newItemPrice, newItemSKUCode, newItemTAXCode, newItemComment, newItemKitchen,newItemTakeAway) {
+        function addItemToList(newItemName, newItemCategory, newItemPortion, newItemPrice, newItemSKUCode, newItemTAXCode, newItemComment, newItemKitchen,newItemTakeAway, newItemDineIn) {
 
-            if (newItemName != undefined && newItemCategory != undefined && newItemPrice != undefined && newItemKitchen != undefined) {
+            if (newItemName != undefined && newItemCategory != undefined && newItemPrice != undefined && newItemKitchen != undefined && (newItemTakeAway==true || newItemDineIn==true)) {
+
                 var newItem = {
                     name: newItemName,
                     portion: newItemPortion,
@@ -116,15 +117,29 @@
                     skuCode: newItemSKUCode,
                     taxCode: newItemTAXCode,
                     comment: newItemComment,
-                    kitchenId: newItemKitchen,
-                    isTakeAway: newItemTakeAway
-
+                    kitchenId: newItemKitchen
                 };
 
-                webservice.call($rootScope.baseURL + "/item/save_item", "post", newItem).then(function (response) {
-                    loadCategories();
-                    console.log(response);
-                });
+                if(newItemTakeAway) {
+                    newItem.isTakeAway = 1;
+                }else {
+                    newItem.isTakeAway = 0;
+                }
+
+                if(newItemTakeAway) {
+                    webservice.call($rootScope.baseURL + "/item/save_item", "post", newItem).then(function (response) {
+                        loadCategories();
+                        console.log(response);
+                    });
+                }
+                if(newItemDineIn){
+                    var newItemObj = jQuery.extend({}, newItem);
+                    newItemObj.isTakeAway = 0;
+                    webservice.call($rootScope.baseURL + "/item/save_item", "post", newItemObj).then(function (response) {
+                        loadCategories();
+                        console.log(response);
+                    });
+                }
             } else {
                 alert("Please correctly fill the form");
             }
