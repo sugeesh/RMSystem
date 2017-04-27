@@ -148,13 +148,13 @@
                 <form role="form">
                     <div ng-repeat="item in vm.itemList | orderBy:'priority'" class="form-group">
                         <div class="input-group">
-                                                <span class="input-group-btn">
-                                                     <button type="button" class="btn btn-flat" ng-if="$index!=0"
-                                                             data-ng-click="vm.moveItemUp($index)"><i
-                                                             class="fa fa-angle-up"></i></button>
-                                                    <button type="button" class="btn btn-flat" ng-if="$index==0"
-                                                            disabled> <i class="fa fa-angle-up"></i></button>
-                                                </span>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-flat" ng-if="$index!=0"
+                                        data-ng-click="vm.moveItemUp($index)"><i
+                                        class="fa fa-angle-up"></i></button>
+                                <button type="button" class="btn btn-flat" ng-if="$index==0" disabled> <i
+                                        class="fa fa-angle-up"></i></button>
+                            </span>
                             <span class="input-group-btn">
                                                     <button type="button" class="btn btn-flat"
                                                             ng-if="$index!=vm.itemList.length-1"
@@ -290,18 +290,14 @@
                     </div>
                     <div class="form-group">
                         <label for="tkSelect" class="control-label">Take Away</label>
-                        <input id="tkSelect" ng-model = "newItemTakeAway" type="checkbox">
-                    </div>
-                    <div class="form-group">
-                        <label for="dnSelect" class="control-label">Dine In</label>
-                        <input id="dnSelect" ng-model = "newItemDineIn" type="checkbox">
+                        <input id="tkSelect" ng-model="newItemTakeAway" type="checkbox">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="vm.addItemToList(this.newItemName,this.newItemCategory,
-                this.newItemPortion,this.newItemPrice,this.newItemSKUCode,this.newItemTAXCode,this.newItemComment, this.newItemKitchen, this.newItemTakeAway, this.newItemDineIn)">
+                this.newItemPortion,this.newItemPrice,this.newItemSKUCode,this.newItemTAXCode,this.newItemComment, this.newItemKitchen, this.newItemTakeAway)">
                     Add Item
                 </button>
             </div>

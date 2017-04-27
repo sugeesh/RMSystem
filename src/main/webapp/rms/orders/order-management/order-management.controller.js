@@ -72,14 +72,13 @@
         setServedOrderCount();
         setKOTNumber();
         loadKitchen();
-
+        loadTables();
 
         /** This function will get all the categories and their items */
         function initCategoriesList() {
             webservice.call($rootScope.baseURL + "/category/all_categories_with_items", "get").then(function (response) {
                 vm.categoriesList = response.data.dataRows;
                 console.log(vm.categoriesList);
-                $("#openOrderModal").modal();
             });
         }
 
@@ -426,6 +425,17 @@
 
         function setSelectedPaymentMethod() {
 
+        }
+
+        function loadTables() {
+            $rootScope.isLoading = true;
+            webservice.call($rootScope.baseURL + "/table/all_tables", "get", {}).then(function (response) {
+                console.log(response.data);
+                vm.tableList = response.data;
+                $rootScope.isLoading = false;
+            }).catch(function () {
+                $rootScope.isLoading = false;
+            });
         }
     }
 })();

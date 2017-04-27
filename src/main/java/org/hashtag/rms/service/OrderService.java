@@ -45,6 +45,9 @@ public class OrderService {
     @Autowired
     private ItemService itemService;
 
+    @Autowired
+    private TableFlowService tableFlowService;
+
     /**
      * This method is for insert normal order for the table.
      *
@@ -60,7 +63,7 @@ public class OrderService {
         order.setOrderTime(orderResource.getOrderTime());
         order.setAmount(orderResource.getAmount());
         order.setCustomerName(orderResource.getCustomerName());
-        order.setTableId(orderResource.getTableId());
+        order.setTable(tableFlowService.getTableById(Integer.parseInt(orderResource.getTableId())));
         order.setType(orderResource.getType());
         order.setComment(orderResource.getComment());
         order.setOpenOrder(orderResource.getOpenOrder());
@@ -69,6 +72,9 @@ public class OrderService {
         // Get User Object
         User userByUserId = userService.getUserByUserId(orderResource.getUserId());
         order.setUser(userByUserId);
+
+        //SetTableFlow UnAvailable
+        tableFlowService.updateAvailability(Integer.parseInt(orderResource.getTableId()),false);
 
         //Set KOT Number
         String nextKOTNumber = KOTNumberGenerator.getNextKOTNumber();
@@ -108,7 +114,7 @@ public class OrderService {
         order.setOrderTime(orderResource.getOrderTime());
         order.setAmount(orderResource.getAmount());
         order.setCustomerName(orderResource.getCustomerName());
-        order.setTableId(orderResource.getTableId());
+        order.setTable(tableFlowService.getTableById(Integer.parseInt(orderResource.getTableId())));
         order.setType(orderResource.getType());
         order.setComment(orderResource.getComment());
         order.setOpenOrder(orderResource.getOpenOrder());
@@ -117,6 +123,9 @@ public class OrderService {
         // Get User Object
         User userByUserId = userService.getUserByUserId(orderResource.getUserId());
         order.setUser(userByUserId);
+
+        //SetTableFlow UnAvailable
+        tableFlowService.updateAvailability(Integer.parseInt(orderResource.getTableId()),false);
 
         //Set KOT Number
         String nextKOTNumber = KOTNumberGenerator.getNextKOTNumber();
@@ -156,7 +165,7 @@ public class OrderService {
         for (Order order : orderRepository.findByStatus("PENDING")) {
             OrderResource orderResource = new OrderResource();
             orderResource.setOrderId(order.getOrderId());
-            orderResource.setTableId(order.getTableId());
+            orderResource.setTableId(String.valueOf(tableFlowService.getTableById(order.getTable().getTableId()).getTableId()));
             orderResource.setCustomerName(order.getCustomerName());
             orderResource.setOrderTime(order.getOrderTime());
             orderResource.setKotNumber(order.getKotNumber());
@@ -197,7 +206,7 @@ public class OrderService {
             if (checker) {
                 OrderResource orderResource = new OrderResource();
                 orderResource.setOrderId(order.getOrderId());
-                orderResource.setTableId(order.getTableId());
+                orderResource.setTableId(String.valueOf(tableFlowService.getTableById(order.getTable().getTableId()).getTableId()));
                 orderResource.setCustomerName(order.getCustomerName());
                 orderResource.setOrderTime(order.getOrderTime());
                 orderResource.setKotNumber(order.getKotNumber());
@@ -228,7 +237,7 @@ public class OrderService {
         for (Order order : orderRepository.findByStatus("WAITING")) {
             OrderResource orderResource = new OrderResource();
             orderResource.setOrderId(order.getOrderId());
-            orderResource.setTableId(order.getTableId());
+            orderResource.setTableId(String.valueOf(tableFlowService.getTableById(order.getTable().getTableId()).getTableId()));
             orderResource.setCustomerName(order.getCustomerName());
             orderResource.setOrderTime(order.getOrderTime());
             orderResource.setKotNumber(order.getKotNumber());
@@ -269,7 +278,7 @@ public class OrderService {
         OrderResource orderResource = new OrderResource();
         Order orderNew = getPlainOrderObject(id);
         orderResource.setOrderId(orderNew.getOrderId());
-        orderResource.setTableId(orderNew.getTableId());
+        orderResource.setTableId(String.valueOf(tableFlowService.getTableById(orderNew.getTable().getTableId()).getTableId()));
         orderResource.setAmount(orderNew.getAmount());
         orderResource.setOrderTime(orderNew.getOrderTime());
         orderResource.setKotNumber(orderNew.getKotNumber());
@@ -307,7 +316,7 @@ public class OrderService {
         OrderResource orderResource = new OrderResource();
         Order orderNew = getPlainOrderObject(id);
         orderResource.setOrderId(orderNew.getOrderId());
-        orderResource.setTableId(orderNew.getTableId());
+        orderResource.setTableId(String.valueOf(tableFlowService.getTableById(orderNew.getTable().getTableId()).getTableId()));
         orderResource.setAmount(orderNew.getAmount());
         orderResource.setOrderTime(orderNew.getOrderTime());
         orderResource.setKotNumber(orderNew.getKotNumber());
@@ -365,7 +374,7 @@ public class OrderService {
         order.setOrderTime(orderResource.getOrderTime());
         order.setAmount(orderResource.getAmount());
         order.setCustomerName(orderResource.getCustomerName());
-        order.setTableId(orderResource.getTableId());
+        order.setTable(tableFlowService.getTableById(Integer.parseInt(orderResource.getTableId())));
         order.setKotNumber(orderResource.getKotNumber());
         order.setType(orderResource.getType());
         order.setComment(orderResource.getComment());
@@ -437,7 +446,7 @@ public class OrderService {
         for (Order order : orderRepository.findByStatus("COMPLETED")) {
             OrderResource orderResource = new OrderResource();
             orderResource.setOrderId(order.getOrderId());
-            orderResource.setTableId(order.getTableId());
+            orderResource.setTableId(String.valueOf(tableFlowService.getTableById(order.getTable().getTableId()).getTableId()));
             orderResource.setCustomerName(order.getCustomerName());
             orderResource.setOrderTime(order.getOrderTime());
             orderResource.setKotNumber(order.getKotNumber());
@@ -506,7 +515,7 @@ public class OrderService {
         for (Order order : orderListFromDb) {
             OrderResource orderResource = new OrderResource();
             orderResource.setOrderId(order.getOrderId());
-            orderResource.setTableId(order.getTableId());
+            orderResource.setTableId(String.valueOf(tableFlowService.getTableById(order.getTable().getTableId()).getTableId()));
             orderResource.setCustomerName(order.getCustomerName());
             orderResource.setOrderTime(order.getOrderTime());
             orderResource.setKotNumber(order.getKotNumber());
@@ -569,7 +578,7 @@ public class OrderService {
 
             OrderResource orderResource = new OrderResource();
             orderResource.setOrderId(order.getOrderId());
-            orderResource.setTableId(order.getTableId());
+            orderResource.setTableId(String.valueOf(tableFlowService.getTableById(order.getTable().getTableId()).getTableId()));
             orderResource.setCustomerName(order.getCustomerName());
             orderResource.setOrderTime(order.getOrderTime());
             orderResource.setKotNumber(order.getKotNumber());
