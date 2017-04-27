@@ -1,0 +1,102 @@
+<!-- Main content -->
+<section class="content">
+    <!-- Info boxes -->
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-file-text"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Tables Count</span>
+                    <span class="info-box-number">{{ vm.tableList.length }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+            <div class="info-box bg-aqua">
+                <span class="info-box-icon"><i class="fa fa-list"></i></span>
+
+                <div class="info-box-content" data-toggle="modal" data-target="#addCategoryModal"
+                     style="cursor: pointer">
+                    <span class="info-box-text">Add</span>
+                    <span class="info-box-number">Table</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <!-- Main row -->
+    <div class="row">
+        <!-- Right col-->
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Tables</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+
+                    <div class="box box-default">
+                        <div class="box-body">
+                            <form role="form">
+                                <div ng-repeat="table in vm.tableList" class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" value="{{ table.name }}" disabled/>
+                                        <span ng-if= "table.availability=='true'" class="input-group-btn">Available</span>
+                                        <span ng-if= "table.availability=='false'" class="input-group-btn">Not Available</span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- Left col -->
+
+        <!-- /.col -->
+
+    </div>
+    <!-- /.row -->
+
+
+</section>
+<!-- /.content -->
+
+<!-- Add Table Modal -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addTableModalLabel">Add Table</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="newtablename" class="control-label">Table Name</label>
+                        <input type="text" class="form-control" placeholder="Enter New Table"
+                               ng-model="newtablename" id="newtablename">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        data-ng-click="vm.addTables(this.newtablename)">Add
+                    Table
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

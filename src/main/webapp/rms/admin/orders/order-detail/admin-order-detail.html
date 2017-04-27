@@ -183,7 +183,7 @@
                     <div class="form-group">
                         <label for="newitemname" class="control-label">Item Name</label>
                         <input type="text" class="form-control" placeholder="Enter New Item"
-                               ng-model="vm.newItemName" id="newItemName">
+                               ng-model="newItemName" id="newItemName" required>
                     </div>
                     <div class="form-group">
                         <label for="categorySelect" class="control-label">Category</label>
@@ -196,36 +196,51 @@
                     <div class="form-group">
                         <label for="newItemPortion" class="control-label">Portion</label>
                         <input type="text" class="form-control" placeholder="Enter Portion"
-                               ng-model="newItemPortion" id="newItemPortion">
+                               ng-model="newItemPortion" id="newItemPortion" required>
                     </div>
                     <div class="form-group">
                         <label for="newItemPrice" class="control-label">Price</label>
                         <input type="number" class="form-control" placeholder="Enter Price"
-                               ng-model="vm.newItemPrice" id="newItemPrice">
+                               ng-model="newItemPrice" id="newItemPrice" required>
                     </div>
                     <div class="form-group">
                         <label for="newItemSKUCode" class="control-label">SKU Code</label>
                         <input type="text" class="form-control" placeholder="Enter SKU Code"
-                               ng-model="newItemSKUCode" id="newItemSKUCode">
+                               ng-model="newItemSKUCode" id="newItemSKUCode" required>
                     </div>
                     <div class="form-group">
                         <label for="newItemTAXCode" class="control-label">TAX Code</label>
                         <input type="text" class="form-control" placeholder="Enter TAX Code"
-                               ng-model="newItemTAXCode" id="newItemTAXCode">
+                               ng-model="newItemTAXCode" id="newItemTAXCode" required>
                     </div>
                     <div class="form-group">
                         <label for="newItemComment" class="control-label">Comment</label>
                         <input type="textarea" class="form-control" placeholder="Enter Comment"
                                ng-model="newItemComment" id="newItemComment">
                     </div>
-
+                    <div class="form-group">
+                        <label for="kitchenSelect" class="control-label">Kitchen</label>
+                        <select class="form-control select2" id="kitchenSelect" ng-model="newItemKitchen">
+                            <option ng-repeat="kitchen in vm.kitchenList" ng-value="kitchen.kitchenId">
+                                {{kitchen.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tkSelect" class="control-label">Take Away</label>
+                        <input id="tkSelect" ng-model = "newItemTakeAway" type="checkbox">
+                    </div>
+                    <div class="form-group">
+                        <label for="dnSelect" class="control-label">Dine In</label>
+                        <input id="dnSelect" ng-model = "newItemDineIn" type="checkbox">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="vm.addItem(vm.newItemName,this.newItemCategory,
-                this.newItemPortion,vm.newItemPrice,this.newItemSKUCode,this.newItemTAXCode,this.newItemComment)">Add
-                    Item
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="vm.addItem(this.newItemName,this.newItemCategory,
+                this.newItemPortion,this.newItemPrice,this.newItemSKUCode,this.newItemTAXCode,this.newItemComment, this.newItemKitchen, this.newItemTakeAway, this.newItemDineIn)">
+                    Add Item
                 </button>
             </div>
         </div>

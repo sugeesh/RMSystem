@@ -24,9 +24,6 @@ public class Order {
     @Column(name = "CustomerName")
     private String customerName;
 
-    @Column(name = "TableId")
-    private String tableId;
-
     @Column(name = "Amount")
     private Double amount;
 
@@ -51,6 +48,12 @@ public class Order {
     @Column(name = "Comment")
     private String comment;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "TableId",
+            referencedColumnName = "TableID",
+            foreignKey = @ForeignKey(name = "Table_ORDER_FK")
+    )
+    private TableFlow table;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "UserID",
@@ -66,18 +69,19 @@ public class Order {
     public Order() {
     }
 
-    public Order(Date orderTime, String customerName, String tableId, Double amount, String status, String kotNumber, Integer type, Boolean voidOrder, Boolean openOrder, String comment, Boolean voidOrderCompleted) {
+    public Order(Date orderTime, String customerName, Double amount, String status, String kotNumber, Integer type, Boolean voidOrder, Boolean voidOrderCompleted, Boolean openOrder, String comment, TableFlow table, User user) {
         this.orderTime = orderTime;
         this.customerName = customerName;
-        this.tableId = tableId;
         this.amount = amount;
         this.status = status;
         this.kotNumber = kotNumber;
         this.type = type;
         this.voidOrder = voidOrder;
+        this.voidOrderCompleted = voidOrderCompleted;
         this.openOrder = openOrder;
         this.comment = comment;
-        this.voidOrderCompleted = voidOrderCompleted;
+        this.table = table;
+        this.user = user;
     }
 
     public Integer getOrderId() {
@@ -104,13 +108,6 @@ public class Order {
         this.customerName = customerName;
     }
 
-    public String getTableId() {
-        return tableId;
-    }
-
-    public void setTableId(String tableId) {
-        this.tableId = tableId;
-    }
 
     public Double getAmount() {
         return amount;
@@ -190,5 +187,13 @@ public class Order {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public TableFlow getTable() {
+        return table;
+    }
+
+    public void setTable(TableFlow table) {
+        this.table = table;
     }
 }

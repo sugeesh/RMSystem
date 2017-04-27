@@ -198,12 +198,15 @@
                                    ng-model="vm.customerName">
                         </div>
                         <div class="form-group" ng-show="vm.type==0">
-                            <label for="table">Table</label>
-                            <input type="text" class="form-control" id="table"
-                                   placeholder="Table" ng-model="vm.tableId">
+                            <label for="tableSelect">Table</label>
+                            <select class="form-control select2" id="tableSelect" ng-model="vm.tableId">
+                                <option ng-repeat="table in vm.tableList" ng-value="table.tableId">
+                                    {{table.name}}
+                                </option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="table">Comment</label>
+                            <label for="comment">Comment</label>
                             <input type="text" class="form-control" id="comment" placeholder="Comment"
                                    ng-model="vm.comment">
                         </div>
@@ -473,12 +476,20 @@
                         <input type="text" class="form-control" placeholder="Comments"
                                ng-model="newItemComment" id="newItemComment">
                     </div>
+                    <div class="form-group">
+                        <label for="kitchenSelect" class="control-label">Kitchen</label>
+                        <select class="form-control select2" id="kitchenSelect" ng-model="newItemKitchen">
+                            <option ng-repeat="kitchen in vm.kitchenList" ng-value="kitchen.kitchenId">
+                                {{kitchen.name}}
+                            </option>
+                        </select>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        data-ng-click="vm.addOpenOrderToTable(newItemName,newUnitPrice,newQuantity,newItemComment)">Add
+                        data-ng-click="vm.addOpenOrderToTable(newItemName,newUnitPrice,newQuantity,newItemComment,newItemKitchen)">Add
                     Item
                 </button>
             </div>

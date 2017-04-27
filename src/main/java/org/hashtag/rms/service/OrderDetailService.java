@@ -3,6 +3,7 @@ package org.hashtag.rms.service;
 import org.hashtag.rms.model.Item;
 import org.hashtag.rms.model.Order;
 import org.hashtag.rms.model.OrderDetail;
+import org.hashtag.rms.repository.ItemRepository;
 import org.hashtag.rms.repository.OrderDetailRepository;
 import org.hashtag.rms.repository.OrderRepository;
 import org.hashtag.rms.resource.ItemResource;
@@ -25,6 +26,13 @@ public class OrderDetailService {
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
+    @Autowired
+    private ItemRepository itemRepository;
+
+
+    @Autowired
+    private KitchenService kitchenService;
+
 
     public void create(ItemResource itemResource, Order ordersaved) {
         OrderDetail orderDetail = new OrderDetail();
@@ -37,6 +45,7 @@ public class OrderDetailService {
         orderDetail.setPrice(itemResource.getPrice());
         orderDetail.setQuantity(itemResource.getQuantity());
         orderDetail.setServed(false);
+        orderDetail.setKitchen(itemRepository.findByItemId(itemResource.getItemId()).getKitchen());
         orderDetailRepository.save(orderDetail);
     }
 
@@ -47,6 +56,7 @@ public class OrderDetailService {
         orderDetail.setPrice(itemResource.getPrice());
         orderDetail.setQuantity(itemResource.getQuantity());
         orderDetail.setComment(itemResource.getComment());
+        orderDetail.setKitchen(kitchenService.getKitchenById(itemResource.getKitchenId()));
         orderDetail.setServed(false);
         orderDetailRepository.save(orderDetail);
     }
@@ -70,7 +80,7 @@ public class OrderDetailService {
         List<OrderDetail> allByOrder = orderDetailRepository.findAllByOrder(order);
         Set<Integer> set = new HashSet<Integer>();
         for(OrderDetail orderDetail : allByOrder){
-            set.add(orderDetail.getItem().getKitchen().getKitchenId());
+            set.add(orderDetail.getKitchen().getKitchenId());
         }
         return set.size();
     }

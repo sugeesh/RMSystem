@@ -53,6 +53,7 @@ public class ItemRelationService {
             itemResource.setPrice(i.getPrice());
             itemResource.setSkuCode(i.getSkuCode());
             itemResource.setTaxCode(i.getTaxCode());
+            itemResource.setKitchenId(i.getKitchen().getKitchenId());
 
             items.add(itemResource);
         }

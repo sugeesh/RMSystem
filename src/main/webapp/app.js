@@ -91,6 +91,16 @@
                     controllerAs: 'vm'
                 }
             }
+        }).state('table_management', {
+            parent: 'default',
+            url: '/table_management',
+            views: {
+                "view@default": {
+                    templateUrl: 'rms/admin/tables/table-management/table-management.html',
+                    controller: 'TableManagementController',
+                    controllerAs: 'vm'
+                }
+            }
         }).state('order_update', {
             parent: 'default',
             url: '/order_update/:orderId',
