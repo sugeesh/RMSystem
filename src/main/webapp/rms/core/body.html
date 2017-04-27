@@ -21,7 +21,7 @@
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <div class="dropdown-toggle" data-toggle="dropdown">
-                        <button class="btn btn-primary btn-lg" data-ng-click="vm.logOut()" >LOG OUT</button>
+                        <button class="btn btn-primary btn-lg" data-ng-click="vm.logOut()">LOG OUT</button>
                     </div>
                     <!--<ul class="dropdown-menu">
                         &lt;!&ndash; User image &ndash;&gt;
@@ -85,7 +85,8 @@
                     <li><a ui-sref="order_management"><i class="fa fa-circle-o"></i> Order Management</a></li>
                     <li><a ui-sref="pending_orders"><i class="fa fa-circle-o"></i> Pending Orders</a></li>
                     <li><a ui-sref="waiting_orders"><i class="fa fa-circle-o"></i> Waiting Orders</a></li>
-                    <li ng-if="vm.userType!='WAITER'"><a ui-sref="orders_history"><i class="fa fa-circle-o"></i> Orders History</a></li>
+                    <li ng-if="vm.userType!='WAITER'"><a ui-sref="orders_history"><i class="fa fa-circle-o"></i> Orders
+                        History</a></li>
                 </ul>
             </li>
             <li class="treeview" ng-if="vm.userType==='ADMIN'">
@@ -109,7 +110,9 @@
                         </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li ng-repeat="kitchen in vm.kitchenList" data-ng-click="vm.routeToKitchen(kitchen.kitchenId)"><a ><i class="fa fa-circle-o"></i>{{kitchen.name}}</a></li>
+                    <li ng-repeat="kitchen in vm.kitchenList" data-ng-click="vm.routeToKitchen(kitchen.kitchenId)">
+                        <a style="cursor:pointer;"><i class="fa fa-circle-o"></i>{{kitchen.name}}</a>
+                    </li>
                     <!--<li><a ui-sref="tokens_history"><i class="fa fa-circle-o"></i> Tokens History</a></li>-->
                 </ul>
             </li>

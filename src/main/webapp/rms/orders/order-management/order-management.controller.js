@@ -43,8 +43,8 @@
         vm.printOrder = printOrder;
         vm.placeKOT = placeKOT;
         vm.openPaymentMethodModal = openPaymentMethodModal;
+        vm.openOrderModel = openOrderModal;
         vm.setSelectedPaymentMethod = setSelectedPaymentMethod;
-
 
         vm.menu = [];
         vm.subTotal = 0;
@@ -260,11 +260,10 @@
         }
 
         function changeType(type) { // dinein = 0; takeaway = 1
+            vm.menu = [];
+
             vm.type = type;
-
             console.log("type: " + type);
-
-
         }
 
         function setPendingOrderCount() {
@@ -348,6 +347,7 @@
                     webservice.call($rootScope.baseURL + "/order", "post", sendObj).then(function (response) {
                         alert("KOT issued with KOT number  " + response.data.kotNumber);
                         var printContents = document.getElementById('printContent').innerHTML;
+                        console.log(printContents);
                         // var originalContents = document.body.innerHTML;
                         //
                         // document.body.innerHTML = printContents;
@@ -355,21 +355,57 @@
                         // document.body.innerHTML = originalContents;
 
                         qz.websocket.connect().then(function () {
-                            console.log("Connected to tehe qz service.");
+                            console.log("Connected to the qz service.");
 
-                            qz.printers.find("Canon").then(function (printer) {
+                            qz.printers.find("EPSON").then(function (printer) {
                                 console.log("Printer with name " + printer + " found.");
 
-                                var config = qz.configs.create(printer, {
-                                    size: {width: 3, height: 5},
-                                    units: 'in',
-                                    orientation: 'portrait'
+                                var config = qz.configs.create(printer);
+
+                                var today = new Date();
+                                var dd = today.getDate();
+                                var mm = today.getMonth() + 1; //January is 0!
+                                var yyyy = today.getFullYear();
+                                if (dd < 10) {
+                                    dd = '0' + dd
+                                }
+                                if (mm < 10) {
+                                    mm = '0' + mm
+                                }
+                                today = mm + '/' + dd + '/' + yyyy;
+
+                                var menuText = '';
+                                angular.forEach(vm.menu, function (value) {
+                                    menuText += value.name + '\t' + value.quantity + '\t' + value.amount;
                                 });
-                                var data = [{
-                                    type: 'html',
-                                    format: 'plain',
-                                    data: printContents
-                                }];
+
+                                var data = [
+                                    '\n',
+                                    '\n',
+                                    '\n',
+                                    'DATE: ' + today + '\n',
+                                    'TABLE NO.: ' + vm.tableId + '\n',
+                                    'KOT NO.: ' + vm.kotNumber + '\n',
+                                    '- - - - - - - - - - - - - - - - - - - -\n',
+                                    'NAME\t\tQTY\tAMOUNT\n',
+                                    '- - - - - - - - - - - - - - - - - - - -\n',
+                                    menuText + '\n',
+                                    '- - - - - - - - - - - - - - - - - - - -\n',
+                                    'TOTAL\t\t\t:' + vm.subTotal + '\n',
+                                    'DISCOUNT\t\t:' + vm.discount + '\n',
+                                    'TAX\t\t\t: ' + vm.tax + '\n',
+                                    'SERVICE CHARRGES\t: ' + vm.serviceCharge + '\n',
+                                    'PAYMENT\t\t\t: ' + vm.payment + '\n',
+                                    '- - - - - - - - - - - - - - - - - - - -\n',
+                                    'Meepura Restaurant, Negombo\n',
+                                    'THANK YOU, COME AGAIN\n',
+                                    '\n',
+                                    '\n',
+                                    '\n',
+                                    '\n',
+                                    '\n',
+                                    '\n',
+                                    '\n'];
 
                                 qz.print(config, data).then(function (response) {
                                     console.log(response);
@@ -403,6 +439,10 @@
 
         function openPaymentMethodModal() {
             $("#paymentMethodModal").modal()
+        }
+
+        function openOrderModal() {
+            $("#openOrderModal").modal()
         }
 
         function setSelectedPaymentMethod() {
