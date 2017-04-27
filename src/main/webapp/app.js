@@ -101,6 +101,16 @@
                     controllerAs: 'vm'
                 }
             }
+        }).state('table_settings', {
+            parent: 'default',
+            url: '/table_settings',
+            views: {
+                "view@default": {
+                    templateUrl: 'rms/admin/tables/table-settings/table-setting.html',
+                    controller: 'TableSettingController',
+                    controllerAs: 'vm'
+                }
+            }
         }).state('order_update', {
             parent: 'default',
             url: '/order_update/:orderId',

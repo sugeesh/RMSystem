@@ -8,9 +8,9 @@
     angular.module('myApp')
         .controller('TokenDetailsController', TokenDetailsController);
 
-    TokenDetailsController.$inject = ['$stateParams', 'webservice', '$rootScope','$state'];
+    TokenDetailsController.$inject = ['$stateParams', 'webservice', '$rootScope','$state', '$cookies'];
 
-    function TokenDetailsController($stateParams, webservice, $rootScope,$state) {
+    function TokenDetailsController($stateParams, webservice, $rootScope,$state,$cookies) {
         var vm = this;
 
         $rootScope.baseURL = "http://localhost:8080/rest";
@@ -19,6 +19,13 @@
         vm.tokenId = $stateParams.tokenId;
         vm.serveOrder = serveOrder;
         vm.setPendingOrderCount = setPendingOrderCount;
+
+        vm.canServed = false;
+        vm.userType = $cookies.get('userType');
+        if(vm.userType=="CASHIER"){
+            vm.canServed = true;
+        }
+
 
         initTokenDetails(vm.tokenId);
         setPendingOrderCount();

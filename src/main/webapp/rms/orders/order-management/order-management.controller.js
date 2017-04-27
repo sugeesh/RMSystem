@@ -429,7 +429,7 @@
 
         function loadTables() {
             $rootScope.isLoading = true;
-            webservice.call($rootScope.baseURL + "/table/all_tables", "get", {}).then(function (response) {
+            webservice.call($rootScope.baseURL + "/table/all_tables_available", "get", {}).then(function (response) {
                 console.log(response.data);
                 vm.tableList = response.data;
                 $rootScope.isLoading = false;

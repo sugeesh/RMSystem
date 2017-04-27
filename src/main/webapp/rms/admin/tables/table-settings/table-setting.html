@@ -7,27 +7,30 @@
                 <span class="info-box-icon bg-aqua"><i class="fa fa-file-text"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Tables Count</span>
-                    <span class="info-box-number">{{ vm.tableList.length }}</span>
+                    <span class="info-box-text">Available</span>
+                    <span class="info-box-number">{{ vm.tableAvailableCount }}</span>
                 </div>
+
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-file-text"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Unavailable</span>
+                    <span class="info-box-number">{{ vm.tableUnavailableCount }}</span>
+                </div>
+
                 <!-- /.info-box-content -->
             </div>
             <!-- /.info-box -->
         </div>
         <!-- /.col -->
-        <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
-            <div class="info-box bg-aqua">
-                <span class="info-box-icon"><i class="fa fa-list"></i></span>
 
-                <div class="info-box-content" data-toggle="modal" data-target="#addCategoryModal"
-                     style="cursor: pointer">
-                    <span class="info-box-text">Add</span>
-                    <span class="info-box-number">Table</span>
-                </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-        </div>
 
     </div>
     <!-- /.row -->
@@ -46,11 +49,17 @@
                     <div class="box box-default">
                         <div class="box-body">
                             <form role="form">
-                                <div ng-repeat="table in vm.tableList" class="form-group">
+                                <div ng-if="table.availability==false" ng-repeat="table in vm.tableList" class="form-group">
                                     <div class="input-group">
+                                        <span class="input-group-btn">
                                         <input type="text" class="form-control" value="{{ table.name }}" disabled/>
-                                        <span ng-if= "table.availability=='true'" class="input-group-btn">Available</span>
-                                        <span ng-if= "table.availability=='false'" class="input-group-btn">Not Available</span>
+                                        </span>
+
+                                        <span class=" input-group-btn " style="padding-left: 10px; padding-right: 10px; background-color: #e1dede">
+                                                   <input type="checkbox" class="" data-ng-click="vm.updateTable(table.tableId)"
+                                                          data-toggle="tooltip"
+                                                   />
+                                        </span>
                                     </div>
                                 </div>
                             </form>

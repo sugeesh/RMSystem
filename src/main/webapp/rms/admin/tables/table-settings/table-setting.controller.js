@@ -17,18 +17,30 @@
 
         vm.newTableName = '';
         vm.tableList = [];
+        vm.tableAvailableCount = 0;
+        vm.tableUnavailableCount = 0;
 
 
         vm.loadTables = loadTables;
-        vm.addTables = addTables;
+        vm.updateTable = updateTable;
 
         loadTables();
 
         function loadTables() {
             $rootScope.isLoading = true;
             webservice.call($rootScope.baseURL + "/table/all_tables", "get", {}).then(function (response) {
+
                 console.log(response.data);
                 vm.tableList = response.data;
+
+                angular.forEach(vm.tableList, function (value) {
+                    if (value.availability == true) {
+                        vm.tableAvailableCount+=1;
+                    }else{
+                        vm.tableUnavailableCount+=1;
+                    }
+                });
+
                 $rootScope.isLoading = false;
             }).catch(function () {
                 $rootScope.isLoading = false;
@@ -36,7 +48,7 @@
         }
 
         function updateTable(tableId) {
-            var sendObj = {"tableId":vm.orderId};
+            var sendObj = {"tableId":tableId};
             webservice.call($rootScope.baseURL + "/table/update_table/","put",sendObj).then(function (response) {
                 loadTables();
             });
@@ -47,7 +59,6 @@
                 console.log(response);
                 // loadCategories();
             });
-
         }
 
     }

@@ -20,9 +20,9 @@
         vm.userType = $cookies.get('userType');
         console.log("Buddhi " + vm.userType);
 
-        if(vm.userType=="KITCHEN"){
+        // if(vm.userType=="KITCHEN"){
             loadKitchen();
-        }
+        // }
 
         if (vm.userType == undefined) {
             $state.go('login');

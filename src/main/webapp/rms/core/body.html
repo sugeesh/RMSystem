@@ -86,6 +86,7 @@
                     <li><a ui-sref="pending_orders"><i class="fa fa-circle-o"></i> Pending Orders</a></li>
                     <li><a ui-sref="waiting_orders"><i class="fa fa-circle-o"></i> Waiting Orders</a></li>
                     <li ng-if="vm.userType!='WAITER'"><a ui-sref="orders_history"><i class="fa fa-circle-o"></i> Orders History</a></li>
+                    <li><a ui-sref="table_settings"><i class="fa fa-circle-o"></i> Table Details</a></li>
                 </ul>
             </li>
             <li class="treeview" ng-if="vm.userType==='ADMIN'">
@@ -100,7 +101,7 @@
                     <li><a ui-sref="admin_waiting_orders"><i class="fa fa-circle-o"></i> Waiting Orders</a></li>
                 </ul>
             </li>
-            <li class="treeview" ng-if="vm.userType==='KITCHEN'">
+            <li class="treeview" ng-if="vm.userType==='KITCHEN' || vm.userType==='CASHIER'">
                 <a href="" id="tokens">
                     <i class="fa fa-paper-plane-o"></i>
                     <span>Tokens</span>
