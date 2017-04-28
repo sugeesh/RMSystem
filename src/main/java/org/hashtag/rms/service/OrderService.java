@@ -215,6 +215,26 @@ public class OrderService {
                 orderResource.setOpenOrder(order.getOpenOrder());
                 orderResource.setType(order.getType());
                 orderResource.setAmount(order.getAmount());
+                List<ItemResource> itemResourceList = new ArrayList<>();
+                order.getOrderDetailList().stream().forEach(orderDetail -> {
+                    ItemResource itemResource = new ItemResource();
+                    if (orderDetail.getItem() != null) {
+                        itemResource.setItemId(orderDetail.getItem().getItemId());
+                        itemResource.setTaxCode(orderDetail.getItem().getTaxCode());
+                        itemResource.setComment(orderDetail.getItem().getComment());
+                        itemResource.setPortion(orderDetail.getItem().getPortion());
+                        itemResource.setSkuCode(orderDetail.getItem().getSkuCode());
+                        itemResource.setComment(orderDetail.getItem().getComment());
+                    } else {
+                        itemResource.setItemId(-1);
+                        itemResource.setComment(orderDetail.getComment());
+                    }
+                    itemResource.setPrice(orderDetail.getPrice());
+                    itemResource.setQuantity(orderDetail.getQuantity());
+                    itemResource.setName(orderDetail.getItemName());
+                    itemResourceList.add(itemResource);
+                });
+                orderResource.setItemResourceList(itemResourceList);
 //            orderResource.setItemResourceList(orderResource.getItemResourceList());
                 orderResource.setUserId(String.valueOf(order.getUser().getUserId()));
                 orderResource.setUserName(order.getUser().getUsername());
