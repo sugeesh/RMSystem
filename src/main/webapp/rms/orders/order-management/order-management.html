@@ -129,18 +129,8 @@
                     <!-- /.table-responsive -->
                 </div>
                 <!-- /.box-body -->
-                <div class="box-footer clearfix">
-                    <a data-ng-click="vm.removeAllItems()" class="btn btn-danger btn-flat pull-right">Clear
-                        KOT</a>
-
-                    <a class="btn btn-flat btn-success pull-left" data-ng-click="vm.placeKOT()">
-                        Place KOT
-                    </a>
-                </div>
-                <!-- /.box-footer -->
             </div>
             <!-- /.box -->
-
         </div>
         <!-- /.col -->
         <div class="col-md-4">
@@ -226,9 +216,30 @@
             </div>
         </div>
     </div>
+
     <!-- /.row -->
 </section>
 <!-- /.content -->
+
+<div class="row" style="position:fixed; bottom: 0px; width: 85%">
+    <div class="col-md-12">
+        <div class="box box-info" style="height: 100%; bottom: -20px">
+            <div class="box-body">
+                <a data-ng-click="vm.openOrderModel()" class="btn btn-info btn-flat btn-lg pull-left">
+                    Open Order
+                </a>
+
+                <a data-ng-click="vm.removeAllItems()" class="btn btn-danger btn-flat btn-lg pull-right">
+                    Clear KOT
+                </a>
+
+                <a class="btn btn-flat btn-success btn-lg pull-right" data-ng-click="vm.placeKOT()">
+                    Place KOT
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade bs-example-modal-sm" id="paymentMethodModal" tabindex="-1" role="dialog"
      aria-labelledby="paymentMethodModalLabel">
@@ -415,8 +426,8 @@
                         </div>
                     </div>
                 </div>
-
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button ng-if="vm.openOrder==false" type="button" class="btn btn-primary" data-dismiss="modal"
