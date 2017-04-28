@@ -73,12 +73,27 @@
         setKOTNumber();
         loadKitchen();
         loadTables();
+        loadTaxSettings();
+        loadSChargeSettings();
+
 
         /** This function will get all the categories and their items */
         function initCategoriesList() {
             webservice.call($rootScope.baseURL + "/category/all_categories_with_items", "get").then(function (response) {
                 vm.categoriesList = response.data.dataRows;
                 console.log(vm.categoriesList);
+            });
+        }
+
+        function loadTaxSettings() {
+            webservice.call($rootScope.baseURL + "/admin/tax", "get").then(function (response) {
+                vm.tax = response.data;
+            });
+        }
+
+        function loadSChargeSettings() {
+            webservice.call($rootScope.baseURL + "/admin/s_charge", "get").then(function (response) {
+                vm.serviceCharge = response.data;
             });
         }
 

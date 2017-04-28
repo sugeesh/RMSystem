@@ -68,6 +68,7 @@
     <bean id="kitchenService" class="org.hashtag.rms.service.KitchenService"/>
     <bean id="itemRelationService" class="org.hashtag.rms.service.ItemRelationService"/>
     <bean id="tableFlowService" class="org.hashtag.rms.service.TableFlowService"/>
+    <bean id="adminService" class="org.hashtag.rms.service.AdminService"/>
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>
     <context:component-scan base-package="org.hashtag.rms.controller"/>
