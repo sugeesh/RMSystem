@@ -107,8 +107,15 @@
 
         function addItemToList(newItemName, newItemCategory, newItemPortion, newItemPrice, newItemSKUCode, newItemTAXCode, newItemComment, newItemKitchen, newItemTakeAway) {
 
-            if (newItemName != undefined && newItemCategory != undefined && newItemPrice != undefined && newItemKitchen != undefined && (newItemTakeAway != undefined)) {
-
+            if(newItemName == undefined){
+                alert("Please correctly fill the name field.");
+            }else if(newItemCategory == undefined){
+                alert("Please choose a category field.");
+            }else if(newItemPrice == undefined){
+                alert("Please correctly fill the price field.");
+            }else if(newItemKitchen == undefined){
+                alert("Please choose a kitchen field.");
+            }else{
                 var newItem = {
                     name: newItemName,
                     portion: newItemPortion,
@@ -126,22 +133,21 @@
                     newItem.isTakeAway = 0;
                 }
 
-                if (newItemTakeAway) {
-                    webservice.call($rootScope.baseURL + "/item/save_item", "post", newItem).then(function (response) {
-                        loadCategories();
-                        alert("Item Saved.");
+                webservice.call($rootScope.baseURL + "/item/save_item", "post", newItem).then(function (response) {
+                    loadCategories();
+                    alert("Item Saved.");
 
-                        /*$('#addItemModal').on('hidden.bs.modal', function (e) {
-                            $(this)
-                                .find("input,textarea,select")
-                                .val('')
-                                .end()
-                                .find("input[type=checkbox], input[type=radio]")
-                                .prop("checked", "")
-                                .end();
-                        })*/
-                    });
-                }
+                    /*$('#addItemModal').on('hidden.bs.modal', function (e) {
+                     $(this)
+                     .find("input,textarea,select")
+                     .val('')
+                     .end()
+                     .find("input[type=checkbox], input[type=radio]")
+                     .prop("checked", "")
+                     .end();
+                     })*/
+                });
+
                 /*                if(newItemDineIn){
                  var newItemObj = jQuery.extend({}, newItem);
                  newItemObj.isTakeAway = 0;
@@ -150,8 +156,6 @@
                  console.log(response);
                  });
                  }*/
-            } else {
-                alert("Please correctly fill the form");
             }
         }
 
@@ -161,14 +165,11 @@
          var temp = vm.categoryList[i];
          vm.categoryList[i] = vm.categoryList[i - 1];
          vm.categoryList[i - 1] = temp;
-
          vm.categoryList[i - 1].priority = i - 1;
          vm.categoryList[i].priority = i;
-
          var promises = [];
          promises.push(webservice.call($rootScope.baseURL + "/category/update_category_priority", "post", vm.categoryList[i - 1]));
          promises.push(webservice.call($rootScope.baseURL + "/category/update_category_priority", "post", vm.categoryList[i]));
-
          $q.all(promises).then(function (response) {
          console.log(response);
          });
@@ -271,4 +272,3 @@
 
     }
 })();
-

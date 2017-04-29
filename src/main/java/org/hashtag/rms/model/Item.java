@@ -27,7 +27,7 @@ public class Item {
     private String name;
 
     @Column(name = "TaxCode")
-    private Integer taxCode;
+    private String taxCode;
 
     @Column(name = "Price")
     private Double price;
@@ -69,7 +69,7 @@ public class Item {
     public Item() {
     }
 
-    public Item(String skuCode, String name, Integer taxCode, Double price, String portion, String comment, Integer priority, Boolean active, Category category, Kitchen kitchen, Boolean isTakeAway) {
+    public Item(String skuCode, String name, String taxCode, Double price, String portion, String comment, Integer priority, Boolean active, Category category, Kitchen kitchen, Boolean isTakeAway) {
         this.skuCode = skuCode;
         this.name = name;
         this.taxCode = taxCode;
@@ -107,11 +107,11 @@ public class Item {
         this.name = name;
     }
 
-    public Integer getTaxCode() {
+    public String getTaxCode() {
         return taxCode;
     }
 
-    public void setTaxCode(Integer taxCode) {
+    public void setTaxCode(String taxCode) {
         this.taxCode = taxCode;
     }
 

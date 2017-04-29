@@ -29,6 +29,8 @@
         function loadTables() {
             $rootScope.isLoading = true;
             webservice.call($rootScope.baseURL + "/table/all_tables", "get", {}).then(function (response) {
+                vm.tableAvailableCount = 0;
+                vm.tableUnavailableCount = 0;
 
                 console.log(response.data);
                 vm.tableList = response.data;

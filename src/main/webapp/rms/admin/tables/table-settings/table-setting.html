@@ -41,11 +41,11 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Tables</h3>
+                    <h3 class="box-title">Unavailable Tables</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-
+                    <p ng-show = "vm.tableUnavailableCount==0">All tables are available.</p>
                     <div class="box box-default">
                         <div class="box-body">
                             <form role="form">
@@ -96,7 +96,7 @@
                         <label for="newtablename" class="control-label">Table Name</label>
                         <input type="text" class="form-control" placeholder="Enter New Table"
                                ng-model="newtablename" id="newtablename">
-                    </div>
+                    </div>66
                 </form>
             </div>
             <div class="modal-footer">

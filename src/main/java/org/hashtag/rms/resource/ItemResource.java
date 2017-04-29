@@ -12,7 +12,7 @@ public class ItemResource {
     private int itemId;
     private String skuCode;
     private String name;
-    private int taxCode;
+    private String taxCode;
     private double price;
     private String portion;
     private String comment;
@@ -34,7 +34,7 @@ public class ItemResource {
         this.price = price;
     }
 
-    public ItemResource(int itemId, String skuCode, String name, int taxCode, double price, String portion, String comment, int priority) {
+    public ItemResource(int itemId, String skuCode, String name, String taxCode, double price, String portion, String comment, int priority) {
         this.itemId = itemId;
         this.skuCode = skuCode;
         this.name = name;
@@ -91,11 +91,11 @@ public class ItemResource {
         this.name = name;
     }
 
-    public int getTaxCode() {
+    public String getTaxCode() {
         return taxCode;
     }
 
-    public void setTaxCode(int taxCode) {
+    public void setTaxCode(String taxCode) {
         this.taxCode = taxCode;
     }
 

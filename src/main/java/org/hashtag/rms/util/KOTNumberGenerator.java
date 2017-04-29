@@ -16,7 +16,7 @@ public class KOTNumberGenerator {
 //          input = new FileInputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
             input = new FileInputStream("./src/main/resources/kotconfig.properties");
             prop.load(input);
-
+//
             int lastId = Integer.parseInt(prop.getProperty("kotNumber").substring(3));
             String strLatId = Integer.toString(lastId);
             String prefix = "KOT";

@@ -146,29 +146,29 @@
                             <table class="table">
                                 <tr>
                                     <th style="width:75%">Subtotal:</th>
-                                    <td>{{ vm.subTotal | number:2 }}</td>
+                                    <td>LKR. {{ vm.subTotal | number:2 }}</td>
                                 </tr>
                                 <tr>
                                     <th style="width:75%">Tax (%):</th>
                                     <td><input type="number" ng-value="vm.tax" ng-model="vm.tax"
-                                               ng-change="vm.calculateBalance()"></td>
+                                               ng-change="vm.calculateBalance()" disabled></td>
                                 </tr>
                                 <tr>
                                     <th style="width:75%">Service Charges (%):</th>
                                     <td><input type="number" ng-value="vm.serviceCharge" ng-model="vm.serviceCharge"
-                                               ng-change="vm.calculateBalance()"></td>
+                                               ng-change="vm.calculateBalance()" disabled></td>
                                 </tr>
                                 <tr>
-                                    <th style="width:75%">Discount:</th>
+                                    <th style="width:75%">Discount (LKR.) :</th>
                                     <td><input type="number" ng-value="vm.discount" ng-model="vm.discount"
                                                ng-change="vm.calculateBalance()"></td>
                                 </tr>
                                 <tr>
                                     <th style="width:75%">Total:</th>
-                                    <td>{{ vm.calculateTotal() | number:2}}</td>
+                                    <td>LKR. {{ vm.calculateTotal() | number:2}}</td>
                                 </tr>
                                 <tr>
-                                    <th style="width:75%">Payment: (<a data-ng-click="vm.openPaymentMethodModal()"
+                                    <th style="width:75%">Payment (LKR.) : (<a data-ng-click="vm.openPaymentMethodModal()"
                                                                        style="cursor: pointer">Cash</a>)
                                     </th>
                                     <td><input type="number" ng-value="vm.payment" ng-model="vm.payment"
@@ -176,7 +176,7 @@
                                 </tr>
                                 <tr>
                                     <th style="width:75%">Balance:</th>
-                                    <td>{{ vm.calculateBalance() | number:2 }}</td>
+                                    <td>LKR. {{ vm.calculateBalance() | number:2 }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -489,7 +489,8 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
-                        data-ng-click="vm.addOpenOrderToTable(newItemName,newUnitPrice,newQuantity,newItemComment,newItemKitchen)">Add
+                        data-ng-click="vm.addOpenOrderToTable(newItemName,newUnitPrice,newQuantity,newItemComment,newItemKitchen)">
+                    Add
                     Item
                 </button>
             </div>
