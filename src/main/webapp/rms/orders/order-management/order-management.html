@@ -64,34 +64,19 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <ul class="nav nav-tabs" style="border: none; margin-top: 10px; margin-bottom: 20px">
-                        <li class="dropdown" ng-repeat="category in vm.categoriesList"
-                            style="background-color: {{category.colorCode}}">
-                            <a class="dropdown-toggle menu-category" data-toggle="dropdown" href="">
-                                {{category.name}}<span class="caret"></span>
+                    <ul class="nav nav-tabs" style="border: none; top: 10px">
+                        <li class="dropdown" ng-repeat="category in vm.categoriesList">
+                            <a data-ng-click="vm.selectCategory(category)" class="btn btn-flat"
+                               style="background-color: {{category.colorCode}}">
+                                {{category.name}}
                             </a>
-                            <ul class="dropdown-menu">
-                                <div ng-if="vm.type == 0">
-                                    <li role="presentation"
-                                        ng-repeat="item in category.itemResourceList | orderBy:'priority'"
-                                        ng-click="vm.addToTable(item)" ng-if="item.active!=0">
-                                        <a role="menuitem" tabindex="-1" href="" ng-if="item.isTakeAway == 0"
-                                           style="margin-left: 15px">
-                                            {{item.name}}
-                                        </a>
-                                    </li>
-                                </div>
-                                <div ng-if="vm.type == 1">
-                                    <li role="presentation"
-                                        ng-repeat="item in category.itemResourceList | orderBy:'priority'"
-                                        ng-click="vm.addToTable(item)" ng-if="item.active!=0">
-                                        <a role="menuitem" tabindex="-1" href="" ng-if="item.isTakeAway == 1"
-                                           style="margin-left: 15px">
-                                            {{item.name}}
-                                        </a>
-                                    </li>
-                                </div>
-                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-tabs" style="border: none; margin-top: 10px; margin-bottom: 20px">
+                        <li class="dropdown" ng-repeat="item in vm.selectedCategoryItemList">
+                            <a data-ng-click="vm.addToTable(item)" class="btn btn-flat">
+                                {{item.name}}
+                            </a>
                         </li>
                     </ul>
 
@@ -168,8 +153,9 @@
                                     <td>LKR. {{ vm.calculateTotal() | number:2}}</td>
                                 </tr>
                                 <tr>
-                                    <th style="width:75%">Payment (LKR.) : (<a data-ng-click="vm.openPaymentMethodModal()"
-                                                                       style="cursor: pointer">Cash</a>)
+                                    <th style="width:75%">Payment (LKR.) : (<a
+                                            data-ng-click="vm.openPaymentMethodModal()"
+                                            style="cursor: pointer">Cash</a>)
                                     </th>
                                     <td><input type="number" ng-value="vm.payment" ng-model="vm.payment"
                                                ng-change="vm.calculateBalance()"></td>

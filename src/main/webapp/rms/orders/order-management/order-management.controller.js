@@ -45,6 +45,7 @@
         vm.openPaymentMethodModal = openPaymentMethodModal;
         vm.openOrderModel = openOrderModal;
         vm.setSelectedPaymentMethod = setSelectedPaymentMethod;
+        vm.selectCategory = selectCategory;
 
         vm.menu = [];
         vm.subTotal = 0;
@@ -67,6 +68,8 @@
 
         vm.openOrder = false;
 
+        vm.selectedCategoryItemList = [];
+
         initCategoriesList();
         setPendingOrderCount();
         setServedOrderCount();
@@ -76,6 +79,9 @@
         loadTaxSettings();
         loadSChargeSettings();
 
+        function selectCategory(category) {
+            vm.selectedCategoryItemList = category.itemResourceList;
+        }
 
         /** This function will get all the categories and their items */
         function initCategoriesList() {
@@ -184,7 +190,7 @@
         }
 
         function addOpenOrderToTable(newItemName, newUnitPrice, newQuantity, newItemComment, newItemKitchen) {
-            if (newItemName != undefined && newQuantity != undefined && newUnitPrice != undefined && newItemKitchen!=undefined) {
+            if (newItemName != undefined && newQuantity != undefined && newUnitPrice != undefined && newItemKitchen != undefined) {
                 var amount = Number(newUnitPrice) * (newQuantity);
                 var menuItem = {
                     "id": -1,
