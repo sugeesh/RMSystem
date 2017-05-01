@@ -274,6 +274,9 @@
 
                 $q.all(promises).then(function (response) {
                     alert("KOT issued with KOT number  " + response[0].data.kotNumber);
+
+                    printBillAndKOT("");
+
                     $state.go("pending_orders");
                 });
             } else {
@@ -282,51 +285,196 @@
         }
 
 
-        function printBillAndKOT() {
+        function printBillAndKOT(type) {
             //Part 1 - print the cashier bill = Printer 1
             /* Needed details
              *  KOT number - vm.kotNumber
              *  Table No - vm.tableId
              *  Menu Items - vm.menu
              * */
+
             // Print command for the cashier bill
+            qz.websocket.connect().then(function () {
+                console.log("Connected to the qz service.");
+                if (type == "print and settle") {
 
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth() + 1; //January is 0!
+                    var yyyy = today.getFullYear();
+                    if (dd < 10) {
+                        dd = '0' + dd
+                    }
+                    if (mm < 10) {
+                        mm = '0' + mm
+                    }
+                    today = mm + '/' + dd + '/' + yyyy;
 
-            //Part 2 - Print the KOT
-            var printer2Items = [];
-            var printer3Items = [];
-            angular.forEach(vm.menu, function (value) {
-                var item = {};
-                item.itemId = value.id;
-                item.kitchenId = value.kitchenId;
-                item.name = value.name;
-                item.quantity = value.quantity;
-                item.price = value.price;
-                item.comment = value.comment;
+                    qz.printers.find("EPSON").then(function (printer) {
+                        console.log("Printer with name " + printer + " found.");
 
-                // Printer2 = If item kitchen is Night kade or take away then this
-                if (value.kitchenId == 1 || value.kitchenId == 2) {
-                    printer2Items.push(item);
+                        var config = qz.configs.create(printer);
 
-                } else if (value.kitchenId == 3 || value.kitchenId == 4) { // Printer3 =  If item kitchen is In House or Juise bar then this
-                    printer3Items.push(item);
+                        var menuText = '';
+                        angular.forEach(vm.menu, function (value) {
+                            menuText += value.name + '\t' + value.quantity + '\t' + value.amount;
+                        });
+
+                        var data = [
+                            '\n',
+                            '\n',
+                            '\n',
+                            'DATE: ' + today + '\n',
+                            'TABLE NO.: ' + vm.tableId + '\n',
+                            'KOT NO.: ' + vm.kotNumber + '\n',
+                            '- - - - - - - - - - - - - - - - - - - -\n',
+                            'NAME\t\tQTY\tAMOUNT\n',
+                            '- - - - - - - - - - - - - - - - - - - -\n',
+                            menuText + '\n',
+                            '- - - - - - - - - - - - - - - - - - - -\n',
+                            'TOTAL\t\t\t:' + vm.subTotal + '\n',
+                            'DISCOUNT\t\t:' + vm.discount + '\n',
+                            'TAX\t\t\t: ' + vm.tax + '\n',
+                            'SERVICE CHARRGES\t: ' + vm.serviceCharge + '\n',
+                            'PAYMENT\t\t\t: ' + vm.payment + '\n',
+                            '- - - - - - - - - - - - - - - - - - - -\n',
+                            'Meepura Restaurant, Negombo\n',
+                            'THANK YOU, COME AGAIN\n',
+                            '\n',
+                            '\n',
+                            '\n',
+                            '\n',
+                            '\n',
+                            '\n',
+                            '\n'];
+
+                        qz.print(config, data).then(function (response) {
+                            console.log(response);
+                            console.log("Print Command Issued!");
+                            $window.location.reload();
+                        }).catch(function (e) {
+                            console.error(e);
+                        });
+                    });
+                }
+
+                //Part 2 - Print the KOT
+                var printer2Items = [];
+                var printer3Items = [];
+                angular.forEach(vm.menu, function (value) {
+                    var item = {};
+                    item.itemId = value.id;
+                    item.kitchenId = value.kitchenId;
+                    item.name = value.name;
+                    item.quantity = value.quantity;
+                    item.price = value.price;
+                    item.comment = value.comment;
+
+                    // Printer2 = If item kitchen is Night kade or take away then this
+                    if (value.kitchenId == 1 || value.kitchenId == 2) {
+                        printer2Items.push(item);
+
+                    } else if (value.kitchenId == 3 || value.kitchenId == 4) { // Printer3 =  If item kitchen is In House or Juise bar then this
+                        printer3Items.push(item);
+                    }
+
+                });
+
+                // Now You can print the bill separately
+
+                // Print printer 2 list
+                if (Object.keys(printer2Items).length > 0) {
+                    // Print command to print items in printer2Items
+
+                    qz.printers.find("Printer One").then(function (printer) {
+                        console.log("Printer with name " + printer + " found.");
+
+                        var config = qz.configs.create(printer);
+
+                        var menuText = '';
+                        angular.forEach(printer2Items, function (value) {
+                            menuText += value.name + '\t' + value.quantity;
+                        });
+
+                        var data = [
+                            '\n',
+                            '\n',
+                            '\n',
+                            'DATE: ' + today + '\n',
+                            'TABLE NO.: ' + vm.tableId + '\n',
+                            'KOT NO.: ' + vm.kotNumber + '\n',
+                            '- - - - - - - - - - - - - - - - - - - -\n',
+                            'NAME\t\t\tQTY\n',
+                            '- - - - - - - - - - - - - - - - - - - -\n',
+                            menuText + '\n',
+                            '- - - - - - - - - - - - - - - - - - - -\n',
+                            'Meepura Restaurant, Negombo\n',
+                            '\n',
+                            '\n',
+                            '\n',
+                            '\n',
+                            '\n',
+                            '\n',
+                            '\n'];
+
+                        qz.print(config, data).then(function (response) {
+                            console.log(response);
+                            console.log("Print Command Issued!");
+                            $window.location.reload();
+                        }).catch(function (e) {
+                            console.error(e);
+                        });
+
+                    });
+                }
+
+                // Print printer 3 list
+                if (Object.keys(printer3Items).length > 0) {
+                    // Print command to print items in printer3Items
+
+                    qz.printers.find("Printer Two").then(function (printer) {
+                        console.log("Printer with name " + printer + " found.");
+
+                        var config = qz.configs.create(printer);
+
+                        var menuText = '';
+                        angular.forEach(printer3Items, function (value) {
+                            menuText += value.name + '\t' + value.quantity;
+                        });
+
+                        var data = [
+                            '\n',
+                            '\n',
+                            '\n',
+                            'DATE: ' + today + '\n',
+                            'TABLE NO.: ' + vm.tableId + '\n',
+                            'KOT NO.: ' + vm.kotNumber + '\n',
+                            '- - - - - - - - - - - - - - - - - - - -\n',
+                            'NAME\t\t\tQTY\n',
+                            '- - - - - - - - - - - - - - - - - - - -\n',
+                            menuText + '\n',
+                            '- - - - - - - - - - - - - - - - - - - -\n',
+                            'Meepura Restaurant, Negombo\n',
+                            '\n',
+                            '\n',
+                            '\n',
+                            '\n',
+                            '\n',
+                            '\n',
+                            '\n'];
+
+                        qz.print(config, data).then(function (response) {
+                            console.log(response);
+                            console.log("Print Command Issued!");
+                            $window.location.reload();
+                        }).catch(function (e) {
+                            console.error(e);
+                        });
+
+                    });
                 }
 
             });
-
-            // Now You can print the bill separately
-
-            // Print printer 2 list
-            if (Object.keys(printer2Items).length > 0) {
-                // Print command to print items in printer2Items
-            }
-
-            // Print printer 3 list
-            if (Object.keys(printer3Items).length > 0) {
-                // Print command to print items in printer3Items
-            }
-
-
         }
 
         function removeItem(item) {
@@ -428,70 +576,7 @@
                 $q.all(promises).then(function (response) {
                     alert("KOT issued with KOT number  " + response[0].data.kotNumber);
 
-                    qz.websocket.connect().then(function () {
-                        console.log("Connected to the qz service.");
-
-                        qz.printers.find("EPSON").then(function (printer) {
-                            console.log("Printer with name " + printer + " found.");
-
-                            var config = qz.configs.create(printer);
-
-                            var today = new Date();
-                            var dd = today.getDate();
-                            var mm = today.getMonth() + 1; //January is 0!
-                            var yyyy = today.getFullYear();
-                            if (dd < 10) {
-                                dd = '0' + dd
-                            }
-                            if (mm < 10) {
-                                mm = '0' + mm
-                            }
-                            today = mm + '/' + dd + '/' + yyyy;
-
-                            var menuText = '';
-                            angular.forEach(vm.menu, function (value) {
-                                menuText += value.name + '\t' + value.quantity + '\t' + value.amount;
-                            });
-                            debugger;
-
-                            var data = [
-                                '\n',
-                                '\n',
-                                '\n',
-                                'DATE: ' + today + '\n',
-                                'TABLE NO.: ' + vm.tableId + '\n',
-                                'KOT NO.: ' + vm.kotNumber + '\n',
-                                '- - - - - - - - - - - - - - - - - - - -\n',
-                                'NAME\t\tQTY\tAMOUNT\n',
-                                '- - - - - - - - - - - - - - - - - - - -\n',
-                                menuText + '\n',
-                                '- - - - - - - - - - - - - - - - - - - -\n',
-                                'TOTAL\t\t\t:' + vm.subTotal + '\n',
-                                'DISCOUNT\t\t:' + vm.discount + '\n',
-                                'TAX\t\t\t: ' + vm.tax + '\n',
-                                'SERVICE CHARRGES\t: ' + vm.serviceCharge + '\n',
-                                'PAYMENT\t\t\t: ' + vm.payment + '\n',
-                                '- - - - - - - - - - - - - - - - - - - -\n',
-                                'Meepura Restaurant, Negombo\n',
-                                'THANK YOU, COME AGAIN\n',
-                                '\n',
-                                '\n',
-                                '\n',
-                                '\n',
-                                '\n',
-                                '\n',
-                                '\n'];
-
-                            qz.print(config, data).then(function (response) {
-                                console.log(response);
-                                console.log("Print Command Issued!");
-                                $window.location.reload();
-                            }).catch(function (e) {
-                                console.error(e);
-                            });
-
-                        });
-                    });
+                    printBillAndKOT("print and settle");
 
                     $state.go("pending_orders");
                 });
@@ -672,5 +757,6 @@
             });
         }
     }
-})();
+})
+();
 
