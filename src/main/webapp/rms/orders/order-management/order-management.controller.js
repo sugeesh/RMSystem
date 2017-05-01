@@ -18,9 +18,9 @@
 
     angular.module('myApp').controller('OrderManagementController', OrderManagementController);
 
-    OrderManagementController.$inject = ['webservice', '$rootScope', '$state', '$window', '$cookies'];
+    OrderManagementController.$inject = ['webservice', '$rootScope', '$state', '$window', '$cookies', '$q'];
 
-    function OrderManagementController(webservice, $rootScope, $state, $window, $cookies) {
+    function OrderManagementController(webservice, $rootScope, $state, $window, $cookies, $q) {
         var vm = this;
         $rootScope.appURL = "http://localhost:8080";
         $rootScope.baseURL = "http://localhost:8080/rest";
@@ -264,19 +264,18 @@
                 sendObj.itemResourceList1 = itemResourceList;
                 // console.log(sendObj);
 
-
                 // If Open Order
+                var promises = [];
                 if (checkOpen) {
-                    webservice.call($rootScope.baseURL + "/order/open_order", "post", sendObj).then(function (response) {
-                        alert("KOT issued with KOT number  " + response.data.kotNumber);
-                        $state.go("pending_orders");
-                    });
+                    promises.push(webservice.call($rootScope.baseURL + "/order/open_order", "post", sendObj))
                 } else {
-                    webservice.call($rootScope.baseURL + "/order", "post", sendObj).then(function (response) {
-                        alert("KOT issued with KOT number  " + response.data.kotNumber);
-                        $state.go("pending_orders");
-                    });
+                    promises.push(webservice.call($rootScope.baseURL + "/order", "post", sendObj));
                 }
+
+                $q.all(promises).then(function (response) {
+                    alert("KOT issued with KOT number  " + response[0].data.kotNumber);
+                    $state.go("pending_orders");
+                });
             } else {
                 alert("Please correctly fill the details.");
             }
@@ -331,7 +330,7 @@
 
         function printOrder() {
             var checkOpen = false;
-            if (!isNaN(vm.subTotal)) {
+            if (!isNaN(vm.subTotal) && (Object.keys(vm.menu).length > 0)) {
                 var sendObj = {};
                 sendObj.orderTime = new Date();
                 sendObj.amount = vm.subTotal;
@@ -347,6 +346,7 @@
                 angular.forEach(vm.menu, function (value) {
                     var item = {};
                     item.itemId = value.id;
+                    item.kitchenId = value.kitchenId;
                     if (value.id == -1) {
                         checkOpen = true;
                         sendObj.openOrder = true;
@@ -354,6 +354,7 @@
                     item.name = value.name;
                     item.quantity = value.quantity;
                     item.price = value.price;
+                    item.comment = value.comment;
                     itemResourceList.push(item);
                 });
                 paymentDetails.amount = parseFloat(vm.subTotal);
@@ -368,97 +369,221 @@
                 sendObj.itemResourceList1 = itemResourceList;
                 // console.log(sendObj);
 
-
                 // If Open Order
+                var promises = [];
                 if (checkOpen) {
-                    webservice.call($rootScope.baseURL + "/order/open_order", "post", sendObj).then(function (response) {
-                        alert("KOT issued with KOT number  " + response.data.kotNumber);
-                        $window.location.reload();
-                        var printContents = document.getElementById('printContent').innerHTML;
-                        var originalContents = document.body.innerHTML;
-
-                        document.body.innerHTML = printContents;
-                        window.print();
-                        document.body.innerHTML = originalContents;
-
-                    });
+                    promises.push(webservice.call($rootScope.baseURL + "/order/open_order", "post", sendObj))
                 } else {
-                    webservice.call($rootScope.baseURL + "/order", "post", sendObj).then(function (response) {
-                        alert("KOT issued with KOT number  " + response.data.kotNumber);
-                        var printContents = document.getElementById('printContent').innerHTML;
-                        console.log(printContents);
-                        // var originalContents = document.body.innerHTML;
-                        //
-                        // document.body.innerHTML = printContents;
-                        // window.print();
-                        // document.body.innerHTML = originalContents;
+                    promises.push(webservice.call($rootScope.baseURL + "/order", "post", sendObj));
+                }
 
-                        qz.websocket.connect().then(function () {
-                            console.log("Connected to the qz service.");
+                $q.all(promises).then(function (response) {
+                    alert("KOT issued with KOT number  " + response[0].data.kotNumber);
 
-                            qz.printers.find("EPSON").then(function (printer) {
-                                console.log("Printer with name " + printer + " found.");
+                    qz.websocket.connect().then(function () {
+                        console.log("Connected to the qz service.");
 
-                                var config = qz.configs.create(printer);
+                        qz.printers.find("EPSON").then(function (printer) {
+                            console.log("Printer with name " + printer + " found.");
 
-                                var today = new Date();
-                                var dd = today.getDate();
-                                var mm = today.getMonth() + 1; //January is 0!
-                                var yyyy = today.getFullYear();
-                                if (dd < 10) {
-                                    dd = '0' + dd
-                                }
-                                if (mm < 10) {
-                                    mm = '0' + mm
-                                }
-                                today = mm + '/' + dd + '/' + yyyy;
+                            var config = qz.configs.create(printer);
 
-                                var menuText = '';
-                                angular.forEach(vm.menu, function (value) {
-                                    menuText += value.name + '\t' + value.quantity + '\t' + value.amount;
-                                });
+                            var today = new Date();
+                            var dd = today.getDate();
+                            var mm = today.getMonth() + 1; //January is 0!
+                            var yyyy = today.getFullYear();
+                            if (dd < 10) {
+                                dd = '0' + dd
+                            }
+                            if (mm < 10) {
+                                mm = '0' + mm
+                            }
+                            today = mm + '/' + dd + '/' + yyyy;
 
-                                var data = [
-                                    '\n',
-                                    '\n',
-                                    '\n',
-                                    'DATE: ' + today + '\n',
-                                    'TABLE NO.: ' + vm.tableId + '\n',
-                                    'KOT NO.: ' + vm.kotNumber + '\n',
-                                    '- - - - - - - - - - - - - - - - - - - -\n',
-                                    'NAME\t\tQTY\tAMOUNT\n',
-                                    '- - - - - - - - - - - - - - - - - - - -\n',
-                                    menuText + '\n',
-                                    '- - - - - - - - - - - - - - - - - - - -\n',
-                                    'TOTAL\t\t\t:' + vm.subTotal + '\n',
-                                    'DISCOUNT\t\t:' + vm.discount + '\n',
-                                    'TAX\t\t\t: ' + vm.tax + '\n',
-                                    'SERVICE CHARRGES\t: ' + vm.serviceCharge + '\n',
-                                    'PAYMENT\t\t\t: ' + vm.payment + '\n',
-                                    '- - - - - - - - - - - - - - - - - - - -\n',
-                                    'Meepura Restaurant, Negombo\n',
-                                    'THANK YOU, COME AGAIN\n',
-                                    '\n',
-                                    '\n',
-                                    '\n',
-                                    '\n',
-                                    '\n',
-                                    '\n',
-                                    '\n'];
-
-                                qz.print(config, data).then(function (response) {
-                                    console.log(response);
-                                    console.log("Print Command Issued!");
-                                    $window.location.reload();
-                                }).catch(function (e) {
-                                    console.error(e);
-                                });
-
+                            var menuText = '';
+                            angular.forEach(vm.menu, function (value) {
+                                menuText += value.name + '\t' + value.quantity + '\t' + value.amount;
                             });
+                            debugger;
+
+                            var data = [
+                                '\n',
+                                '\n',
+                                '\n',
+                                'DATE: ' + today + '\n',
+                                'TABLE NO.: ' + vm.tableId + '\n',
+                                'KOT NO.: ' + vm.kotNumber + '\n',
+                                '- - - - - - - - - - - - - - - - - - - -\n',
+                                'NAME\t\tQTY\tAMOUNT\n',
+                                '- - - - - - - - - - - - - - - - - - - -\n',
+                                menuText + '\n',
+                                '- - - - - - - - - - - - - - - - - - - -\n',
+                                'TOTAL\t\t\t:' + vm.subTotal + '\n',
+                                'DISCOUNT\t\t:' + vm.discount + '\n',
+                                'TAX\t\t\t: ' + vm.tax + '\n',
+                                'SERVICE CHARRGES\t: ' + vm.serviceCharge + '\n',
+                                'PAYMENT\t\t\t: ' + vm.payment + '\n',
+                                '- - - - - - - - - - - - - - - - - - - -\n',
+                                'Meepura Restaurant, Negombo\n',
+                                'THANK YOU, COME AGAIN\n',
+                                '\n',
+                                '\n',
+                                '\n',
+                                '\n',
+                                '\n',
+                                '\n',
+                                '\n'];
+
+                            qz.print(config, data).then(function (response) {
+                                console.log(response);
+                                console.log("Print Command Issued!");
+                                $window.location.reload();
+                            }).catch(function (e) {
+                                console.error(e);
+                            });
+
                         });
                     });
-                }
+
+                    $state.go("pending_orders");
+                });
+
+
+            } else {
+                alert("Please correctly fill the details.");
             }
+
+
+            // var checkOpen = false;
+            // if (!isNaN(vm.subTotal)) {
+            //     var sendObj = {};
+            //     sendObj.orderTime = new Date();
+            //     sendObj.amount = vm.subTotal;
+            //     sendObj.customerName = vm.customerName;
+            //     sendObj.tableId = vm.tableId;
+            //     sendObj.userId = $cookies.get('userId');
+            //     sendObj.type = vm.type;
+            //     sendObj.comment = vm.comment;
+            //     sendObj.openOrder = false;
+            //     sendObj.voidOrder = false;
+            //     var itemResourceList = [];
+            //     var paymentDetails = {};
+            //     angular.forEach(vm.menu, function (value) {
+            //         var item = {};
+            //         item.itemId = value.id;
+            //         if (value.id == -1) {
+            //             checkOpen = true;
+            //             sendObj.openOrder = true;
+            //         }
+            //         item.name = value.name;
+            //         item.quantity = value.quantity;
+            //         item.price = value.price;
+            //         itemResourceList.push(item);
+            //     });
+            //     paymentDetails.amount = parseFloat(vm.subTotal);
+            //     paymentDetails.tax = parseFloat(vm.tax);
+            //     paymentDetails.serviceCharge = vm.serviceCharge;
+            //     paymentDetails.discount = parseFloat(vm.discount);
+            //     paymentDetails.totalAmount = parseFloat(calculateTotal());
+            //     paymentDetails.date = Math.round((new Date()).getTime() / 1000);
+            //     paymentDetails.type = 0;
+            //
+            //     sendObj.paymentDetails1 = paymentDetails;
+            //     sendObj.itemResourceList1 = itemResourceList;
+            //     // console.log(sendObj);
+            //
+            //
+            //     // If Open Order
+            //     if (checkOpen) {
+            //         webservice.call($rootScope.baseURL + "/order/open_order", "post", sendObj).then(function (response) {
+            //             alert("KOT issued with KOT number  " + response.data.kotNumber);
+            //             $window.location.reload();
+            //             var printContents = document.getElementById('printContent').innerHTML;
+            //             var originalContents = document.body.innerHTML;
+            //
+            //             document.body.innerHTML = printContents;
+            //             window.print();
+            //             document.body.innerHTML = originalContents;
+            //
+            //         });
+            //     } else {
+            //         webservice.call($rootScope.baseURL + "/order", "post", sendObj).then(function (response) {
+            //             alert("KOT issued with KOT number  " + response.data.kotNumber);
+            //             var printContents = document.getElementById('printContent').innerHTML;
+            //             console.log(printContents);
+            //             // var originalContents = document.body.innerHTML;
+            //             //
+            //             // document.body.innerHTML = printContents;
+            //             // window.print();
+            //             // document.body.innerHTML = originalContents;
+            //
+            //             qz.websocket.connect().then(function () {
+            //                 console.log("Connected to the qz service.");
+            //
+            //                 qz.printers.find("EPSON").then(function (printer) {
+            //                     console.log("Printer with name " + printer + " found.");
+            //
+            //                     var config = qz.configs.create(printer);
+            //
+            //                     var today = new Date();
+            //                     var dd = today.getDate();
+            //                     var mm = today.getMonth() + 1; //January is 0!
+            //                     var yyyy = today.getFullYear();
+            //                     if (dd < 10) {
+            //                         dd = '0' + dd
+            //                     }
+            //                     if (mm < 10) {
+            //                         mm = '0' + mm
+            //                     }
+            //                     today = mm + '/' + dd + '/' + yyyy;
+            //
+            //                     var menuText = '';
+            //                     angular.forEach(vm.menu, function (value) {
+            //                         menuText += value.name + '\t' + value.quantity + '\t' + value.amount;
+            //                     });
+            //                     debugger;
+            //
+            //                     var data = [
+            //                         '\n',
+            //                         '\n',
+            //                         '\n',
+            //                         'DATE: ' + today + '\n',
+            //                         'TABLE NO.: ' + vm.tableId + '\n',
+            //                         'KOT NO.: ' + vm.kotNumber + '\n',
+            //                         '- - - - - - - - - - - - - - - - - - - -\n',
+            //                         'NAME\t\tQTY\tAMOUNT\n',
+            //                         '- - - - - - - - - - - - - - - - - - - -\n',
+            //                         menuText + '\n',
+            //                         '- - - - - - - - - - - - - - - - - - - -\n',
+            //                         'TOTAL\t\t\t:' + vm.subTotal + '\n',
+            //                         'DISCOUNT\t\t:' + vm.discount + '\n',
+            //                         'TAX\t\t\t: ' + vm.tax + '\n',
+            //                         'SERVICE CHARRGES\t: ' + vm.serviceCharge + '\n',
+            //                         'PAYMENT\t\t\t: ' + vm.payment + '\n',
+            //                         '- - - - - - - - - - - - - - - - - - - -\n',
+            //                         'Meepura Restaurant, Negombo\n',
+            //                         'THANK YOU, COME AGAIN\n',
+            //                         '\n',
+            //                         '\n',
+            //                         '\n',
+            //                         '\n',
+            //                         '\n',
+            //                         '\n',
+            //                         '\n'];
+            //
+            //                     qz.print(config, data).then(function (response) {
+            //                         console.log(response);
+            //                         console.log("Print Command Issued!");
+            //                         $window.location.reload();
+            //                     }).catch(function (e) {
+            //                         console.error(e);
+            //                     });
+            //
+            //                 });
+            //             });
+            //         });
+            //     }
+            // }
         }
 
         function placeKOT() {
