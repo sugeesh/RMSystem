@@ -267,10 +267,20 @@
                 // If Open Order
                 var promises = [];
                 if (checkOpen) {
-                    promises.push(webservice.call($rootScope.baseURL + "/order/open_order", "post", sendObj))
-                } else {
-                    promises.push(webservice.call($rootScope.baseURL + "/order", "post", sendObj));
-                }
+<<<<<<< .mine                    promises.push(webservice.call($rootScope.baseURL + "/order/open_order", "post", sendObj))
+=======                    webservice.call($rootScope.baseURL + "/order/open_order", "post", sendObj).then(function (response) {
+                        alert("KOT issued with KOT number  " + response.data.kotNumber);
+                        $state.go("pending_orders");
+                        printBillAndKOT();
+                    });
+>>>>>>> .theirs                } else {
+<<<<<<< .mine                    promises.push(webservice.call($rootScope.baseURL + "/order", "post", sendObj));
+=======                    webservice.call($rootScope.baseURL + "/order", "post", sendObj).then(function (response) {
+                        alert("KOT issued with KOT number  " + response.data.kotNumber);
+                        $state.go("pending_orders");
+                        printBillAndKOT();
+                    });
+>>>>>>> .theirs                }
 
                 $q.all(promises).then(function (response) {
                     alert("KOT issued with KOT number  " + response[0].data.kotNumber);
@@ -279,6 +289,54 @@
             } else {
                 alert("Please correctly fill the details.");
             }
+        }
+
+
+        function printBillAndKOT() {
+            //Part 1 - print the cashier bill = Printer 1
+                /* Needed details
+                 *  KOT number - vm.kotNumber
+                 *  Table No - vm.tableId
+                 *  Menu Items - vm.menu
+                 * */
+                // Print command for the cashier bill
+
+
+            //Part 2 - Print the KOT
+            var printer2Items = [];
+            var printer3Items = [];
+            angular.forEach(vm.menu, function (value) {
+                var item = {};
+                item.itemId = value.id;
+                item.kitchenId = value.kitchenId;
+                item.name = value.name;
+                item.quantity = value.quantity;
+                item.price = value.price;
+                item.comment = value.comment;
+
+                // Printer2 = If item kitchen is Night kade or take away then this
+                if(value.kitchenId==1 || value.kitchenId==2 ){
+                    printer2Items.push(item);
+
+                }else if(value.kitchenId==3 || value.kitchenId==4 ) { // Printer3 =  If item kitchen is In House or Juise bar then this
+                    printer3Items.push(item);
+                }
+
+            });
+
+            // Now You can print the bill separately
+
+            // Print printer 2 list
+            if(Object.keys(printer2Items).length>0){
+                // Print command to print items in printer2Items
+            }
+
+            // Print printer 3 list
+            if(Object.keys(printer3Items).length>0){
+                // Print command to print items in printer3Items
+            }
+
+
         }
 
         function removeItem(item) {
