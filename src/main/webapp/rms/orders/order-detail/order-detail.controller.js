@@ -68,15 +68,68 @@
         }
 
         function printOrder() {
-            var printContents = document.getElementById('printContent').innerHTML;
-            var originalContents = document.body.innerHTML;
+            qz.websocket.connect().then(function () {
+                console.log("Connected to the qz service.");
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1; //January is 0!
+                var yyyy = today.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd
+                }
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
+                today = mm + '/' + dd + '/' + yyyy;
 
-            document.body.innerHTML = printContents;
-            window.print();
-            document.body.innerHTML = originalContents;
+                qz.printers.find("EPSON").then(function (printer) {
+                    console.log("Printer with name " + printer + " found.");
+
+                    var config = qz.configs.create(printer);
+
+                    var menuText = '';
+                    angular.forEach(vm.menu, function (value) {
+                        menuText += value.name + '\t' + value.quantity + '\t' + value.amount;
+                    });
+
+                    var data = [
+                        '\n',
+                        '\n',
+                        '\n',
+                        'DATE: ' + today + '\n',
+                        'TABLE NO.: ' + vm.tableId + '\n',
+                        'KOT NO.: ' + vm.kotNumber + '\n',
+                        '- - - - - - - - - - - - - - - - - - - -\n',
+                        'NAME\t\tQTY\tAMOUNT\n',
+                        '- - - - - - - - - - - - - - - - - - - -\n',
+                        menuText + '\n',
+                        '- - - - - - - - - - - - - - - - - - - -\n',
+                        'TOTAL\t\t\t:' + vm.subTotal + '\n',
+                        'DISCOUNT\t\t:' + vm.discount + '\n',
+                        'TAX\t\t\t: ' + vm.tax + '\n',
+                        'SERVICE CHARRGES\t: ' + vm.serviceCharge + '\n',
+                        'TOTAL\t\t\t: ' + vm.total + '\n',
+                        '- - - - - - - - - - - - - - - - - - - -\n',
+                        'Meepura Restaurant, Negombo\n',
+                        'THANK YOU, COME AGAIN\n',
+                        '\n',
+                        '\n',
+                        '\n',
+                        '\n',
+                        '\n',
+                        '\n',
+                        '\n'];
+
+                    qz.print(config, data).then(function (response) {
+                        console.log(response);
+                        console.log("Print Command Issued!");
+                        $window.location.reload();
+                    }).catch(function (e) {
+                        console.error(e);
+                    });
+                });
+            });
         }
-
-
     }
 })();
 
