@@ -89,7 +89,7 @@
 
                     var menuText = '';
                     angular.forEach(vm.menu, function (value) {
-                        menuText += value.name + '\t' + value.quantity + '\t' + value.amount;
+                        menuText += value.name + '\t' + value.quantity + '\t' + value.amount + '\n';
                     });
 
                     var data = [
@@ -105,7 +105,7 @@
                         menuText + '\n',
                         '- - - - - - - - - - - - - - - - - - - -\n',
                         'TOTAL\t\t\t:' + vm.subTotal + '\n',
-                        'DISCOUNT\t\t:' + vm.discount + '\n',
+                        // 'DISCOUNT\t\t:' + vm.discount + '\n',
                         'TAX\t\t\t: ' + vm.tax + '\n',
                         'SERVICE CHARRGES\t: ' + vm.serviceCharge + '\n',
                         'TOTAL\t\t\t: ' + vm.total + '\n',
@@ -113,7 +113,6 @@
                         'Meepura Chef, No.340, Colombo Road, Negombo\n',
                         'TEL: 0114238238\n\n',
                         'THANK YOU, COME AGAIN\n',
-                        '\n',
                         '\n',
                         '\n',
                         '\n',
