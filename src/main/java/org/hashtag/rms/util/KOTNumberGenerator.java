@@ -1,6 +1,8 @@
 package org.hashtag.rms.util;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 /**
@@ -17,10 +19,19 @@ public class KOTNumberGenerator {
             input = new FileInputStream("./src/main/resources/kotconfig.properties");
             prop.load(input);
 //
-            int lastId = Integer.parseInt(prop.getProperty("kotNumber").substring(3));
-            String strLatId = Integer.toString(lastId);
+            SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
+            Date now = new Date();
+            String nowDate = sdfDate.format(now);
+            String preDate = prop.getProperty("date");
+
             String prefix = "KOT";
             String result = prefix;
+            int lastId = 0;
+
+            if(nowDate.equals(preDate)) {
+                lastId = Integer.parseInt(prop.getProperty("kotNumber").substring(3));
+            }
+            String strLatId = Integer.toString(lastId);
 
             if (strLatId.length() < 4) {
                 for (int i = 0; i < 4 - strLatId.length(); i++) {
@@ -46,6 +57,13 @@ public class KOTNumberGenerator {
 
             // set the properties value
             prop.setProperty("kotNumber", nextKOTNumber);
+
+            // set Date
+            SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
+            Date now = new Date();
+            String strDate = sdfDate.format(now);
+            prop.setProperty("date", strDate);
+
             // save properties to project root folder
             prop.store(fileOutputStream, null);
             fileOutputStream.close();
@@ -53,6 +71,5 @@ public class KOTNumberGenerator {
             e.printStackTrace();
         }
     }
-
 
 }
