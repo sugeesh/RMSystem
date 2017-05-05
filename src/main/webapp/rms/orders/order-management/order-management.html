@@ -148,11 +148,11 @@
                                     <td><input type="number" ng-value="vm.serviceCharge" ng-model="vm.serviceCharge"
                                                ng-change="vm.calculateBalance()" disabled></td>
                                 </tr>
-                                <tr>
+                                <!--<tr>
                                     <th style="width:75%">Discount (LKR.) :</th>
                                     <td><input type="number" ng-value="vm.discount" ng-model="vm.discount"
                                                ng-change="vm.calculateBalance()"></td>
-                                </tr>
+                                </tr>-->
                                 <tr>
                                     <th style="width:75%">Total:</th>
                                     <td>LKR. {{ vm.calculateTotal() | number:2}}</td>
@@ -390,10 +390,10 @@
                                                         <th>Service Charges (%):</th>
                                                         <td>{{ vm.serviceCharge | number:2 }}</td>
                                                     </tr>
-                                                    <tr>
+                                                    <!--<tr>
                                                         <th>Discount:</th>
                                                         <td>{{ vm.discount | number:2 }}</td>
-                                                    </tr>
+                                                    </tr>-->
                                                     <tr>
                                                         <th>Total:</th>
                                                         <td>{{ vm.calculateTotal() | number:2 }}</td>

@@ -68,7 +68,6 @@ public class ItemController extends AbstractController {
         try {
             return sendSuccessResponse(itemService.deleteItem(id));
         } catch (DataIntegrityViolationException e) {
-//            return sendSuccessResponse("Item can't be deleted because it used in a order.");
             return handleServiceException(e,"Item can't be deleted because it used in a order.");
         }
     }

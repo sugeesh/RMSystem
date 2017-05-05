@@ -282,6 +282,7 @@
             } else {
                 alert("Please correctly fill the details.");
             }
+
         }
 
 
@@ -333,7 +334,7 @@
                             menuText + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             'TOTAL\t\t\t:' + vm.subTotal + '\n',
-                            'DISCOUNT\t\t:' + vm.discount + '\n',
+                            /*'DISCOUNT\t\t:' + vm.discount + '\n',*/
                             'TAX\t\t\t: ' + vm.tax + '\n',
                             'SERVICE CHARRGES\t: ' + vm.serviceCharge + '\n',
                             'PAYMENT\t\t\t: ' + vm.payment + '\n',
@@ -342,11 +343,11 @@
                             'THANK YOU, COME AGAIN\n',
                             '\n',
                             '\n',
+                            '\n'/*,
                             '\n',
                             '\n',
                             '\n',
-                            '\n',
-                            '\n'];
+                            '\n'*/];
 
                         qz.print(config, data).then(function (response) {
                             console.log(response);
@@ -720,17 +721,21 @@
         }
 
         function placeKOT() {
-            if ((Object.keys(vm.menu).length > 0)) {
-
-                vm.openOrder = false;
-                angular.forEach(vm.menu, function (value) {
-                    if (value.id == -1) {
-                        vm.openOrder = true;
-                    }
-                });
-                $("#submitOrderModal").modal();
+            if (vm.type == 0 && vm.tableId == 0) {
+                alert("Please fill the table number");
             } else {
-                alert("Please correctly fill the details.");
+                if ((Object.keys(vm.menu).length > 0)) {
+
+                    vm.openOrder = false;
+                    angular.forEach(vm.menu, function (value) {
+                        if (value.id == -1) {
+                            vm.openOrder = true;
+                        }
+                    });
+                    $("#submitOrderModal").modal();
+                } else {
+                    alert("Please correctly fill the details.");
+                }
             }
         }
 
