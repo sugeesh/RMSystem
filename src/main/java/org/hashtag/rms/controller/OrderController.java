@@ -49,6 +49,32 @@ public class OrderController extends AbstractController {
         return sendSuccessResponse(order);
     }
 
+
+    @GET
+    @Path("/all_void_orders")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllVoidOrders() {
+        try {
+            return sendSuccessResponse(orderService.getAllVoidOrders());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return handleServiceException(e);
+        }
+    }
+
+    @GET
+    @Path("/all_open_orders")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllOpenOrders() {
+        try {
+            return sendSuccessResponse(orderService.getAllOpenOrders());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return handleServiceException(e);
+        }
+    }
+
+
     // Get all pending orders for view Pending orders.
     @GET
     @Path("/all_pending_orders")

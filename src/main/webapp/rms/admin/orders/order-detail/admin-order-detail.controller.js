@@ -57,6 +57,7 @@
                 vm.kotNumber = vm.backendData.kotNumber;
                 vm.voidOrder = vm.backendData.voidOrder;
                 vm.openOrder = vm.backendData.openOrder;
+                vm.state = vm.backendData.state;
 
 
                 angular.forEach(vm.backendData.itemResourceList, function (item) {

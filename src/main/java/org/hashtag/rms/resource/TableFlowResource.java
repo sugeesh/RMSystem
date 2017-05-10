@@ -15,6 +15,10 @@ public class TableFlowResource {
     public TableFlowResource() {
     }
 
+    public TableFlowResource(Integer tableId) {
+        this.tableId = tableId;
+    }
+
     public TableFlowResource(Integer tableId, String name, Boolean availability) {
         this.tableId = tableId;
         this.name = name;

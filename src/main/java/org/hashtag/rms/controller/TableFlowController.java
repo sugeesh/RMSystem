@@ -80,4 +80,28 @@ public class TableFlowController extends AbstractController {
     }
 
 
+    @PUT
+    @Path("/edit_table/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateTable(TableFlowResource tableFlowResource) {
+        try {
+            tableFlowService.updateTable(tableFlowResource.getTableId(),tableFlowResource.getName());
+            return sendSuccessResponse(tableFlowResource);
+        } catch (ServiceException e) {
+            return handleServiceException(e);
+        }
+    }
+
+    @DELETE
+    @Path("/delete_table")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response deleteCategory( @QueryParam("id") int id) {
+        try {
+            return sendSuccessResponse(tableFlowService.deleteItem(id));
+        } catch (DataIntegrityViolationException e) {
+            return handleServiceException(e,"Table can't be deleted because it used in a order.");
+        }
+    }
+
 }

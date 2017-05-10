@@ -24,4 +24,11 @@ public interface TableFlowRepository extends CrudRepository<TableFlow, Integer> 
     @Modifying
     @Query("UPDATE TableFlow tf SET tf.availability = :availability WHERE tf.tableId = :tableId")
     Integer updateOrderState(@Param("tableId") int tableId, @Param("availability") Boolean availability);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE TableFlow tf SET tf.name = :name WHERE tf.tableId = :tableId")
+    Integer updateOrderName(@Param("tableId") int tableId, @Param("name") String name);
+
+    void deleteItemByTableId(int id);
 }

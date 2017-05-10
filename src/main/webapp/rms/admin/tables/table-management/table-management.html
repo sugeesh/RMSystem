@@ -7,7 +7,7 @@
                 <span class="info-box-icon bg-aqua"><i class="fa fa-file-text"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Currently Table</span>
+                    <span class="info-box-text">Table Count</span>
                     <span class="info-box-number">{{ vm.tableList.length }}</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -51,7 +51,21 @@
                                         <input type="text" class="form-control" value="{{ table.name }}" disabled/>
                                         <span ng-if= "table.availability=='true'" class="input-group-btn">Available</span>
                                         <span ng-if= "table.availability=='false'" class="input-group-btn">Not Available</span>
+                                        <span class="input-group-btn bg-yellow">
+                                            <button type="button" class="btn btn-flat bg-yellow"
+                                                    data-ng-click="vm.updateTableId(table.tableId,table.name)" data-toggle="modal"
+                                                    data-target="#updateTableModal"><i
+                                                    class="fa fa-edit" data-toggle="tooltip"
+                                                    title="Update category"></i></button>
+                                        </span>
+                                        <span class="input-group-btn bg-red">
+                                            <button type="button" class="btn btn-flat bg-red"
+                                                    data-ng-click="vm.removeTable(table.tableId)"><i
+                                                    class="fa fa-close" data-toggle="tooltip"
+                                                    title="Remove category"></i></button>
+                                        </span>
                                     </div>
+
                                 </div>
                             </form>
                         </div>
@@ -94,6 +108,37 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal"
                         data-ng-click="vm.addTables(this.newtablename)">Add
+                    Table
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Edit Table Modal -->
+<div class="modal fade" id="updateTableModal" tabindex="-1" role="dialog" aria-labelledby="updateTableModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="updateTableLabel">Update Table</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="newtablename" class="control-label">Table Name</label>
+                        <input type="text" class="form-control" placeholder="Edit Table"
+                               ng-model="vm.editTableName" id="updatetablename">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        data-ng-click="vm.updateTable()">Update
                     Table
                 </button>
             </div>

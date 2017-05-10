@@ -17,10 +17,14 @@
 
         vm.newTableName = '';
         vm.tableList = [];
-
+        vm.updatingtableId = 0;
+        vm.editTableName = "";
 
         vm.loadTables = loadTables;
         vm.addTables = addTables;
+        vm.updateTableId = updateTableId;
+        vm.updateTable = updateTable;
+        vm.removeTable = removeTable;
 
         loadTables();
 
@@ -47,13 +51,33 @@
             }
         }
 
-        function removeTable(item) {
-            webservice.call($rootScope.baseURL + "/item/delete_item", "delete", "?id=" + item.itemId).then(function (response) {
+        function removeTable(tableId) {
+            webservice.call($rootScope.baseURL + "/table/delete_table", "delete", "?id=" + tableId).then(function (response) {
                 console.log(response);
-                // loadCategories();
+                loadTables();
             });
 
         }
+
+        function updateTableId(id,name) {
+            console.log("Come");
+            vm.updatingtableId = id;
+            vm.editTableName = name;
+        }
+
+        function updateTable() {
+            if (name != undefined) {
+                var newTable = {
+                    tableId: vm.updatingtableId,
+                    name: vm.editTableName
+                };
+                webservice.call($rootScope.baseURL + "/table/edit_table", "put", newTable).then(function (response) {
+                   loadTables();
+                    console.log(vm.tableList);
+                });
+            }
+        }
+
 
     }
 })();

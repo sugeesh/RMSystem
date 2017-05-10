@@ -60,7 +60,6 @@ public class OrderService {
     public Order create(OrderResource orderResource) throws ServiceException, ParseException {
 
         Order order = new Order();
-        order.setOrderTime(orderResource.getOrderTime());
         order.setAmount(orderResource.getAmount());
         order.setCustomerName(orderResource.getCustomerName());
         order.setTable(tableFlowService.getTableById(Integer.parseInt(orderResource.getTableId())));
@@ -83,6 +82,7 @@ public class OrderService {
         order.setKotNumber(nextKOTNumber);
 
         order.setStatus("PENDING");
+        order.setOrderTime(new Date());
         try {
             Order ordersaved = orderRepository.save(order);
             ArrayList<ItemResource> itemResourceList = (ArrayList<ItemResource>) orderResource.getItemResourceList();
@@ -111,7 +111,7 @@ public class OrderService {
     public Order createOpenOrder(OrderResource orderResource) throws ServiceException, ParseException {
 
         Order order = new Order();
-        order.setOrderTime(orderResource.getOrderTime());
+//        order.setOrderTime(orderResource.getOrderTime());
         order.setAmount(orderResource.getAmount());
         order.setCustomerName(orderResource.getCustomerName());
         order.setTable(tableFlowService.getTableById(Integer.parseInt(orderResource.getTableId())));
@@ -133,6 +133,8 @@ public class OrderService {
 
         order.setKotNumber(nextKOTNumber);
         order.setStatus("WAITING");
+        order.setOrderTime(new Date());
+
         try {
             Order ordersaved = orderRepository.save(order);
             ArrayList<ItemResource> itemResourceList = (ArrayList<ItemResource>) orderResource.getItemResourceList();
@@ -162,7 +164,7 @@ public class OrderService {
     public DataTableResponse<OrderResource> getAllPendingOrders() {
         DataTableResponse<OrderResource> response = new DataTableResponse<>();
         List<OrderResource> orderList = new ArrayList<>();
-        for (Order order : orderRepository.findByStatus("PENDING")) {
+        for (Order order : orderRepository.findByStatusOrderByOrderTimeDesc("PENDING")) {
             OrderResource orderResource = new OrderResource();
             orderResource.setOrderId(order.getOrderId());
             if(order.getTable()!=null)
@@ -185,6 +187,69 @@ public class OrderService {
         return response;
     }
 
+    /**
+     * This method will return the all "VOIDED" status orders only.
+     *
+     * @return DataTableResponseObject
+     */
+    public DataTableResponse<OrderResource> getAllVoidOrders() {
+        DataTableResponse<OrderResource> response = new DataTableResponse<>();
+        List<OrderResource> orderList = new ArrayList<>();
+        for (Order order : orderRepository.findByStatusOrderByOrderTimeDesc("VOIDED")) {
+            OrderResource orderResource = new OrderResource();
+            orderResource.setOrderId(order.getOrderId());
+            if(order.getTable()!=null)
+                orderResource.setTableId(String.valueOf(tableFlowService.getTableById(order.getTable().getTableId()).getTableId()));
+            orderResource.setCustomerName(order.getCustomerName());
+            orderResource.setOrderTime(order.getOrderTime());
+            orderResource.setKotNumber(order.getKotNumber());
+            orderResource.setComment(order.getComment());
+            orderResource.setVoidOrder(order.getVoidOrder());
+            orderResource.setOpenOrder(order.getOpenOrder());
+            orderResource.setType(order.getType());
+            orderResource.setAmount(order.getAmount());
+//            orderResource.setItemResourceList(orderResource.getItemResourceList());
+            orderResource.setUserId(String.valueOf(order.getUser().getUserId()));
+            orderResource.setUserName(order.getUser().getUsername());
+            orderList.add(orderResource);
+        }
+        response.setDataRows(orderList);
+        response.setEntries(orderList.size());
+        return response;
+    }
+
+    /**
+     * This method will return the all open orders only.
+     *
+     * @return DataTableResponseObject
+     */
+    public DataTableResponse<OrderResource> getAllOpenOrders() {
+        DataTableResponse<OrderResource> response = new DataTableResponse<>();
+        List<OrderResource> orderList = new ArrayList<>();
+        for (Order order : orderRepository.findByStatusOrderByOrderTimeDesc("COMPLETED")) {
+            OrderResource orderResource = new OrderResource();
+            orderResource.setOrderId(order.getOrderId());
+            if(order.getTable()!=null)
+                orderResource.setTableId(String.valueOf(tableFlowService.getTableById(order.getTable().getTableId()).getTableId()));
+            orderResource.setCustomerName(order.getCustomerName());
+            orderResource.setOrderTime(order.getOrderTime());
+            orderResource.setKotNumber(order.getKotNumber());
+            orderResource.setComment(order.getComment());
+            orderResource.setVoidOrder(order.getVoidOrder());
+            orderResource.setOpenOrder(order.getOpenOrder());
+            orderResource.setType(order.getType());
+            orderResource.setAmount(order.getAmount());
+//            orderResource.setItemResourceList(orderResource.getItemResourceList());
+            orderResource.setUserId(String.valueOf(order.getUser().getUserId()));
+            orderResource.setUserName(order.getUser().getUsername());
+            if(order.getOpenOrder())
+                orderList.add(orderResource);
+        }
+        response.setDataRows(orderList);
+        response.setEntries(orderList.size());
+        return response;
+    }
+
 
     /**
      * This method will return the all "PENDING" status orders only.
@@ -194,7 +259,7 @@ public class OrderService {
     public DataTableResponse<OrderResource> getPendingOrdersForKichen(int kid) {
         DataTableResponse<OrderResource> response = new DataTableResponse<>();
         List<OrderResource> orderList = new ArrayList<>();
-        for (Order order : orderRepository.findByStatus("PENDING")) {
+        for (Order order : orderRepository.findByStatusOrderByOrderTimeDesc("PENDING")) {
             boolean checker = false;
             for (OrderDetail orderDetail : order.getOrderDetailList()) {
                 if (!orderDetail.getServed()) {
@@ -256,7 +321,7 @@ public class OrderService {
     public DataTableResponse<OrderResource> getAllWaitingOrders() {
         DataTableResponse<OrderResource> response = new DataTableResponse<>();
         List<OrderResource> orderList = new ArrayList<>();
-        for (Order order : orderRepository.findByStatus("WAITING")) {
+        for (Order order : orderRepository.findByStatusOrderByOrderTimeDesc("WAITING")) {
             OrderResource orderResource = new OrderResource();
             orderResource.setOrderId(order.getOrderId());
             if(order.getTable()!=null)
@@ -311,6 +376,7 @@ public class OrderService {
         orderResource.setType(orderNew.getType());
         orderResource.setVoidOrder(orderNew.getVoidOrder());
         orderResource.setOpenOrder(orderNew.getOpenOrder());
+        orderResource.setState(orderNew.getStatus());
         orderResource.setUserId(String.valueOf(orderNew.getUser().getUserId()));
         orderResource.setUserName(orderNew.getUser().getUsername());
         List<ItemResource> itemResourceList = new ArrayList<>();
@@ -468,7 +534,7 @@ public class OrderService {
     public DataTableResponse<OrderResource> getAllCompletedOrders() {
         DataTableResponse<OrderResource> response = new DataTableResponse<>();
         List<OrderResource> orderList = new ArrayList<>();
-        for (Order order : orderRepository.findByStatus("COMPLETED")) {
+        for (Order order : orderRepository.findByStatusOrderByOrderTimeDesc("COMPLETED")) {
             OrderResource orderResource = new OrderResource();
             orderResource.setOrderId(order.getOrderId());
             if(order.getTable()!=null)
@@ -613,6 +679,7 @@ public class OrderService {
             orderResource.setComment(order.getComment());
             orderResource.setType(order.getType());
             orderResource.setAmount(order.getAmount());
+            orderResource.setState(order.getStatus());
 
             List<ItemResource> itemResourceList = new ArrayList<>();
             order.getOrderDetailList().stream().forEach(orderDetail -> {

@@ -41,13 +41,12 @@
                 var tAmount = 0;
 
                 angular.forEach(orders, function (order, key) {
-                    if (order.type == 0) {
+                    if (order.state != "VOIDED" && order.type == 0) {
                         diCount++;
-                    } else if (order.type == 1) {
+                    } else if (order.state != "VOIDED" && order.type == 1) {
                         taCount++;
                     }
-
-                    if (order.state == "VOID") {
+                    if (order.state == "VOIDED") {
                         vCount++;
                     }
 

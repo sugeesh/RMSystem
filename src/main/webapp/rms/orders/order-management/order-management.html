@@ -75,11 +75,11 @@
                     <ul class="nav nav-tabs" style="border: none; margin-top: 10px; margin-bottom: 20px">
                         <li class="dropdown" ng-repeat="item in vm.selectedCategoryItemList">
                             <a data-ng-click="vm.addToTable(item)" class="btn btn-flat"
-                               ng-if="item.isTakeAway == 1 && vm.type == 1">
+                               ng-if="item.active ==true && item.isTakeAway == 1 && vm.type == 1">
                                 {{item.name}}
                             </a>
                             <a data-ng-click="vm.addToTable(item)" class="btn btn-flat"
-                               ng-if="item.isTakeAway == 0 && vm.type == 0">
+                               ng-if="item.active ==true && item.isTakeAway == 0 && vm.type == 0">
                                 {{item.name}}
                             </a>
                         </li>

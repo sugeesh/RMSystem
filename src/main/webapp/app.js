@@ -182,6 +182,26 @@
                     controllerAs: 'vm'
                 }
             }
+        }).state('admin_void_orders', {
+            parent: 'default',
+            url: '/admin_void_orders',
+            views: {
+                "view@default": {
+                    templateUrl: 'rms/admin/orders/void-orders/admin-void-orders.html',
+                    controller: 'AdminVoidOrdersController',
+                    controllerAs: 'vm'
+                }
+            }
+        }).state('admin_open_orders', {
+            parent: 'default',
+            url: '/admin_open_orders',
+            views: {
+                "view@default": {
+                    templateUrl: 'rms/admin/orders/open-orders/admin-open-orders.html',
+                    controller: 'AdminOpenOrdersController',
+                    controllerAs: 'vm'
+                }
+            }
         }).state('served_orders', {
             parent: 'default',
             url: '/served_orders',

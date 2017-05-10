@@ -15,7 +15,7 @@
             <!-- /.info-box -->
         </div>
 
-        <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+        <div class="col-md-3 col-sm-6 col-xs-12 pull-right" ng-if="vm.state=='WAITING'">
             <div class="info-box">
                 <span class="info-box-icon bg-aqua"><i class="fa fa-list-alt"></i></span>
 
@@ -183,7 +183,7 @@
                     <div class="form-group">
                         <label for="newitemname" class="control-label">Item Name</label>
                         <input type="text" class="form-control" placeholder="Enter New Item"
-                               ng-model="newItemName" id="newItemName" required>
+                               ng-model="vm.newItemName" id="newItemName" required>
                     </div>
                     <div class="form-group">
                         <label for="categorySelect" class="control-label">Category</label>
@@ -201,7 +201,7 @@
                     <div class="form-group">
                         <label for="newItemPrice" class="control-label">Price</label>
                         <input type="number" class="form-control" placeholder="Enter Price"
-                               ng-model="newItemPrice" id="newItemPrice" required>
+                               ng-model="vm.newItemPrice" id="newItemPrice" required>
                     </div>
                     <div class="form-group">
                         <label for="newItemSKUCode" class="control-label">SKU Code</label>
@@ -228,18 +228,14 @@
                     </div>
                     <div class="form-group">
                         <label for="tkSelect" class="control-label">Take Away</label>
-                        <input id="tkSelect" ng-model = "newItemTakeAway" type="checkbox">
-                    </div>
-                    <div class="form-group">
-                        <label for="dnSelect" class="control-label">Dine In</label>
-                        <input id="dnSelect" ng-model = "newItemDineIn" type="checkbox">
+                        <input id="tkSelect" ng-model="newItemTakeAway" type="checkbox">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="vm.addItem(this.newItemName,this.newItemCategory,
-                this.newItemPortion,this.newItemPrice,this.newItemSKUCode,this.newItemTAXCode,this.newItemComment, this.newItemKitchen, this.newItemTakeAway, this.newItemDineIn)">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-ng-click="vm.addItemToList(vm.newItemName,this.newItemCategory,
+                this.newItemPortion,vm.newItemPrice,this.newItemSKUCode,this.newItemTAXCode,this.newItemComment, this.newItemKitchen, this.newItemTakeAway)">
                     Add Item
                 </button>
             </div>

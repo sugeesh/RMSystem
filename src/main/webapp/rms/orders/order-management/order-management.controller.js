@@ -294,6 +294,8 @@
              *  Menu Items - vm.menu
              * */
 
+            var totalAmount = vm.calculateTotal();
+
             // Print command for the cashier bill
             qz.websocket.connect().then(function () {
                 console.log("Connected to the qz service.");
@@ -333,17 +335,19 @@
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             menuText + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
-                            'TOTAL\t\t\t:' + vm.subTotal + '\n',
+                            'SUB-TOTAL\t\t\t:' + vm.subTotal + '\n',
                             /*'DISCOUNT\t\t:' + vm.discount + '\n',*/
-                            'TAX\t\t\t: ' + vm.tax + '\n',
+                            'TAX\t\t\t: ' + vm.tax + '%\n',
                             'SERVICE CHARRGES\t: ' + vm.serviceCharge + '\n',
+                            '- - - - - - - - - - - - - - - - - - - -\n',
+                            'TOTAL\t\t\t:' + totalAmount + '\n',
                             'PAYMENT\t\t\t: ' + vm.payment + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             'Meepura Restaurant, Negombo\n',
                             'THANK YOU, COME AGAIN\n',
+                            '\n'
+                            /*'\n',
                             '\n',
-                            '\n',
-                            '\n'/*,
                             '\n',
                             '\n',
                             '\n',

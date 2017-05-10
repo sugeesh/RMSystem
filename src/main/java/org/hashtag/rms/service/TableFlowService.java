@@ -3,6 +3,7 @@ package org.hashtag.rms.service;
 import org.hashtag.rms.model.*;
 import org.hashtag.rms.repository.PaymentRepository;
 import org.hashtag.rms.repository.TableFlowRepository;
+import org.hashtag.rms.resource.ItemResource;
 import org.hashtag.rms.resource.PaymentResource;
 import org.hashtag.rms.resource.TableFlowResource;
 import org.hibernate.service.spi.ServiceException;
@@ -34,7 +35,6 @@ public class TableFlowService {
         return TableFlowResource.createResource(saveTable);
     }
 
-
     public Object getAllTables() {
         return tableFlowRepository.findAll();
     }
@@ -43,8 +43,19 @@ public class TableFlowService {
         return tableFlowRepository.findAllByAvailability(true);
     }
 
-
-    public void updateAvailability(int tableId,boolean value) {
-        tableFlowRepository.updateOrderState(tableId,value);
+    public void updateAvailability(int tableId, boolean value) {
+        tableFlowRepository.updateOrderState(tableId, value);
     }
+
+    public void updateTable(int tableId, String name) {
+        tableFlowRepository.updateOrderName(tableId, name);
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public TableFlowResource deleteItem(int id) {
+        tableFlowRepository.deleteItemByTableId(id);
+        return new TableFlowResource(id);
+    }
+
 }

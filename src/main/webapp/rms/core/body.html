@@ -99,6 +99,8 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a ui-sref="admin_waiting_orders"><i class="fa fa-circle-o"></i> Waiting Orders</a></li>
+                    <li><a ui-sref="admin_void_orders"><i class="fa fa-circle-o"></i>Completed Void Orders List</a></li>
+                    <li><a ui-sref="admin_open_orders"><i class="fa fa-circle-o"></i>Completed Open Orders List</a></li>
                 </ul>
             </li>
             <li class="treeview" ng-if="vm.userType==='KITCHEN' || vm.userType==='CASHIER'">
@@ -138,7 +140,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a ui-sref="menu_management"><i class="fa fa-circle-o"></i>Menu management</a></li>
-                    <li><a ui-sref="menu_relations"><i class="fa fa-circle-o"></i>Menu Relations</a></li>
+                    <!--<li><a ui-sref="menu_relations"><i class="fa fa-circle-o"></i>Menu Relations</a></li>-->
                     <li><a ui-sref="table_management"><i class="fa fa-circle-o"></i>Table management</a></li>
                 </ul>
             </li>
