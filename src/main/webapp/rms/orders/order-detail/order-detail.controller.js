@@ -35,7 +35,7 @@
             webservice.call($rootScope.baseURL + "/order/get_order_from_id/" + orderId, "get").then(function (response) {
 
                 vm.backendData = response.data;
-                vm.tableId = vm.backendData.tableId;
+                vm.tableId = vm.backendData.tableName;
                 vm.customerName = vm.backendData.customerName;
                 vm.subTotal = vm.backendData.amount;
                 vm.orderId = vm.backendData.orderId;

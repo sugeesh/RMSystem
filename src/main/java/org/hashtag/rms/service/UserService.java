@@ -9,6 +9,7 @@ import org.hashtag.rms.resource.ItemResource;
 import org.hashtag.rms.resource.UserResource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,6 +45,16 @@ public class UserService {
     public Object getAllUsers() {
         return userRepository.findAll();
     }
+
+    public Object getAllCashiers() {
+        List<User> byType = userRepository.findByType(2);
+        List<UserResource> userResourceList = new ArrayList<>();
+        byType.forEach(user ->{
+            userResourceList.add(new UserResource(user));
+        });
+        return userResourceList;
+    }
+
 
     public Object updateUser(UserResource userResource) {
         userRepository.delete(userResource.getId());

@@ -8,9 +8,9 @@
     angular.module('myApp')
         .controller('MenuManagementController', MenuManagementController);
 
-    MenuManagementController.$inject = ['webservice', '$rootScope', '$q', '$state'];
+    MenuManagementController.$inject = ['webservice', '$rootScope', '$q', '$state','$filter'];
 
-    function MenuManagementController(webservice, $rootScope, $q, $state) {
+    function MenuManagementController(webservice, $rootScope, $q, $state,$filter) {
         var vm = this;
         $rootScope.baseURL = "http://localhost:8080/rest";
 
@@ -40,7 +40,7 @@
                 console.log(response.data);
                 vm.categoryList = response.data.dataRows;
                 vm.itemList = vm.categoryList[0].itemResourceList;
-
+                vm.itemList = $filter('orderBy')(vm.itemList, 'priority');
                 $rootScope.isLoading = false;
             }).catch(function () {
                 $rootScope.isLoading = false;
@@ -70,7 +70,10 @@
                 webservice.call($rootScope.baseURL + "/category/save_category", "post", newCategory).then(function (response) {
                     vm.categoryList.push(response.data);
                     console.log(vm.categoryList);
+                    $('#addCategoryModal').modal('hide');
                 });
+            } else {
+                alert("Please give a name for the category.");
             }
         }
 
@@ -90,6 +93,7 @@
             webservice.call($rootScope.baseURL + "/item/delete_item", "delete", "?id=" + item.itemId).then(function (response) {
                 console.log(response);
                 loadCategories();
+                $('#myModal').modal('hide');
             });
 
         }
@@ -98,7 +102,7 @@
             angular.forEach(vm.categoryList, function (value, key) {
                 if (value.categoryId == id) {
                     vm.itemList = value.itemResourceList;
-
+                    vm.itemList = $filter('orderBy')(vm.itemList, 'priority');
                     vm.selectedCategory = id;
                     console.log(vm.itemList);
                 }
@@ -107,15 +111,15 @@
 
         function addItemToList(newItemName, newItemCategory, newItemPortion, newItemPrice, newItemSKUCode, newItemTAXCode, newItemComment, newItemKitchen, newItemTakeAway) {
 
-            if(newItemName == undefined){
+            if (newItemName == undefined) {
                 alert("Please correctly fill the name field.");
-            }else if(newItemCategory == undefined){
+            } else if (newItemCategory == undefined) {
                 alert("Please choose a category field.");
-            }else if(newItemPrice == undefined){
+            } else if (newItemPrice == undefined) {
                 alert("Please correctly fill the price field.");
-            }else if(newItemKitchen == undefined){
+            } else if (newItemKitchen == undefined) {
                 alert("Please choose a kitchen field.");
-            }else{
+            } else {
                 var newItem = {
                     name: newItemName,
                     portion: newItemPortion,
@@ -136,6 +140,7 @@
                 webservice.call($rootScope.baseURL + "/item/save_item", "post", newItem).then(function (response) {
                     loadCategories();
                     alert("Item Saved.");
+                    $('#addItemModal').modal('hide');
 
                     /*$('#addItemModal').on('hidden.bs.modal', function (e) {
                      $(this)
@@ -218,8 +223,9 @@
                     var temp = vm.itemList[i];
                     vm.itemList[i] = vm.itemList[i - 1];
                     vm.itemList[i - 1] = temp;
+                    var temp2 = vm.itemList[i].priority;
                     vm.itemList[i].priority = vm.itemList[i - 1].priority;
-                    vm.itemList[i - 1].priority = vm.itemList[i].priority;
+                    vm.itemList[i - 1].priority = temp2;
                     console.log(i + "  " + i - 1);
                     break;
                 }
@@ -233,8 +239,9 @@
                     vm.itemList[i] = vm.itemList[i + 1];
                     vm.itemList[i + 1] = temp;
                     console.log(i + "  " + i + 1);
+                    var temp2 = vm.itemList[i].priority;
                     vm.itemList[i].priority = vm.itemList[i + 1].priority;
-                    vm.itemList[i + 1].priority = vm.itemList[i].priority;
+                    vm.itemList[i + 1].priority = temp2;
                     break;
                 }
             }
@@ -248,19 +255,25 @@
             }
             webservice.call($rootScope.baseURL + "/item/update_priority", "put", request).then(function (response) {
                 console.log("Output" + JSON.stringify(response));
+                $('#myModal').modal('hide');
             });
 
         }
 
         function updateCategory() {
-            var request = {
-                categoryId: vm.updCatId,
-                name: vm.catUpdateName,
-                colorCode: vm.catUpdateColor
-            };
-            webservice.call($rootScope.baseURL + "/category/update_category", "put", request).then(function (response) {
-                loadCategories();
-            });
+            if (vm.catUpdateName != "") {
+                var request = {
+                    categoryId: vm.updCatId,
+                    name: vm.catUpdateName,
+                    colorCode: vm.catUpdateColor
+                };
+                webservice.call($rootScope.baseURL + "/category/update_category", "put", request).then(function (response) {
+                    loadCategories();
+                    $('#updateCategoryModal').modal('hide');
+                });
+            } else {
+                alert("Please give a name for the category.");
+            }
         }
 
         function loadUpdateForm(category) {

@@ -2,6 +2,7 @@ package org.hashtag.rms.repository;
 
 import org.hashtag.rms.model.Category;
 import org.hashtag.rms.model.Order;
+import org.hashtag.rms.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
@@ -26,7 +27,11 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
 
     List<Order> findByStatusAndOrderTimeBetween(String status, Date startDate, Date endDate);
 
+    List<Order> findByStatusAndOrderTimeBetweenAndUser(String status, Date startDate, Date endDate,User user);
+
     List<Order> findByStatusAndTypeAndOrderTimeBetween(String status, int type, Date startDate, Date endDate);
+
+    List<Order> findByStatusAndTypeAndOrderTimeBetweenAndUser(String status, int type, Date startDate, Date endDate, User user);
 
     Order findByOrderId(int id);
 

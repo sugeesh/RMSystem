@@ -77,4 +77,17 @@ public class UserController extends AbstractController {
         }
     }
 
+    @GET
+    @Path("/get_all_cashiers")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllCashiers() {
+        try {
+            return sendSuccessResponse(userService.getAllCashiers());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return handleServiceException(e);
+        }
+    }
+
+
 }

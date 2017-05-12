@@ -27,6 +27,10 @@ public class TableFlowService {
         return tableFlow;
     }
 
+    public TableFlowResource getTableResourceById(int tableId) {
+        return TableFlowResource.createResource(getTableById(tableId));
+    }
+
     public TableFlowResource saveTable(String name) {
         TableFlow tableFlow = new TableFlow();
         tableFlow.setName(name);

@@ -53,6 +53,18 @@ public class TableFlowController extends AbstractController {
         }
     }
 
+    @GET
+    @Path("/get_table_from_id/{id}/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTableById(@PathParam("id") int id) {
+        try {
+            return sendSuccessResponse(tableFlowService.getTableResourceById(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return handleServiceException(e);
+        }
+    }
+
 
     @GET
     @Path("/all_tables_available")

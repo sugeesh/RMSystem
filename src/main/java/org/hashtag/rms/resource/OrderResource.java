@@ -12,6 +12,7 @@ public class OrderResource {
     private double amount;
     private String customerName;
     private String tableId;
+    private String tableName;
 
     // To check order is in "PENDING", "COMPLETED" OR "WAIT" state
     private String state;
@@ -258,5 +259,13 @@ public class OrderResource {
 
     public void setkId(int kId) {
         this.kId = kId;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 }

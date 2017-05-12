@@ -28,10 +28,16 @@
 
 
         function saveSettings() {
-            var sendObj = {"tax": parseFloat(vm.tax), "s_charge": parseFloat(vm.serviceCharge)};
-            webservice.call($rootScope.baseURL + '/admin', 'post', sendObj).then(function (response) {
-                alert("Settings Saved successfully.");
-            });
+            if(vm.tax == undefined || vm.tax == "" || isNaN(vm.tax)){
+                alert("Please fill a correct tax value");
+            }else if(vm.tax == undefined || vm.serviceCharge == "" || isNaN(vm.serviceCharge)){
+                alert("Please fill a correct service charge value");
+            }else {
+                var sendObj = {"tax": parseFloat(vm.tax), "s_charge": parseFloat(vm.serviceCharge)};
+                webservice.call($rootScope.baseURL + '/admin', 'post', sendObj).then(function (response) {
+                    alert("Settings Saved successfully.");
+                });
+            }
         }
 
         function loadTaxSettings() {

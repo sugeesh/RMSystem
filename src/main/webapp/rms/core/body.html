@@ -85,7 +85,7 @@
                     <li><a ui-sref="order_management"><i class="fa fa-circle-o"></i> Order Management</a></li>
                     <li><a ui-sref="pending_orders"><i class="fa fa-circle-o"></i> Pending Orders</a></li>
                     <li><a ui-sref="waiting_orders"><i class="fa fa-circle-o"></i> Waiting Orders</a></li>
-                    <li ng-if="vm.userType!='WAITER'"><a ui-sref="orders_history"><i class="fa fa-circle-o"></i> Orders History</a></li>
+                    <!--<li ng-if="vm.userType!='WAITER'"><a ui-sref="orders_history"><i class="fa fa-circle-o"></i> Orders History</a></li>-->
                     <li><a ui-sref="table_settings"><i class="fa fa-circle-o"></i> Table Details</a></li>
                 </ul>
             </li>
@@ -127,7 +127,8 @@
                 <ul class="treeview-menu">
                     <li><a ui-sref="end_of_the_day_report"><i class="fa fa-circle-o"></i>End of the Day Report</a></li>
                     <li><a ui-sref="cash_drawer_report"><i class="fa fa-circle-o"></i>Cash Drawer Report</a></li>
-                    <li><a ui-sref="sales_report"><i class="fa fa-circle-o"></i>Sales Report</a></li>
+                    <!--<li><a ui-sref="sales_report"><i class="fa fa-circle-o"></i>Sales Report</a></li>-->
+                    <li><a ui-sref="orders_history"><i class="fa fa-circle-o"></i>Sales Report</a></li>
                 </ul>
             </li>
             <li ng-if="vm.userType==='ADMIN'">

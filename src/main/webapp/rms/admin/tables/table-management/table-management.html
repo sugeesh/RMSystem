@@ -19,7 +19,7 @@
             <div class="info-box bg-aqua">
                 <span class="info-box-icon"><i class="fa fa-list"></i></span>
 
-                <div class="info-box-content" data-toggle="modal" data-target="#addCategoryModal"
+                <div class="info-box-content" data-toggle="modal" data-target="#addTableModal"
                      style="cursor: pointer">
                     <span class="info-box-text">Add</span>
                     <span class="info-box-number">Table</span>
@@ -87,7 +87,7 @@
 <!-- /.content -->
 
 <!-- Add Table Modal -->
-<div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel">
+<div class="modal fade" id="addTableModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -106,7 +106,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                <button type="button" class="btn btn-primary"
                         data-ng-click="vm.addTables(this.newtablename)">Add
                     Table
                 </button>
@@ -137,7 +137,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                <button type="button" class="btn btn-primary"
                         data-ng-click="vm.updateTable()">Update
                     Table
                 </button>

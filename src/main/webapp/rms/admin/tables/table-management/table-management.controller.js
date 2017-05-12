@@ -47,8 +47,12 @@
                 webservice.call($rootScope.baseURL + "/table/", "post", newTable).then(function (response) {
                     vm.tableList.push(response.data);
                     console.log(vm.tableList);
+                    $('#addTableModal').modal('hide');
                 });
+            }else{
+                alert("please give a name for the table");
             }
+
         }
 
         function removeTable(tableId) {
@@ -63,18 +67,22 @@
             console.log("Come");
             vm.updatingtableId = id;
             vm.editTableName = name;
+
         }
 
         function updateTable() {
-            if (name != undefined) {
+            if (name != "") {
                 var newTable = {
                     tableId: vm.updatingtableId,
                     name: vm.editTableName
                 };
                 webservice.call($rootScope.baseURL + "/table/edit_table", "put", newTable).then(function (response) {
                    loadTables();
-                    console.log(vm.tableList);
+                   console.log(vm.tableList);
+                    $('#updateTableModal').modal('hide');
                 });
+            }else{
+                alert("please give a name for the table");
             }
         }
 

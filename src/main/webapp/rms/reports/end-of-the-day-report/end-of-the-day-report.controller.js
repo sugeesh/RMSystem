@@ -20,8 +20,10 @@
         vm.dineInCount = 0;
         vm.takeAwayCount = 0;
         vm.voidCount = 0;
+        vm.openCount = 0;
         vm.ordersAmount = 0;
         vm.totalAmount = 0;
+        vm.openOrderAmount = 0;
 
         getOrdersForDay();
 
@@ -29,6 +31,7 @@
             var today = $('#reservation').data('daterangepicker').startDate.format("YYYY-MM-DD");
 
             console.log("today: " + today);
+            vm.today = today;
             webservice.call($rootScope.baseURL + "/order/get_all_orders_for_date/" + today, "get").then(function (response) {
                 var orders = response.data.dataRows;
                 vm.orderCount = response.data.entries;
@@ -39,6 +42,8 @@
                 var vCount = 0;
                 var oAmount = 0;
                 var tAmount = 0;
+                var openOrderAmount = 0;
+                var openCount = 0;
 
                 angular.forEach(orders, function (order, key) {
                     if (order.state != "VOIDED" && order.type == 0) {
@@ -52,7 +57,16 @@
 
                     var payment = order.paymentDetails;
                     oAmount += payment.amount;
-                    tAmount += payment.totalAmount;
+
+                    if (order.state != "VOIDED") {
+                        tAmount += payment.totalAmount;
+                    }
+
+                    if (order.state != "VOIDED" && order.openOrder==true) {
+                        openCount++;
+                        openOrderAmount += payment.totalAmount;
+                    }
+
                 });
 
                 vm.dineInCount = diCount;
@@ -60,6 +74,8 @@
                 vm.voidCount = vCount;
                 vm.ordersAmount = oAmount;
                 vm.totalAmount = tAmount;
+                vm.openOrderAmount = openOrderAmount;
+                vm.openCount = openCount;
             });
         }
     }

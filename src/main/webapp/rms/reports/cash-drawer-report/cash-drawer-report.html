@@ -49,16 +49,27 @@
                         <table class="table no-margin">
                             <tbody>
                             <tr>
+                                <td>Date</td>
+                                <td>
+                                    <div class="input-group">
+                                        <!-- /btn-group -->
+                                        <input type="text" value="{{vm.today}}"
+                                               class="form-control" disabled>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>Starting Cash</th>
                                 <th>
                                     <div class="input-group">
                                         <!-- /btn-group -->
-                                        <input type="text" id="startingCashText" ng-change="vm.calcBalance()" ng-model="vm.startingCash"
+                                        <input type="text" id="startingCashText" ng-change="vm.calcBalance()"
+                                               ng-model="vm.startingCash"
                                                class="form-control">
                                         <div class="input-group-btn">
                                             <button type="button" data-target="#addStartingCashModal"
                                                     data-toggle="modal"
-                                                    class="btn btn-info" >Change
+                                                    class="btn btn-info">Change
                                             </button>
                                         </div>
                                     </div>

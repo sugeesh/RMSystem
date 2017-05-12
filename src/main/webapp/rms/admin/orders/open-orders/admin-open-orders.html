@@ -7,8 +7,8 @@
                 <span class="info-box-icon bg-red"><i class="fa fa-file-text"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Kitchen Tokens</span>
-                    <span class="info-box-number">{{vm.pendingOrderCount}}</span>
+                    <span class="info-box-text">OPEN ORDERS COUNT</span>
+                    <span class="info-box-number">{{vm.openOrderCount}}</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -24,12 +24,13 @@
             <!-- TABLE: LATEST ORDERS -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Waiting Dine In KOT List </h3>
+                    <h3 class="box-title">Completed Open Order List</h3>
                 </div>
+
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="table-responsive" style="overflow: auto; max-height: 400px;">
-                        <table class="table no-margin table-hover dataTable">
+                        <table class="table no-margin table-hover dataTable" >
                             <thead>
                             <tr>
                                 <th>KOT Number</th>
@@ -43,8 +44,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-if="order.type==0" ng-repeat="order in vm.pendingOrders" style="cursor: pointer;"
-                                data-ng-click="vm.routeToOrder(order.orderId)">
+                            <tr  ng-if="order.type==0" ng-repeat="order in vm.openOrders" style="cursor: pointer;" data-ng-click="vm.routeToOrder(order.orderId)">
                                 <td>{{order.kotNumber}}</td>
                                 <td>{{order.customerName}}</td>
                                 <td>{{order.tableName}}</td>
@@ -55,13 +55,7 @@
                                 <td ng-if="order.type==1">Take Away</td>
                                 <td ng-if="order.openOrder!=1">NORMAL ORDER</td>
                                 <td ng-if="order.openOrder==1">OPEN ORDER</td>
-                                <td ng-if="order.voidOrder==1">Waiting For VOID</td>
-                                <td ng-if="order.voidOrder!=1">Waiting For Approve</td>
-                                <td>
-                                    <button data-ng-click="vm.voidOrder(order.orderId)" ng-if="order.voidOrder!=1">VOID
-                                        ORDER
-                                    </button>
-                                </td>
+                                <!--td ><button data-ng-click="vm.voidOrder(order.orderId)" ng-if="order.voidOrder!=1">VOID ORDER</button></td>-->
                             </tr>
                             </tbody>
                         </table>
@@ -74,17 +68,16 @@
 
         </div>
         <!-- /.col -->
-
     </div>
-    <!-- /.row -->
 
     <div class="row">
         <div class="col-md-12">
             <!-- TABLE: LATEST ORDERS -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Waiting Take Away KOT List </h3>
+                    <h3 class="box-title">Voided Take Away KOT List </h3>
                 </div>
+
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="table-responsive" style="overflow: auto; max-height: 400px;">
@@ -101,8 +94,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-if="order.type==1" ng-repeat="order in vm.pendingOrders" style="cursor: pointer;"
-                                data-ng-click="vm.routeToOrder(order.orderId)">
+                            <tr  ng-if="order.type==1" ng-repeat="order in vm.voidOrders" style="cursor: pointer;" data-ng-click="vm.routeToOrder(order.orderId)">
                                 <td>{{order.kotNumber}}</td>
                                 <td>{{order.customerName}}</td>
                                 <td>{{order.orderTime | date : "yyyy-MM-dd" }}</td>
@@ -112,13 +104,7 @@
                                 <td ng-if="order.type==1">Take Away</td>
                                 <td ng-if="order.openOrder!=1">NORMAL ORDER</td>
                                 <td ng-if="order.openOrder==1">OPEN ORDER</td>
-                                <td ng-if="order.voidOrder==1">Waiting For VOID</td>
-                                <td ng-if="order.voidOrder!=1">Waiting For Approve</td>
-                                <td>
-                                    <button data-ng-click="vm.voidOrder(order.orderId)" ng-if="order.voidOrder!=1">VOID
-                                        ORDER
-                                    </button>
-                                </td>
+                                <!--td ><button data-ng-click="vm.voidOrder(order.orderId)" ng-if="order.voidOrder!=1">VOID ORDER</button></td>-->
                             </tr>
                             </tbody>
                         </table>
@@ -131,7 +117,7 @@
 
         </div>
         <!-- /.col -->
-
     </div>
+    <!-- /.row -->
 </section>
 <!-- /.content -->

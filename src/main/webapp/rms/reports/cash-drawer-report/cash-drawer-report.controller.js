@@ -8,9 +8,9 @@
     angular.module('myApp')
         .controller('CashDrawerReportController', CashDrawerReportController);
 
-    CashDrawerReportController.$inject = ['webservice', '$rootScope', '$q','$route'];
+    CashDrawerReportController.$inject = ['webservice', '$rootScope', '$q', '$route'];
 
-    function CashDrawerReportController(webservice, $rootScope, $q,$route) {
+    function CashDrawerReportController(webservice, $rootScope, $q, $route) {
         var vm = this;
         $rootScope.baseURL = "http://localhost:8080/rest";
 
@@ -57,6 +57,18 @@
 
         initForm();
 
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        vm.today = yyyy + "-" + mm + "-" + dd;
+
         function getCashDrawerDataForDateRange() {
             var startDate = $('#daterangewidget').data('daterangepicker').startDate.format("YYYY-MM-DD");
             var endDate = $('#daterangewidget').data('daterangepicker').endDate.format("YYYY-MM-DD");
@@ -70,47 +82,54 @@
         }
 
         function submitCashDrawerReport() {
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth() + 1; //January is 0!
-            var yyyy = today.getFullYear();
-            if (mm < 10) {
-                mm = '0' + mm;
+
+            if (vm.startingCash == undefined || vm.startingCash == "" || isNaN(vm.startingCash)) {
+                alert("Please fill a correct starting cash value");
+            } else if (vm.actualCash == undefined || vm.actualCash == "" || isNaN(vm.actualCash)) {
+                alert("Please fill a correct actual cash value");
+            } else {
+
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1; //January is 0!
+                var yyyy = today.getFullYear();
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+                var today = yyyy + "-" + mm + "-" + dd;
+
+                var bc = vm.balanceChange;
+                var ac = vm.actualCash;
+                var c = vm.comment;
+                var eotdb = vm.endOfTheDayBalance;
+                var ob = vm.ordersBalance;
+                var sc = vm.startingCash;
+
+                var cashdrawer = {
+                    balanceChange: bc,
+                    actualCash: ac,
+                    comment: c,
+                    endOfTheDayBalance: eotdb,
+                    ordersBalance: ob,
+                    startingCash: sc
+                };
+
+                if (vm.updatFlag) {
+                    cashdrawer["id"] = vm.cashDrawerId;
+                    webservice.call($rootScope.baseURL + '/cashdrawer/update_cash_drawer', 'put', cashdrawer).then(function (response) {
+                        console.log(response);
+                        alert("Balance Updated");
+                    });
+                } else {
+                    webservice.call($rootScope.baseURL + '/cashdrawer/save_cash_drawer', 'post', cashdrawer).then(function (response) {
+                        console.log(response);
+                        alert("Entry Added");
+                    });
+                }
             }
-            if (dd < 10) {
-                dd = '0' + dd;
-            }
-            var today = yyyy + "-" + mm + "-" + dd;
-
-            var bc = vm.balanceChange;
-            var ac = vm.actualCash;
-            var c = vm.comment;
-            var eotdb = vm.endOfTheDayBalance;
-            var ob = vm.ordersBalance;
-            var sc = vm.startingCash;
-
-            var cashdrawer = {
-                balanceChange: bc,
-                actualCash: ac,
-                comment: c,
-                endOfTheDayBalance: eotdb,
-                ordersBalance: ob,
-                startingCash: sc
-            };
-
-            if(vm.updatFlag){
-                cashdrawer["id"] = vm.cashDrawerId;
-                webservice.call($rootScope.baseURL + '/cashdrawer/update_cash_drawer', 'put', cashdrawer).then(function (response) {
-                    console.log(response);
-                    alert("Balance Updated");
-                });
-            }else{
-                webservice.call($rootScope.baseURL + '/cashdrawer/save_cash_drawer', 'post', cashdrawer).then(function (response) {
-                    console.log(response);
-                    alert("Entry Added");
-                });
-            }
-
         }
 
         function addStartingCash() {
@@ -130,17 +149,17 @@
             vm.balanceChange = Math.abs(Number(vm.endOfTheDayBalance) - Number(vm.actualCash));
         }
 
-        function initForm(){
+        function initForm() {
             webservice.call($rootScope.baseURL + "/cashdrawer/get_cash_drawer_for_today", "get").then(function (response) {
-                if(response.data != ""){
+                if (response.data != "") {
                     vm.startingCash = Number(response.data.actualCash);
                     vm.cashDrawerId = response.data.id;
                     vm.updatFlag = true;
-                }else{
+                } else {
                     webservice.call($rootScope.baseURL + "/cashdrawer/get_cash_drawer_for_yesterday", "get").then(function (response1) {
-                        if(response1.data != ""){
+                        if (response1.data != "") {
                             vm.startingCash = Number(response1.data.actualCash);
-                        }else {
+                        } else {
                             vm.startingCash = 0;
                         }
                     });
@@ -150,7 +169,6 @@
             });
 
         }
-
 
 
         function loadOrderDetailsForToday() {
@@ -167,7 +185,7 @@
             var today = yyyy + "-" + mm + "-" + dd;
 
 
-            webservice.call($rootScope.baseURL +"/order/get_all_orders_for_date/" + today, "get").then(function (response) {
+            webservice.call($rootScope.baseURL + "/order/get_all_orders_for_date/" + today, "get").then(function (response) {
                 if (response.data != "") {
                     var orders = response.data.dataRows;
                     var oAmount = 0;
@@ -178,7 +196,7 @@
                     vm.ordersBalance = Number(oAmount);
                     vm.endOfTheDayBalance = Number(vm.startingCash) + Number(vm.ordersBalance);
                 } else {
-                    vm.ordersBalance =0;
+                    vm.ordersBalance = 0;
                     vm.endOfTheDayBalance = Number(vm.startingCash) + Number(vm.ordersBalance);
                 }
             });
@@ -186,102 +204,102 @@
 
         function calcBalance() {
             vm.endOfTheDayBalance = Number(vm.startingCash) + Number(vm.ordersBalance);
-            vm.balanceChange = Math.abs(Number(vm.endOfTheDayBalance)- Number(vm.actualCash));
+            vm.balanceChange = Math.abs(Number(vm.endOfTheDayBalance) - Number(vm.actualCash));
         }
 
         /*function getCashDrawerData() {
-            vm.startingCash = 0;
-            vm.ordersBalance = 0;
-            vm.endOfTheDayBalance = 0;
-            vm.actualCash = 0;
-            vm.balanceChange = 0;
-            vm.comment = '';
+         vm.startingCash = 0;
+         vm.ordersBalance = 0;
+         vm.endOfTheDayBalance = 0;
+         vm.actualCash = 0;
+         vm.balanceChange = 0;
+         vm.comment = '';
 
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth() + 1; //January is 0!
-            var yyyy = today.getFullYear();
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-            if (dd < 10) {
-                dd = '0' + dd;
-            }
-            var today = yyyy + "-" + mm + "-" + dd;
+         var today = new Date();
+         var dd = today.getDate();
+         var mm = today.getMonth() + 1; //January is 0!
+         var yyyy = today.getFullYear();
+         if (mm < 10) {
+         mm = '0' + mm;
+         }
+         if (dd < 10) {
+         dd = '0' + dd;
+         }
+         var today = yyyy + "-" + mm + "-" + dd;
 
-            var d = new Date();
-            var y = new Date(d.setDate(d.getDate() - 1));
+         var d = new Date();
+         var y = new Date(d.setDate(d.getDate() - 1));
 
-            var dd = y.getDate();
-            var mm = y.getMonth() + 1; //January is 0!
-            var yyyy = y.getFullYear();
-            if (mm < 10) {
-                mm = '0' + mm;
-            }
-            if (dd < 10) {
-                dd = '0' + dd;
-            }
-            var yesterday = yyyy + "-" + mm + "-" + dd;
-            console.log(yesterday);
+         var dd = y.getDate();
+         var mm = y.getMonth() + 1; //January is 0!
+         var yyyy = y.getFullYear();
+         if (mm < 10) {
+         mm = '0' + mm;
+         }
+         if (dd < 10) {
+         dd = '0' + dd;
+         }
+         var yesterday = yyyy + "-" + mm + "-" + dd;
+         console.log(yesterday);
 
-            var date = $('#datepickerwidget').data('daterangepicker').startDate.format("YYYY-MM-DD");
+         var date = $('#datepickerwidget').data('daterangepicker').startDate.format("YYYY-MM-DD");
 
-            var promises = [];
-            promises.push(webservice.call($rootScope.baseURL + "/order/get_all_orders_for_date/" + date, "get"));
-            promises.push(webservice.call($rootScope.baseURL + '/cashdrawer/get_cash_drawer_for_date/' + date, 'get'));
+         var promises = [];
+         promises.push(webservice.call($rootScope.baseURL + "/order/get_all_orders_for_date/" + date, "get"));
+         promises.push(webservice.call($rootScope.baseURL + '/cashdrawer/get_cash_drawer_for_date/' + date, 'get'));
 
-            $q.all(promises).then(function (response) {
-                console.log(response);
-                var orders = response[0].data.dataRows;
-                var cashdrawer = response[1].data;
+         $q.all(promises).then(function (response) {
+         console.log(response);
+         var orders = response[0].data.dataRows;
+         var cashdrawer = response[1].data;
 
-                if (cashdrawer != "") {
-                    var oAmount = 0;
-                    angular.forEach(orders, function (order, key) {
-                        var payment = order.paymentDetails;
-                        oAmount += payment.amount;
-                    });
-                    vm.ordersBalance = oAmount;
+         if (cashdrawer != "") {
+         var oAmount = 0;
+         angular.forEach(orders, function (order, key) {
+         var payment = order.paymentDetails;
+         oAmount += payment.amount;
+         });
+         vm.ordersBalance = oAmount;
 
-                    var cd = cashdrawer;
+         var cd = cashdrawer;
 
-                    vm.startingCash = cd.startingCash;
-                    vm.ordersBalance = cd.ordersBalance;
-                    vm.endOfTheDayBalance = cd.endOfTheDayBalance;
-                    vm.actualCash = cd.actualCash;
-                    vm.balanceChange = cd.balanceChange;
-                    vm.comment = cd.comment;
-                } else if (date == today) {
-                    var promises = [];
-                    promises.push(webservice.call($rootScope.baseURL + "/order/get_all_orders_for_date/" + today, "get"));
-                    promises.push(webservice.call($rootScope.baseURL + '/cashdrawer/get_cash_drawer_for_date/' + yesterday, 'get'));
+         vm.startingCash = cd.startingCash;
+         vm.ordersBalance = cd.ordersBalance;
+         vm.endOfTheDayBalance = cd.endOfTheDayBalance;
+         vm.actualCash = cd.actualCash;
+         vm.balanceChange = cd.balanceChange;
+         vm.comment = cd.comment;
+         } else if (date == today) {
+         var promises = [];
+         promises.push(webservice.call($rootScope.baseURL + "/order/get_all_orders_for_date/" + today, "get"));
+         promises.push(webservice.call($rootScope.baseURL + '/cashdrawer/get_cash_drawer_for_date/' + yesterday, 'get'));
 
-                    $q.all(promises).then(function (response) {
-                        console.log(response);
-                        var orders = response[0].data.dataRows;
-                        var cashdrawer = response[1].data;
+         $q.all(promises).then(function (response) {
+         console.log(response);
+         var orders = response[0].data.dataRows;
+         var cashdrawer = response[1].data;
 
-                        var oAmount = 0;
-                        angular.forEach(orders, function (order, key) {
-                            var payment = order.paymentDetails;
-                            oAmount += payment.amount;
-                        });
-                        vm.ordersBalance = oAmount;
+         var oAmount = 0;
+         angular.forEach(orders, function (order, key) {
+         var payment = order.paymentDetails;
+         oAmount += payment.amount;
+         });
+         vm.ordersBalance = oAmount;
 
-                        vm.startingCash = cashdrawer.actualCash;
-                        vm.endOfTheDayBalance = vm.startingCash + vm.ordersBalance;
-                        vm.balanceChange = Math.abs(vm.endOfTheDayBalance - vm.actualCash);
+         vm.startingCash = cashdrawer.actualCash;
+         vm.endOfTheDayBalance = vm.startingCash + vm.ordersBalance;
+         vm.balanceChange = Math.abs(vm.endOfTheDayBalance - vm.actualCash);
 
-                    });
-                } else if (cashdrawer == "") {
-                    vm.startingCash = 0;
-                    vm.ordersBalance = 0;
-                    vm.endOfTheDayBalance = 0;
-                    vm.actualCash = 0;
-                    vm.balanceChange = 0;
-                    vm.comment = '';
-                }
-            });
-        }*/
+         });
+         } else if (cashdrawer == "") {
+         vm.startingCash = 0;
+         vm.ordersBalance = 0;
+         vm.endOfTheDayBalance = 0;
+         vm.actualCash = 0;
+         vm.balanceChange = 0;
+         vm.comment = '';
+         }
+         });
+         }*/
     }
 })();

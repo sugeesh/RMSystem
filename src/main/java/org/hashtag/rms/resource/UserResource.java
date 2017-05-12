@@ -1,5 +1,7 @@
 package org.hashtag.rms.resource;
 
+import org.hashtag.rms.model.User;
+
 /**
  * Created by Buddhi on 2/19/2017.
  */
@@ -24,6 +26,15 @@ public class UserResource {
         this.id = id;
     }
 
+    public UserResource(User user) {
+        this.id = user.getUserId();
+        this.username = user.getUsername();
+        this.name = user.getName();
+        this.type = user.getType();
+        this.nic = user.getNic();
+        this.telephone = user.getTelephone();
+    }
+
     public UserResource(int id, String username, String password, String name, int type, String nic, String telephone) {
         this.id = id;
         this.username = username;
@@ -32,7 +43,6 @@ public class UserResource {
         this.type = type;
         this.nic = nic;
         this.telephone = telephone;
-
     }
 
     public String getUsername() {

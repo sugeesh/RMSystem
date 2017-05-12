@@ -36,6 +36,7 @@
                                 <th>KOT Number</th>
                                 <th>Customer Name</th>
                                 <th>Table</th>
+                                <th>Order Date</th>
                                 <th>Order Time</th>
                                 <th>Amount</th>
                                 <th>Type</th>
@@ -46,7 +47,8 @@
                             <tr  ng-if="order.type==0" ng-repeat="order in vm.pendingOrders" style="cursor: pointer;" data-ng-click="vm.routeToOrder(order.orderId)">
                                 <td>{{order.kotNumber}}</td>
                                 <td>{{order.customerName}}</td>
-                                <td>{{order.tableId}}</td>
+                                <td>{{order.tableName}}</td>
+                                <td>{{order.orderTime | date : "yyyy-MM-dd" }}</td>
                                 <td>{{order.orderTime | date : "shortTime" }}</td>
                                 <td>{{order.amount}}</td>
                                 <td ng-if="order.type==0">Dine In</td>
@@ -86,7 +88,7 @@
                             <tr>
                                 <th>KOT Number</th>
                                 <th>Customer Name</th>
-                                <th>Table</th>
+                                <th>Order Date</th>
                                 <th>Order Time</th>
                                 <th>Amount</th>
                                 <th>Type</th>
@@ -97,7 +99,7 @@
                             <tr  ng-if="order.type==1" ng-repeat="order in vm.pendingOrders" style="cursor: pointer;" data-ng-click="vm.routeToOrder(order.orderId)">
                                 <td>{{order.kotNumber}}</td>
                                 <td>{{order.customerName}}</td>
-                                <td>{{order.tableId}}</td>
+                                <td>{{order.orderTime | date : "yyyy-MM-dd" }}</td>
                                 <td>{{order.orderTime | date : "shortTime" }}</td>
                                 <td>{{order.amount}}</td>
                                 <td ng-if="order.type==0">Dine In</td>

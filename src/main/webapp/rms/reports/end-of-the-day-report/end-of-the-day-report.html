@@ -53,6 +53,16 @@
                         <table class="table">
                             <tbody>
                             <tr>
+                                <th>Date</th>
+                                <th></th>
+                                <th>{{vm.today}}</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            <tr>
                                 <th>Orders</th>
                                 <th>All orders</th>
                                 <th>{{vm.orderCount}}</th>
@@ -73,13 +83,18 @@
                                 <td>{{vm.voidCount}}</td>
                             </tr>
                             <tr>
+                                <td></td>
+                                <td>Open orders</td>
+                                <td>{{vm.openCount}}</td>
+                            </tr>
+                            <tr>
                                 <td>Cash</td>
-                                <th>Total order amount</th>
-                                <th>{{vm.ordersAmount}}</th>
+                                <th>Total Open Order Amount</th>
+                                <th>{{vm.openOrderAmount}}</th>
                             </tr>
                             <tr>
                                 <td></td>
-                                <th>Total income</th>
+                                <th>Total Income (Without void orders)</th>
                                 <th>{{vm.totalAmount}}</th>
                             </tr>
                             </tbody>

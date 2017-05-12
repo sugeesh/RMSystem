@@ -90,10 +90,9 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Cashier Name</label>
-                                <select class="form-control">
-                                    <option>- All -</option>
-                                    <option>Cashier 1</option>
-                                    <option>Cashier 2</option>
+                                <select class="form-control" ng-model="vm.cashierId">
+                                    <option value="0">- All -</option>
+                                    <option ng-repeat = "cashier in vm.cashierList" ng-value="cashier.id">{{ cashier.name }}</option>
                                 </select>
                             </div>
                         </div>

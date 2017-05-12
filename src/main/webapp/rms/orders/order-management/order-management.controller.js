@@ -47,10 +47,12 @@
         vm.setSelectedPaymentMethod = setSelectedPaymentMethod;
         vm.selectCategory = selectCategory;
 
+
         vm.menu = [];
         vm.subTotal = 0;
         vm.customerName = "";
         vm.tableId = 0;
+        vm.tableName = "";
         vm.type = 0;
         vm.comment = "";
         vm.pendingOrderCount = 0;
@@ -312,6 +314,7 @@
                         mm = '0' + mm
                     }
                     today = mm + '/' + dd + '/' + yyyy;
+                    // var todayTime = today.getHours() + ":" + today.getMinutes();
 
                     qz.printers.find("EPSON").then(function (printer) {
                         console.log("Printer with name " + printer + " found.");
@@ -328,7 +331,7 @@
                             '\n',
                             '\n',
                             'DATE: ' + today + '\n',
-                            'TABLE NO.: ' + vm.tableId + '\n',
+                            'TABLE : ' + vm.tableName + '\n',
                             'KOT NO.: ' + vm.kotNumber + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             'NAME\t\tQTY\tAMOUNT\n',
@@ -347,12 +350,12 @@
                             'THANK YOU, COME AGAIN\n',
                             '\n'
                             /*'\n',
-                            '\n',
-                            '\n',
-                            '\n',
-                            '\n',
-                            '\n'*/];
-
+                             '\n',
+                             '\n',
+                             '\n',
+                             '\n',
+                             '\n'*/];
+                        console.log("Print Bill:" + data);
                         qz.print(config, data).then(function (response) {
                             console.log(response);
                             console.log("Print Command Issued!");
@@ -366,6 +369,13 @@
                 //Part 2 - Print the KOT
                 var printer2Items = [];
                 var printer3Items = [];
+
+                var headerString = "";
+                if (vm.type == 0) {
+                    headerString = "DINE-IN ORDER";
+                } else if (vm.type == 1) {
+                    headerString = "TAKE AWAY ORDER";
+                }
                 angular.forEach(vm.menu, function (value) {
                     var item = {};
                     item.itemId = value.id;
@@ -398,30 +408,31 @@
 
                         var menuText = '';
                         angular.forEach(printer2Items, function (value) {
-                            menuText += value.name + '\t' + value.quantity;
+                            menuText += value.name + '\t' + value.quantity + "\n";
                         });
 
                         var data = [
                             '\n',
                             '\n',
                             '\n',
+                            '- - - - - - - - - - - - - - - - - - - -\n',
+                            '\t' + headerString + '\n',
+                            '- - - - - - - - - - - - - - - - - - - -\n',
                             'DATE: ' + today + '\n',
-                            'TABLE NO.: ' + vm.tableId + '\n',
+                            // 'TIME: ' + todayTime + '\n',
+                            'TABLE : ' + vm.tableName + '\n',
                             'KOT NO.: ' + vm.kotNumber + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             'NAME\t\t\tQTY\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             menuText + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
+                            'COMMENT: ' + vm.comment + '\n',
                             'Meepura Restaurant, Negombo\n',
                             '\n',
                             '\n',
-                            '\n',
-                            '\n',
-                            '\n',
-                            '\n',
                             '\n'];
-
+                        console.log(data);
                         qz.print(config, data).then(function (response) {
                             console.log(response);
                             console.log("Print Command Issued!");
@@ -451,23 +462,25 @@
                             '\n',
                             '\n',
                             '\n',
+                            '- - - - - - - - - - - - - - - - - - - -\n',
+                            '\t' + headerString + '\n',
+                            '- - - - - - - - - - - - - - - - - - - -\n',
                             'DATE: ' + today + '\n',
-                            'TABLE NO.: ' + vm.tableId + '\n',
+                            // 'TIME: ' + todayTime + '\n',
+                            'TABLE : ' + vm.tableName + '\n',
                             'KOT NO.: ' + vm.kotNumber + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             'NAME\t\t\tQTY\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             menuText + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
+                            'COMMENT: ' + vm.comment + '\n',
                             'Meepura Restaurant, Negombo\n',
-                            '\n',
-                            '\n',
-                            '\n',
-                            '\n',
                             '\n',
                             '\n',
                             '\n'];
 
+                        console.log(data);
                         qz.print(config, data).then(function (response) {
                             console.log(response);
                             console.log("Print Command Issued!");
@@ -729,6 +742,12 @@
                 alert("Please fill the table number");
             } else {
                 if ((Object.keys(vm.menu).length > 0)) {
+                    if (vm.type == 0) {
+                        webservice.call($rootScope.baseURL + "/table/get_table_from_id/" + vm.tableId, "get").then(function (response) {
+                            console.log(response.data);
+                            vm.tableName = response.data.name;
+                        });
+                    }
 
                     vm.openOrder = false;
                     angular.forEach(vm.menu, function (value) {
@@ -765,6 +784,7 @@
                 $rootScope.isLoading = false;
             });
         }
+
     }
 })
 ();
