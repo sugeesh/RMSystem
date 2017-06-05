@@ -112,8 +112,7 @@
                         </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li ng-repeat="kitchen in vm.kitchenList" data-ng-click="vm.routeToKitchen(kitchen.kitchenId)"><a ><i class="fa fa-circle-o"></i>{{kitchen.name}}</a></li>
-                    <!--<li><a ui-sref="tokens_history"><i class="fa fa-circle-o"></i> Tokens History</a></li>-->
+                    <li style="cursor: pointer" ng-repeat="kitchen in vm.kitchenList" data-ng-click="vm.routeToKitchen(kitchen.kitchenId)"><a><i class="fa fa-circle-o"></i>{{kitchen.name}}</a></li>
                 </ul>
             </li>
             <li class="treeview" ng-if="vm.userType==='ADMIN'">

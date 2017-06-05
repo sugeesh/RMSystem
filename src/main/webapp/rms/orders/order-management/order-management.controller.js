@@ -314,7 +314,7 @@
                         mm = '0' + mm
                     }
                     today = mm + '/' + dd + '/' + yyyy;
-                    // var todayTime = today.getHours() + ":" + today.getMinutes();
+                    var todayTime = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
 
                     qz.printers.find("EPSON").then(function (printer) {
                         console.log("Printer with name " + printer + " found.");
@@ -330,9 +330,10 @@
                             '\n',
                             '\n',
                             '\n',
-                            'DATE: ' + today + '\n',
-                            'TABLE : ' + vm.tableName + '\n',
                             'KOT NO.: ' + vm.kotNumber + '\n',
+                            'TABLE : ' + vm.tableName + '\n',
+                            'DATE: ' + today + '\n',
+                            'TIME: ' + todayTime + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             'NAME\t\tQTY\tAMOUNT\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
@@ -465,10 +466,9 @@
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             '\t' + headerString + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
-                            'DATE: ' + today + '\n',
-                            // 'TIME: ' + todayTime + '\n',
+                            'KOT NO.: ' + vm.kotNumber + '\tDATE: ' + today + '\n',
+                            'TIME: ' + todayTime + '\n',
                             'TABLE : ' + vm.tableName + '\n',
-                            'KOT NO.: ' + vm.kotNumber + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             'NAME\t\t\tQTY\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
