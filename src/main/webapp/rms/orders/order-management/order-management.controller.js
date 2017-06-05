@@ -301,22 +301,22 @@
             // Print command for the cashier bill
             qz.websocket.connect().then(function () {
                 console.log("Connected to the qz service.");
+
+                var todate = new Date();
+                var dd = todate.getDate();
+                var mm = todate.getMonth() + 1; //January is 0!
+                var yyyy = todate.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd
+                }
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
+                var today = mm + '/' + dd + '/' + yyyy;
+                var todayTime = todate.getHours() + ':' + todate.getMinutes() + ':' + todate.getSeconds();
+
                 if (type == "print and settle") {
-
-                    var today = new Date();
-                    var dd = today.getDate();
-                    var mm = today.getMonth() + 1; //January is 0!
-                    var yyyy = today.getFullYear();
-                    if (dd < 10) {
-                        dd = '0' + dd
-                    }
-                    if (mm < 10) {
-                        mm = '0' + mm
-                    }
-                    today = mm + '/' + dd + '/' + yyyy;
-                    var todayTime = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-
-                    qz.printers.find("EPSON").then(function (printer) {
+                    qz.printers.find("Cannon").then(function (printer) {
                         console.log("Printer with name " + printer + " found.");
 
                         var config = qz.configs.create(printer);
@@ -342,7 +342,7 @@
                             'SUB-TOTAL\t\t\t:' + vm.subTotal + '\n',
                             /*'DISCOUNT\t\t:' + vm.discount + '\n',*/
                             'TAX\t\t\t: ' + vm.tax + '%\n',
-                            'SERVICE CHARRGES\t: ' + vm.serviceCharge + '\n',
+                            'SERVICE CHARGES\t: ' + vm.serviceCharge + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             'TOTAL\t\t\t:' + totalAmount + '\n',
                             'PAYMENT\t\t\t: ' + vm.payment + '\n',
@@ -419,10 +419,10 @@
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             '\t' + headerString + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
-                            'DATE: ' + today + '\n',
-                            // 'TIME: ' + todayTime + '\n',
-                            'TABLE : ' + vm.tableName + '\n',
                             'KOT NO.: ' + vm.kotNumber + '\n',
+                            'TABLE : ' + vm.tableName + '\n',
+                            'DATE: ' + today + '\n',
+                            'TIME: ' + todayTime + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             'NAME\t\t\tQTY\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
@@ -466,9 +466,10 @@
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             '\t' + headerString + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
-                            'KOT NO.: ' + vm.kotNumber + '\tDATE: ' + today + '\n',
-                            'TIME: ' + todayTime + '\n',
+                            'KOT NO.: ' + vm.kotNumber + '\n',
                             'TABLE : ' + vm.tableName + '\n',
+                            'DATE: ' + today + '\n',
+                            'TIME: ' + todayTime + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             'NAME\t\t\tQTY\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
