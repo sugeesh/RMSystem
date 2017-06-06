@@ -78,8 +78,10 @@
         setKOTNumber();
         loadKitchen();
         loadTables();
-        loadTaxSettings();
-        loadSChargeSettings();
+        loadTaxDineInSettings();
+        loadSChargeDineInSettings();
+        loadTaxTakeAwaySettings();
+        loadSChargeTakeAwaySettings();
 
         function selectCategory(category) {
             vm.selectedCategoryItemList = category.itemResourceList;
@@ -93,15 +95,27 @@
             });
         }
 
-        function loadTaxSettings() {
-            webservice.call($rootScope.baseURL + "/admin/tax", "get").then(function (response) {
-                vm.tax = response.data;
+        function loadTaxDineInSettings() {
+            webservice.call($rootScope.baseURL + "/admin/taxdinein", "get").then(function (response) {
+                vm.taxDineIn = response.data;
             });
         }
 
-        function loadSChargeSettings() {
-            webservice.call($rootScope.baseURL + "/admin/s_charge", "get").then(function (response) {
-                vm.serviceCharge = response.data;
+        function loadSChargeDineInSettings() {
+            webservice.call($rootScope.baseURL + "/admin/s_chargedinein", "get").then(function (response) {
+                vm.serviceChargeDineIn = response.data;
+            });
+        }
+
+        function loadTaxTakeAwaySettings() {
+            webservice.call($rootScope.baseURL + "/admin/taxtakeaway", "get").then(function (response) {
+                vm.taxTakeAway = response.data;
+            });
+        }
+
+        function loadSChargeTakeAwaySettings() {
+            webservice.call($rootScope.baseURL + "/admin/s_chargetakeaway", "get").then(function (response) {
+                vm.serviceChargeTakeAway = response.data;
             });
         }
 

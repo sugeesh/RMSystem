@@ -140,13 +140,21 @@
                                 </tr>
                                 <tr>
                                     <th style="width:75%">Tax (%):</th>
-                                    <td><input type="number" ng-value="vm.tax" ng-model="vm.tax"
-                                               ng-change="vm.calculateBalance()" disabled></td>
+                                    <td>
+                                        <input ng-if="vm.type==0" type="number" ng-value="vm.taxDineIn" ng-model="vm.tax"
+                                               ng-change="vm.calculateBalance()" disabled>
+                                        <input ng-if="vm.type==1" type="number" ng-value="vm.taxTakeAway" ng-model="vm.tax"
+                                               ng-change="vm.calculateBalance()" disabled>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th style="width:75%">Service Charges (%):</th>
-                                    <td><input type="number" ng-value="vm.serviceCharge" ng-model="vm.serviceCharge"
-                                               ng-change="vm.calculateBalance()" disabled></td>
+                                    <td>
+                                        <input ng-if="vm.type==0" type="number" ng-value="vm.serviceChargeDineIn" ng-model="vm.serviceCharge"
+                                               ng-change="vm.calculateBalance()" disabled>
+                                        <input ng-if="vm.type==1" type="number" ng-value="vm.serviceChargeTakeAway" ng-model="vm.serviceCharge"
+                                               ng-change="vm.calculateBalance()" disabled>
+                                    </td>
                                 </tr>
                                 <!--<tr>
                                     <th style="width:75%">Discount (LKR.) :</th>

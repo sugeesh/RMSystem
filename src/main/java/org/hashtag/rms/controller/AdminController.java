@@ -40,11 +40,11 @@ public class AdminController extends AbstractController {
     }
 
     @GET
-    @Path("/tax")
+    @Path("/taxdinein")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getTax() {
+    public Response getTaxDineIn() {
         try {
-            return sendSuccessResponse(adminService.getTax());
+            return sendSuccessResponse(adminService.getTaxDineIn());
         } catch (Exception e) {
             e.printStackTrace();
             return handleServiceException(e);
@@ -52,11 +52,35 @@ public class AdminController extends AbstractController {
     }
 
     @GET
-    @Path("/s_charge")
+    @Path("/s_chargedinein")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getSCharge() {
+    public Response getSChargeDineIn() {
         try {
-            return sendSuccessResponse(adminService.getSCharge());
+            return sendSuccessResponse(adminService.getSChargeDineIn());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return handleServiceException(e);
+        }
+    }
+
+    @GET
+    @Path("/taxtakeaway")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTaxTakeAway() {
+        try {
+            return sendSuccessResponse(adminService.getTaxTakeAway());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return handleServiceException(e);
+        }
+    }
+
+    @GET
+    @Path("/s_chargetakeaway")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getSChargeTakeAway() {
+        try {
+            return sendSuccessResponse(adminService.getSChargeTakeAway());
         } catch (Exception e) {
             e.printStackTrace();
             return handleServiceException(e);

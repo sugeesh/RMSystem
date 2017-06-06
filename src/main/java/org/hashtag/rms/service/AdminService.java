@@ -31,15 +31,23 @@ import java.util.List;
 public class AdminService {
 
     public Object saveSettings(AdminResource adminResource) {
-        AdminDataUtil.save(Double.parseDouble(adminResource.getTax()),Double.parseDouble(adminResource.getS_charge()));
+        AdminDataUtil.save(Double.parseDouble(adminResource.getTax_dinein()),Double.parseDouble(adminResource.getS_charge_dinein()),Double.parseDouble(adminResource.getTax_takeaway()), Double.parseDouble(adminResource.getS_charge_takeaway()));
         return adminResource;
     }
 
-    public Object getTax() {
-        return AdminDataUtil.getTax();
+    public Object getTaxDineIn() {
+        return AdminDataUtil.getTaxDineIn();
     }
 
-    public Object getSCharge() {
-        return AdminDataUtil.getSCharge();
+    public Object getSChargeDineIn() {
+        return AdminDataUtil.getSChargeDineIn();
+    }
+
+    public Object getTaxTakeAway() {
+        return AdminDataUtil.getTaxTakeAway();
+    }
+
+    public Object getSChargeTakeAway() {
+        return AdminDataUtil.getSChargeTakeAway();
     }
 }

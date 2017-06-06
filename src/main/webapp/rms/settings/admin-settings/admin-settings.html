@@ -2,35 +2,54 @@
 <section class="content">
     <!-- Info boxes -->
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">Admin Order Settings</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form>
-                        <div class="form-group">
-                            <label>Tax</label>
-                            <input type="text" class="form-control" ng-model="vm.tax"
-                                   id="name">
-                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Service Charge</label>
-                            <input type="text" class="form-control" ng-model="vm.serviceCharge"
-                                   id="s_charge">
-                            <!--<span class="glyphicon glyphicon-envelope form-control-feedback"></span>-->
-                        </div>
-
-                        <div class="row">
-                            <div class="col-xs-3 pull-right">
-                                <button data-ng-click="vm.saveSettings()"
-                                        class="btn btn-primary btn-block btn-flat">Save
-                                </button>
+                    <div class="col-md-6">
+                        <form>
+                            <div class="form-group">
+                                <label>Tax (Dine in)</label>
+                                <input type="text" class="form-control" ng-model="vm.taxDineIn"
+                                       id="tax_dinein">
+                                <!--<span class="glyphicon glyphicon-envelope form-control-feedback"></span>-->
                             </div>
-                        </div>
-                    </form>
+                            <div class="form-group">
+                                <label>Service Charge (Dine in)</label>
+                                <input type="text" class="form-control" ng-model="vm.serviceChargeDineIn"
+                                       id="s_charge_dinein">
+                                <!--<span class="glyphicon glyphicon-envelope form-control-feedback"></span>-->
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-md-6">
+                        <form>
+                            <div class="form-group">
+                                <label>Tax (Take Away)</label>
+                                <input type="text" class="form-control" ng-model="vm.taxTakeAway"
+                                       id="tax_takeaway">
+                                <!--<span class="glyphicon glyphicon-envelope form-control-feedback"></span>-->
+                            </div>
+                            <div class="form-group">
+                                <label>Service Charge (Take Away)</label>
+                                <input type="text" class="form-control" ng-model="vm.serviceChargeTakeAway"
+                                       id="s_charge_takeaway">
+                                <!--<span class="glyphicon glyphicon-envelope form-control-feedback"></span>-->
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-3 pull-right">
+                                    <button data-ng-click="vm.saveSettings()"
+                                            class="btn btn-primary btn-block btn-flat">Save
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
                 <!-- /.box-body -->
             </div>
