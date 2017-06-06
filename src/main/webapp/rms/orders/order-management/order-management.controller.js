@@ -312,11 +312,13 @@
                 if (mm < 10) {
                     mm = '0' + mm
                 }
-                var today = mm + '/' + dd + '/' + yyyy;
-                var todayTime = todate.getHours() + ':' + todate.getMinutes() + ':' + todate.getSeconds();
+                var hrs = todate.getHours();
+                var mins = todate.getMinutes();
+                var secs = todate.getSeconds();
+                var today = mm + '/' + dd + '/' + yyyy + ' ' + hrs + ':' + mins + ':' + secs;
 
                 if (type == "print and settle") {
-                    qz.printers.find("Cannon").then(function (printer) {
+                    qz.printers.find("Epson").then(function (printer) {
                         console.log("Printer with name " + printer + " found.");
 
                         var config = qz.configs.create(printer);
@@ -329,11 +331,9 @@
                         var data = [
                             '\n',
                             '\n',
-                            '\n',
                             'KOT NO.: ' + vm.kotNumber + '\n',
                             'TABLE : ' + vm.tableName + '\n',
                             'DATE: ' + today + '\n',
-                            'TIME: ' + todayTime + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             'NAME\t\tQTY\tAMOUNT\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
@@ -349,13 +349,9 @@
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             'Meepura Restaurant, Negombo\n',
                             'THANK YOU, COME AGAIN\n',
-                            '\n'
-                            /*'\n',
-                             '\n',
-                             '\n',
-                             '\n',
-                             '\n',
-                             '\n'*/];
+                            '\n',
+                            '\n',
+                            '\n'];
                         console.log("Print Bill:" + data);
                         qz.print(config, data).then(function (response) {
                             console.log(response);
@@ -422,7 +418,6 @@
                             'KOT NO.: ' + vm.kotNumber + '\n',
                             'TABLE : ' + vm.tableName + '\n',
                             'DATE: ' + today + '\n',
-                            'TIME: ' + todayTime + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             'NAME\t\t\tQTY\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
@@ -469,7 +464,6 @@
                             'KOT NO.: ' + vm.kotNumber + '\n',
                             'TABLE : ' + vm.tableName + '\n',
                             'DATE: ' + today + '\n',
-                            'TIME: ' + todayTime + '\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
                             'NAME\t\t\tQTY\n',
                             '- - - - - - - - - - - - - - - - - - - -\n',
