@@ -35,7 +35,7 @@ public class AdminDataUtil {
             input = new FileInputStream("./src/main/resources/kotconfig.properties");
             prop.load(input);
 
-            return Double.parseDouble(prop.getProperty("s_charge_takeaway"));
+            return Double.parseDouble(prop.getProperty("s_charge_dinein"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -67,7 +67,7 @@ public class AdminDataUtil {
             input = new FileInputStream("./src/main/resources/kotconfig.properties");
             prop.load(input);
 
-            return Double.parseDouble(prop.getProperty("s_charge_dinein"));
+            return Double.parseDouble(prop.getProperty("s_charge_takeaway"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

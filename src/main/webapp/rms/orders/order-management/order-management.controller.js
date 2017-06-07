@@ -522,9 +522,19 @@
 
         function changeType(type) { // dinein = 0; takeaway = 1
             vm.menu = [];
+            vm.subTotal = 0;
+            vm.payment = 0;
 
             vm.type = type;
             console.log("type: " + type);
+
+            if(type == 0){
+                vm.serviceCharge = vm.serviceChargeDineIn;
+                vm.tax = vm.taxDineIn;
+            }else if(type == 1){
+                vm.serviceCharge = vm.serviceChargeTakeAway;
+                vm.tax = vm.taxTakeAway;
+            }
         }
 
         function setPendingOrderCount() {
