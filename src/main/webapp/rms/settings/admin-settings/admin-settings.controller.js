@@ -28,17 +28,17 @@
         loadTaxDineInSettings();
         loadSChargeDineInSettings();
         loadTaxTakeAwaySettings();
-        loadSChargeTakeAwaySettings()
+        loadSChargeTakeAwaySettings();
 
         function saveSettings() {
             if(vm.taxDineIn == undefined || vm.taxDineIn == "" || isNaN(vm.taxDineIn)){
-                alert("Please fill a correct tax value");
+                alert("Please fill a correct dine in tax value");
             }else if(vm.serviceChargeDineIn == undefined || vm.serviceChargeDineIn == "" || isNaN(vm.serviceChargeDineIn)){
-                alert("Please fill a correct service charge value");
+                alert("Please fill a correct dine in service charge value");
             }else if(vm.taxTakeAway == undefined || vm.taxTakeAway == "" || isNaN(vm.taxTakeAway)){
-                alert("Please fill a correct tax value");
+                alert("Please fill a correct take away tax value");
             }else if(vm.serviceChargeTakeAway == undefined || vm.serviceChargeTakeAway == "" || isNaN(vm.serviceChargeTakeAway)){
-                alert("Please fill a correct service charge value");
+                alert("Please fill a correct take away service charge value");
             }else {
                 var sendObj = {
                     "tax_dinein": parseFloat(vm.taxDineIn),

@@ -83,7 +83,7 @@ public class AdminDataUtil {
 
             // set the properties value
             prop.setProperty("tax_dinein", String.valueOf(tax_dinein));
-            prop.setProperty("s_charge_dinein", String.valueOf(s_charge_takeaway));
+            prop.setProperty("s_charge_dinein", String.valueOf(s_charge_dinein));
             prop.setProperty("tax_takeaway", String.valueOf(tax_takeaway));
             prop.setProperty("s_charge_takeaway", String.valueOf(s_charge_takeaway));
             // save properties to project root folder
@@ -93,6 +93,4 @@ public class AdminDataUtil {
             e.printStackTrace();
         }
     }
-
-
 }
