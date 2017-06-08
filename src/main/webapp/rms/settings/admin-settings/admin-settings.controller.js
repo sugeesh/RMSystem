@@ -31,15 +31,28 @@
         loadSChargeTakeAwaySettings();
 
         function saveSettings() {
-            if(vm.taxDineIn != 0 || vm.taxDineIn == undefined || vm.taxDineIn == "" || isNaN(vm.taxDineIn)){
+            if(isNaN(vm.taxDineIn)){
                 alert("Please fill a correct dine in tax value");
-            }else if(vm.serviceChargeDineIn != 0 || vm.serviceChargeDineIn == undefined || vm.serviceChargeDineIn == "" || isNaN(vm.serviceChargeDineIn)){
+            }else if (isNaN(vm.serviceChargeDineIn)){
                 alert("Please fill a correct dine in service charge value");
-            }else if(vm.taxTakeAway != 0 || vm.taxTakeAway == undefined || vm.taxTakeAway == "" || isNaN(vm.taxTakeAway)){
+            }else if(isNaN(vm.taxTakeAway)){
                 alert("Please fill a correct take away tax value");
-            }else if(vm.serviceChargeTakeAway != 0 || vm.serviceChargeTakeAway == undefined || vm.serviceChargeTakeAway == "" || isNaN(vm.serviceChargeTakeAway)){
+            }else if(isNaN(vm.serviceChargeTakeAway)){
                 alert("Please fill a correct take away service charge value");
             }else {
+                if(vm.taxDineIn == undefined || vm.taxDineIn == ""){
+                    vm.taxDineIn = 0;
+                }
+                if(vm.serviceChargeDineIn == undefined || vm.serviceChargeDineIn == ""){
+                    vm.serviceChargeDineIn = 0;
+                }
+                if(vm.taxTakeAway == undefined || vm.taxTakeAway == ""){
+                    vm.taxTakeAway = 0;
+                }
+                if(vm.serviceChargeTakeAway == undefined || vm.serviceChargeTakeAway == ""){
+                    vm.serviceChargeTakeAway = 0;
+                }
+
                 var sendObj = {
                     "tax_dinein": parseFloat(vm.taxDineIn),
                     "s_charge_dinein": parseFloat(vm.serviceChargeDineIn),
