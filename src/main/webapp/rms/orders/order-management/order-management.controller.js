@@ -332,15 +332,31 @@
                 var today = mm + '/' + dd + '/' + yyyy + ' ' + hrs + ':' + mins + ':' + secs;
 
                 if (type == "print and settle") {
-                    qz.printers.find("Epson").then(function (printer) {
+
+                    qz.printers.find("Cannon").then(function (printer) {
                         console.log("Printer with name " + printer + " found.");
 
                         var config = qz.configs.create(printer);
 
                         var menuText = '';
                         angular.forEach(vm.menu, function (value) {
-                            menuText += value.name + '\t' + value.quantity + '\t' + value.amount;
+                            menuText += value.name + '\n'; // + value.quantity + '\t' + value.amount;
+                            for (var x = 0; x < 25; x++) {
+                                menuText += ' ';
+                            }
+                            var spaceCount = 7 - value.quantity.toString().length;
+                            menuText += value.quantity;
+                            for (var x = 0; x < spaceCount; x++) {
+                                menuText += ' ';
+                            }
+
+                            spaceCount = 8 - value.amount.toString().length - 3;
+                            for (var x = 0; x < spaceCount; x++) {
+                                menuText += ' ';
+                            }
+                            menuText += value.amount + '.00\n'
                         });
+                        console.log(menuText);
 
                         var data = [
                             '\n',
@@ -419,7 +435,13 @@
 
                         var menuText = '';
                         angular.forEach(printer2Items, function (value) {
-                            menuText += value.name + '\t' + value.quantity + "\n";
+                            menuText += value.name + '\n';// + '\t' + value.quantity + "\n";
+
+                            var spaceCount = 40 - value.quantity.toString().length;
+                            for (var x = 0; x < spaceCount; x++) {
+                                menuText += ' ';
+                            }
+                            menuText += value.quantity + '\n';
                         });
 
                         var data = [
@@ -459,13 +481,20 @@
                     // Print command to print items in printer3Items
 
                     qz.printers.find("Printer Two").then(function (printer) {
+
                         console.log("Printer with name " + printer + " found.");
 
                         var config = qz.configs.create(printer);
 
                         var menuText = '';
                         angular.forEach(printer3Items, function (value) {
-                            menuText += value.name + '\t' + value.quantity;
+                            menuText += value.name + '\n';// + '\t' + value.quantity + "\n";
+
+                            var spaceCount = 40 - value.quantity.toString().length;
+                            for (var x = 0; x < spaceCount; x++) {
+                                menuText += ' ';
+                            }
+                            menuText += value.quantity + '\n';
                         });
 
                         var data = [
@@ -528,10 +557,10 @@
             vm.type = type;
             console.log("type: " + type);
 
-            if(type == 0){
+            if (type == 0) {
                 vm.serviceCharge = vm.serviceChargeDineIn;
                 vm.tax = vm.taxDineIn;
-            }else if(type == 1){
+            } else if (type == 1) {
                 vm.serviceCharge = vm.serviceChargeTakeAway;
                 vm.tax = vm.taxTakeAway;
             }
