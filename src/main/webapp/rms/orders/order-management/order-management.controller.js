@@ -333,7 +333,7 @@
 
                 if (type == "print and settle") {
 
-                    qz.printers.find("Cannon").then(function (printer) {
+                    qz.printers.find("Epson").then(function (printer) {
                         console.log("Printer with name " + printer + " found.");
 
                         var config = qz.configs.create(printer);
