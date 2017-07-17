@@ -5,7 +5,6 @@ import org.hashtag.rms.model.Category;
 import org.hashtag.rms.model.Item;
 import org.hashtag.rms.model.Kitchen;
 import org.hashtag.rms.repository.ItemRepository;
-import org.hashtag.rms.resource.CategoryResource;
 import org.hashtag.rms.resource.ItemResource;
 import org.hashtag.rms.util.rest.DataTableResponse;
 import org.hibernate.service.spi.ServiceException;

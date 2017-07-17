@@ -1,11 +1,8 @@
 package org.hashtag.rms.controller;
 
 import org.hashtag.rms.model.CashDrawer;
-import org.hashtag.rms.model.Payment;
 import org.hashtag.rms.resource.CashDrawerResource;
-import org.hashtag.rms.resource.PaymentResource;
 import org.hashtag.rms.service.CashDrawerService;
-import org.hashtag.rms.service.PaymentService;
 import org.hashtag.rms.util.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

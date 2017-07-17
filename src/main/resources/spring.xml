@@ -39,7 +39,7 @@
                 <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl}</prop>
                 <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
-                <prop key = "hibernate.show_sql">true</prop>
+                <prop key="hibernate.show_sql">true</prop>
             </props>
         </property>
         <property name="packagesToScan" value="org.hashtag.rms.model"/>
@@ -52,7 +52,6 @@
     </bean>
 
     <tx:annotation-driven/>
-
 
     <context:component-scan base-package="org.hashtag.rms.model"/>
     <jpa:repositories base-package="org.hashtag.rms.repository"/>
@@ -69,6 +68,9 @@
     <bean id="itemRelationService" class="org.hashtag.rms.service.ItemRelationService"/>
     <bean id="tableFlowService" class="org.hashtag.rms.service.TableFlowService"/>
     <bean id="adminService" class="org.hashtag.rms.service.AdminService"/>
+
+    <!-- Password Encryption -->
+    <!--<bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>-->
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>
     <context:component-scan base-package="org.hashtag.rms.controller"/>

@@ -1,10 +1,7 @@
 package org.hashtag.rms.controller;
 
-import org.hashtag.rms.resource.CategoryResource;
 import org.hashtag.rms.resource.KitchenResource;
-import org.hashtag.rms.service.CategoryService;
 import org.hashtag.rms.service.KitchenService;
-import org.hashtag.rms.util.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

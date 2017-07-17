@@ -1,11 +1,9 @@
 package org.hashtag.rms.service;
 
 
-import org.hashtag.rms.model.Category;
+
 import org.hashtag.rms.model.Kitchen;
-import org.hashtag.rms.repository.CategoryRepository;
 import org.hashtag.rms.repository.KitchenRepository;
-import org.hashtag.rms.resource.CategoryResource;
 import org.hashtag.rms.resource.KitchenResource;
 import org.hashtag.rms.util.rest.DataTableResponse;
 import org.hibernate.service.spi.ServiceException;
@@ -14,11 +12,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 

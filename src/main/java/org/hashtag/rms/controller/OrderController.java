@@ -1,23 +1,16 @@
 package org.hashtag.rms.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hashtag.rms.model.Order;
-import org.hashtag.rms.resource.CategoryResource;
 import org.hashtag.rms.resource.OrderResource;
-import org.hashtag.rms.service.ItemService;
 import org.hashtag.rms.service.OrderService;
 import org.hashtag.rms.util.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
 
 /**
  * @author Sugeesh Chandraweera

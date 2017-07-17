@@ -1,6 +1,5 @@
 package org.hashtag.rms.repository;
 
-import org.hashtag.rms.model.Item;
 import org.hashtag.rms.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;

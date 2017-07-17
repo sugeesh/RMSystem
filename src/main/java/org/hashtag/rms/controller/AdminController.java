@@ -2,12 +2,8 @@ package org.hashtag.rms.controller;
 
 
 import org.hashtag.rms.resource.AdminResource;
-import org.hashtag.rms.resource.ItemResource;
 import org.hashtag.rms.service.AdminService;
-import org.hashtag.rms.service.ItemService;
-import org.hashtag.rms.util.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;

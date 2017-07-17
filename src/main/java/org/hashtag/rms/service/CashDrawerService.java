@@ -2,7 +2,6 @@ package org.hashtag.rms.service;
 
 import org.hashtag.rms.model.CashDrawer;
 import org.hashtag.rms.repository.CashDrawerRepository;
-import org.hashtag.rms.repository.OrderRepository;
 import org.hashtag.rms.resource.CashDrawerResource;
 import org.springframework.beans.factory.annotation.Autowired;
 

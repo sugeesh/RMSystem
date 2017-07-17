@@ -4,8 +4,8 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <!--<File name="NikeLogFile" fileName="${env:log_path}">-->
-        <!--<File name="NikeLogFile" fileName="${env:log_path}">-->
+        <!--<File name="ResLogFile" fileName="${env:log_path}">-->
+        <!--<File name="ResLogFile" fileName="${env:log_path}">-->
         <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
             </PatternLayout>

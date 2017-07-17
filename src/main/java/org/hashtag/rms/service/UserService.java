@@ -1,11 +1,7 @@
 package org.hashtag.rms.service;
 
-import org.hashtag.rms.model.Category;
-import org.hashtag.rms.model.Item;
-import org.hashtag.rms.model.Order;
 import org.hashtag.rms.model.User;
 import org.hashtag.rms.repository.UserRepository;
-import org.hashtag.rms.resource.ItemResource;
 import org.hashtag.rms.resource.UserResource;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,11 +15,15 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+//    @Autowired
+//    private BCryptPasswordEncoder passwordEncoder;
+
     public Object registerUser(UserResource userResource) {
         User user = new User();
 
         user.setUsername(userResource.getUsername());
         user.setName(userResource.getName());
+//        user.setPassword(passwordEncoder.encode(userResource.getPassword()));
         user.setPassword(userResource.getPassword());
         user.setType(userResource.getType());
         user.setNic(userResource.getNic());

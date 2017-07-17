@@ -2,7 +2,6 @@ package org.hashtag.rms.resource;
 
 import org.hashtag.rms.model.TableFlow;
 
-import javax.persistence.Column;
 
 /**
  * @author Sugeesh Chandraweera

@@ -2,8 +2,6 @@ package org.hashtag.rms.resource;
 
 
 import org.hashtag.rms.model.Category;
-import org.hashtag.rms.model.Item;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.ArrayList;
 import java.util.List;

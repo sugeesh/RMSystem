@@ -1,7 +1,5 @@
 package org.hashtag.rms.repository;
 
-import org.hashtag.rms.model.CashDrawer;
-import org.hashtag.rms.model.Payment;
 import org.hashtag.rms.model.TableFlow;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

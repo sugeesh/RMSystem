@@ -1,7 +1,6 @@
 package org.hashtag.rms.service;
 
 import org.hashtag.rms.model.*;
-import org.hashtag.rms.repository.ItemRepository;
 import org.hashtag.rms.repository.OrderDetailRepository;
 import org.hashtag.rms.repository.OrderRepository;
 import org.hashtag.rms.resource.CategoryResource;
@@ -16,7 +15,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;

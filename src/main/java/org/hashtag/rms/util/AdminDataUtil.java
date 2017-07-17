@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
+ *
+ * You need to change the relative paths to absolute path when you run on ec2 machine
+ *
  * @author Sugeesh Chandraweera
  */
 public class AdminDataUtil {
@@ -15,8 +18,8 @@ public class AdminDataUtil {
     public static Double getTaxDineIn() {
         FileInputStream input = null;
         try {
-//          input = new FileInputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
-            input = new FileInputStream("./src/main/resources/kotconfig.properties");
+          input = new FileInputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
+//            input = new FileInputStream("./src/main/resources/kotconfig.properties");
             prop.load(input);
 
             return Double.parseDouble(prop.getProperty("tax_dinein"));
@@ -31,8 +34,8 @@ public class AdminDataUtil {
     public static Double getSChargeDineIn() {
         FileInputStream input = null;
         try {
-//          input = new FileInputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
-            input = new FileInputStream("./src/main/resources/kotconfig.properties");
+          input = new FileInputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
+//            input = new FileInputStream("./src/main/resources/kotconfig.properties");
             prop.load(input);
 
             return Double.parseDouble(prop.getProperty("s_charge_dinein"));
@@ -47,8 +50,8 @@ public class AdminDataUtil {
     public static Double getTaxTakeAway() {
         FileInputStream input = null;
         try {
-//          input = new FileInputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
-            input = new FileInputStream("./src/main/resources/kotconfig.properties");
+          input = new FileInputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
+//            input = new FileInputStream("./src/main/resources/kotconfig.properties");
             prop.load(input);
 
             return Double.parseDouble(prop.getProperty("tax_takeaway"));
@@ -63,8 +66,8 @@ public class AdminDataUtil {
     public static Double getSChargeTakeAway() {
         FileInputStream input = null;
         try {
-//          input = new FileInputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
-            input = new FileInputStream("./src/main/resources/kotconfig.properties");
+          input = new FileInputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
+//            input = new FileInputStream("./src/main/resources/kotconfig.properties");
             prop.load(input);
 
             return Double.parseDouble(prop.getProperty("s_charge_takeaway"));
@@ -78,8 +81,8 @@ public class AdminDataUtil {
 
     public static void save(double tax_dinein, double s_charge_dinein, double tax_takeaway, double s_charge_takeaway) {
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream("./src/main/resources/kotconfig.properties");
-//            FileOutputStream fileOutputStream = new FileOutputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
+//            FileOutputStream fileOutputStream = new FileOutputStream("./src/main/resources/kotconfig.properties");
+            FileOutputStream fileOutputStream = new FileOutputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
 
             // set the properties value
             prop.setProperty("tax_dinein", String.valueOf(tax_dinein));

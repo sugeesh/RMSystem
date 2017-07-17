@@ -1,13 +1,9 @@
 package org.hashtag.rms.service;
 
-import org.hashtag.rms.model.Order;
+
 import org.hashtag.rms.model.Payment;
-import org.hashtag.rms.repository.OrderRepository;
 import org.hashtag.rms.repository.PaymentRepository;
-import org.hashtag.rms.resource.ItemResource;
-import org.hashtag.rms.resource.OrderResource;
 import org.hashtag.rms.resource.PaymentResource;
-import org.hashtag.rms.util.KOTNumberGenerator;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -15,8 +11,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Sugeesh Chandraweera

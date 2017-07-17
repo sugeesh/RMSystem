@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.Properties;
 
 /**
+ *
+ * You need to change the relative paths to absolute path when you run on ec2 machine
+ *
  * @author Sugeesh Chandraweera
  */
 public class KOTNumberGenerator {
@@ -15,8 +18,8 @@ public class KOTNumberGenerator {
 
         FileInputStream input = null;
         try {
-//          input = new FileInputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
-            input = new FileInputStream("./src/main/resources/kotconfig.properties");
+          input = new FileInputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
+//            input = new FileInputStream("./src/main/resources/kotconfig.properties");
             prop.load(input);
 //
             SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -52,8 +55,8 @@ public class KOTNumberGenerator {
 
     public static void increaseOrderId(String nextKOTNumber) {
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream("./src/main/resources/kotconfig.properties");
-//            FileOutputStream fileOutputStream = new FileOutputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
+//            FileOutputStream fileOutputStream = new FileOutputStream("./src/main/resources/kotconfig.properties");
+            FileOutputStream fileOutputStream = new FileOutputStream("/opt/tomcat9/webapps/restaurantApp-1.0-SNAPSHOT/WEB-INF/classes/kotconfig.properties");
 
             // set the properties value
             prop.setProperty("kotNumber", nextKOTNumber);

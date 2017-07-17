@@ -1,7 +1,6 @@
 package org.hashtag.rms.resource;
 
 import org.hashtag.rms.model.CashDrawer;
-import org.hashtag.rms.model.Payment;
 
 import java.util.Date;
 

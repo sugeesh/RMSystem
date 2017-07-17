@@ -20,7 +20,7 @@
             console.log(url);
 
             var target = url.substring(26, url.length);
-            // url = "http://ec2-34-207-169-214.compute-1.amazonaws.com:8080/restaurantApp-1.0-SNAPSHOT/rest"+target;
+            url = "http://ec2-34-207-169-214.compute-1.amazonaws.com:8080/restaurantApp-1.0-SNAPSHOT/rest"+target;
             console.log(url);
 
             var obj = {};
@@ -41,6 +41,13 @@
                 var deferred = $q.defer();
                 deferred.resolve(obj);
                 return deferred.promise;
+            }, function (error) {
+                // if(url.con)
+                alert("An error was detected. Couldn't complete the task.");
+                // alert("Can't be deleted because it used in a order.");
+                //This will be called if $q.all finds any of the requests erroring.
+                console.log("There is an error: " + error);
+                console.log(error);
             });
 
         }
